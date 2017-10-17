@@ -174,7 +174,14 @@ HEADERS += \
     include/SPARK_Core.h \
     include/SPARK_DX9.h \
     include/SPARK_GL.h \
-    include/SPARK_IRR.h
+    include/SPARK_IRR.h \
+    include/Rendering/Urho3D/SPK_Urho3D_Buffer.h \
+    include/Rendering/Urho3D/SPK_Urho3D_DEF.h \
+    include/Rendering/Urho3D/SPK_Urho3D_PointRenderer.h \
+    include/Rendering/Urho3D/SPK_Urho3D_QuadRenderer.h \
+    include/Rendering/Urho3D/SPK_Urho3D_Renderer.h \
+    include/Rendering/Urho3D/UrhoSparkSystem.h \
+    include/SPARK_URHO3D.h
 
 SOURCES += \
     src/Core/IO/SPK_IO_Buffer.cpp \
@@ -226,7 +233,12 @@ SOURCES += \
     src/Rendering/OpenGL/SPK_GL_LineTrailRenderer.cpp \
     src/Rendering/OpenGL/SPK_GL_PointRenderer.cpp \
     src/Rendering/OpenGL/SPK_GL_QuadRenderer.cpp \
-    src/Rendering/OpenGL/SPK_GL_Renderer.cpp
+    src/Rendering/OpenGL/SPK_GL_Renderer.cpp \
+    src/Rendering/Urho3D/SPK_Urho3D_Buffer.cpp \
+    src/Rendering/Urho3D/SPK_Urho3D_PointRenderer.cpp \
+    src/Rendering/Urho3D/SPK_Urho3D_QuadRenderer.cpp \
+    src/Rendering/Urho3D/SPK_Urho3D_Renderer.cpp \
+    src/Rendering/Urho3D/UrhoSparkSystem.cpp
 
 
 
