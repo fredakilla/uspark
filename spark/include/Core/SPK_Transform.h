@@ -26,6 +26,8 @@
 
 namespace SPK
 {
+    class Transformable;
+
 	/**
 	* @class Transform
 	* @brief an abstract class that allows matrix transformations
