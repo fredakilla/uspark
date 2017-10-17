@@ -79,26 +79,26 @@ namespace SPK
 	* @param enums : A string of the form "ENUM1 | ENUM2 | ..."
 	* @return the integer representation of this flag
 	*/
-	template<typename T>
-	size_t getORedEnumValue(const std::string& enums) // TODO Needs testing...
-	{
-		size_t pos = 0;
-		size_t flag = 0;
-		while (pos < enums.length)
-		{
-			size_t startPos = pos;
-			pos = enums.find_first_of(" |",startPos);
-			if (pos == std::npos)
-				pos = enums.length;
-			if (pos > startPos) 
-			{
-				T value = getEnumValue(enums.substr(startPos,pos - startPos)); // to call the right function
-				flag |= value;
-			}				
-			++pos;
-		}
-		return flag;
-	} 
+    //template<typename T>
+    //size_t getORedEnumValue(const std::string& enums) // TODO Needs testing...
+    //{
+    //	size_t pos = 0;
+    //	size_t flag = 0;
+    //	while (pos < enums.length)
+    //	{
+    //		size_t startPos = pos;
+    //		pos = enums.find_first_of(" |",startPos);
+    //		if (pos == std::npos)
+    //			pos = enums.length;
+    //		if (pos > startPos)
+    //		{
+    //			T value = getEnumValue(enums.substr(startPos,pos - startPos)); // to call the right function
+    //			flag |= value;
+    //		}
+    //		++pos;
+    //	}
+    //	return flag;
+    //}
 
 	/**
 	* @brief Returns a string representation of an Ored enum flag
@@ -106,27 +106,27 @@ namespace SPK
 	* @param flag : A flag representing an ORed enum
 	* @return the string representation of this flag of the form "ENUM1 | ENUM2 | ..."
 	*/
-	template<typename T>
-	std::string getORedEnumString(int flag) // TODO Needs testing...
-	{
-		std::stringbuf buf;
-		bool hasOneORedEnum = false;
-		for (size_t i = 1; i < 32; ++i)
-			if ((flag & (1 << i)) != 0)
-			{		
-				std::string name = getEnumName(static_cast<T>(1 << i));
-				if (!name.empty())
-				{
-					if (hasOneORedEnum)
-						buf << '|';
-					buf << name
-					hasOneORedEnum = true
-				}
-			}
-		if (!hasOneORedEnum)
-			buf << getName(static_cast<T>(0));
-		return buf.str();	
-	}
+    //template<typename T>
+    //std::string getORedEnumString(int flag) // TODO Needs testing...
+    //{
+    //	std::stringbuf buf;
+    //	bool hasOneORedEnum = false;
+    //	for (size_t i = 1; i < 32; ++i)
+    //		if ((flag & (1 << i)) != 0)
+    //		{
+    //			std::string name = getEnumName(static_cast<T>(1 << i));
+    //			if (!name.empty())
+    //			{
+    //				if (hasOneORedEnum)
+    //					buf << '|';
+    //				buf << name
+    //				hasOneORedEnum = true
+    //			}
+    //		}
+    //	if (!hasOneORedEnum)
+    //		buf << getName(static_cast<T>(0));
+    //	return buf.str();
+    //}
 }
 
 #endif
