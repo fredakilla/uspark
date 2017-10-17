@@ -1,0 +1,225 @@
+#include <Urho3D/Urho3DAll.h>
+
+#include <SPARK.h>
+#include <SPARK_URHO3D.h>
+
+const float PI = 3.14159265358979323846f;
+
+
+/// Main application.
+class MyApp : public Application
+{
+public:
+
+    SharedPtr<Scene>                _scene;
+    SharedPtr<Text>                 _textInfo;
+    Node*                           _cameraNode;
+    bool                            _drawDebug;
+    SPK::Ref<SPK::System>           _systemCopy;
+    ParticleEmitter*                _emitter;
+
+
+    MyApp(Context * context) : Application(context)
+    {
+        UrhoSparkSystem::RegisterObject(context);
+        context_->RegisterFactory<UrhoSparkSystem>();
+
+        _drawDebug = false;
+    }
+
+    void Setup()
+    {
+        engineParameters_["FullScreen"]=false;
+        engineParameters_["WindowWidth"]=1280;
+        engineParameters_["WindowHeight"]=720;
+        engineParameters_["WindowResizable"]=true;
+        engineParameters_["vsync"]=false;
+    }
+
+    void Start()
+    {
+        ResourceCache* cache = GetSubsystem<ResourceCache>();
+
+        _scene = new Scene(context_);
+        _scene->CreateComponent<Octree>();
+        _scene->CreateComponent<DebugRenderer>();
+
+        // create spark particles
+        CreateParticles();
+
+         // create spark particle component
+        Node* spkSystemNode = _scene->CreateChild("SparkSystem");
+        UrhoSparkSystem* spkSystem = spkSystemNode->CreateComponent<UrhoSparkSystem>();
+        spkSystem->SetSystem(_systemCopy);
+        spkSystemNode->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+
+        // Add urho3d particle emitter
+        //_emitter = spkSystemNode->CreateComponent<ParticleEmitter>();
+        //_emitter->SetEffect(cache->GetResource<ParticleEffect>("Particle/Smoke.xml"));
+
+        // Create a plane with a "stone" material.
+        Node* planeNode = _scene->CreateChild("Plane");
+        planeNode->SetScale(Vector3(10, 1.0f, 10));
+        StaticModel* planeObject = planeNode->CreateComponent<StaticModel>();
+        planeObject->SetModel(cache->GetResource<Model>("Models/Plane.mdl"));
+        planeObject->SetMaterial(cache->GetResource<Material>("Materials/StoneTiled.xml"));
+
+        // Create a text for stats.
+        _textInfo = new Text(context_);
+        _textInfo->SetText("");
+        _textInfo->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 12);
+        _textInfo->SetColor(Color(1.0f, 1.0f, 1.0f));
+        _textInfo->SetHorizontalAlignment(HA_RIGHT);
+        _textInfo->SetVerticalAlignment(VA_BOTTOM);
+        GetSubsystem<UI>()->GetRoot()->AddChild(_textInfo);
+
+        // Create debug HUD.
+        DebugHud* debugHud = engine_->CreateDebugHud();
+        XMLFile* xmlFile = cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
+        debugHud->SetDefaultStyle(xmlFile);
+
+        // Create camera.
+        _cameraNode = _scene->CreateChild("Camera");
+        Camera* camera = _cameraNode->CreateComponent<Camera>();
+        _cameraNode->SetPosition(Vector3(0.0f, 1.0f, -10.0f));
+
+        // Create viewport.
+        Renderer* renderer=GetSubsystem<Renderer>();
+        SharedPtr<Viewport> viewport(new Viewport(context_, _scene, camera));
+        renderer->SetViewport(0,viewport);
+
+        SubscribeToEvent(E_KEYDOWN,URHO3D_HANDLER(MyApp,HandleKeyDown));
+        SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(MyApp,HandleUpdate));
+        SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(MyApp, HandlePostRenderUpdate));
+
+        GetSubsystem<Input>()->SetMouseVisible(true);
+    }
+
+    void CreateParticles()
+    {
+        ResourceCache* cache = GetSubsystem<ResourceCache>();
+
+        Material* mat = cache->GetResource<Material>("Materials/Particle.xml");
+
+        SPK::Ref<SPK::System> system_ = SPK::System::create(true);
+        system_->setName("Test System");
+
+        // Renderer
+        SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> renderer = SPK::URHO::IUrho3DQuadRenderer::create(context_);
+        renderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
+        //renderer->setTexture(textureParticle);
+        renderer->setBlendMode(SPK::BLEND_MODE_ADD);
+        renderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
+        renderer->setScale(0.05f,0.05f);
+        renderer->setMaterial(mat);
+
+        // Emitter
+        SPK::Ref<SPK::SphericEmitter> particleEmitter = SPK::SphericEmitter::create(SPK::Vector3D(0.0f,1.0f,0.0f),0.1f * PI,0.1f * PI);
+        particleEmitter->setZone(SPK::Point::create(SPK::Vector3D(0.0f,0.015f,0.0f)));
+        particleEmitter->setFlow(955);
+        particleEmitter->setForce(1.5f,1.5f);
+
+        // Obstacle
+        SPK::Ref<SPK::Plane> groundPlane = SPK::Plane::create();
+        SPK::Ref<SPK::Obstacle> obstacle = SPK::Obstacle::create(groundPlane,0.9f,1.0f);
+
+        // Group
+        SPK::Ref<SPK::Group> particleGroup = system_->createGroup(40000);
+        particleGroup->addEmitter(particleEmitter);
+        particleGroup->addModifier(obstacle);
+        particleGroup->setRenderer(renderer);
+        particleGroup->addModifier(SPK::Gravity::create(SPK::Vector3D(0.0f,-1.0f,0.0f)));
+        particleGroup->setLifeTime(18.0f,18.0f);
+        particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0xFFFF0000,0xFF0000FF));
+
+        _systemCopy = SPK::SPKObject::copy(system_);
+    }
+
+
+    void AnimateScene(float timeStep)
+    {
+        static float accumulator = 0.0f;
+        accumulator += timeStep;
+        if(accumulator >= 1.0f)
+        {
+            String s;
+
+            // display infos
+            s= "FPS = ";
+            s += String(1 / timeStep) + "\n";
+            s += "Particles count = " + String(_systemCopy->getNbParticles()) + "\n";
+
+            //int xx =  _emitter->GetBatches()[0].geometry_->GetIndexCount() / 6;
+            //s += "UrhodParticles count = " + String(xx);
+
+            _textInfo->SetText(s);
+
+            accumulator = 0.0f;
+        }
+
+    }
+
+    void Stop()
+    {
+    }
+
+    void HandleKeyDown(StringHash eventType,VariantMap& eventData)
+    {
+        using namespace KeyDown;
+        int key=eventData[P_KEY].GetInt();
+
+        if(key == KEY_ESCAPE)
+            engine_->Exit();
+        else if (key == KEY_F2)
+            GetSubsystem<DebugHud>()->ToggleAll();
+        else if(key == KEY_B)
+        {
+            _drawDebug = !_drawDebug;
+        }
+    }
+
+    void HandleUpdate(StringHash eventType,VariantMap& eventData)
+    {
+        using namespace Update;
+        float timeStep = eventData[P_TIMESTEP].GetFloat();
+
+        MoveCamera(timeStep);
+        AnimateScene(timeStep);
+    }
+
+    void MoveCamera(float timeStep)
+    {
+        Input* input = GetSubsystem<Input>();
+
+        const float MOVE_SPEED = 20.0f;
+        const float MOUSE_SENSITIVITY = 0.1f;
+
+        static float yaw_ = 0;
+        static float pitch_ = 0;
+
+        IntVector2 mouseMove = input->GetMouseMove();
+        yaw_ += MOUSE_SENSITIVITY * mouseMove.x_;
+        pitch_ += MOUSE_SENSITIVITY * mouseMove.y_;
+        pitch_ = Clamp(pitch_, -90.0f, 90.0f);
+
+        _cameraNode->SetRotation(Quaternion(pitch_, yaw_, 0.0f));
+
+        if (input->GetKeyDown(KEY_W))
+            _cameraNode->Translate(Vector3::FORWARD * MOVE_SPEED * timeStep);
+        if (input->GetKeyDown(KEY_S))
+            _cameraNode->Translate(Vector3::BACK * MOVE_SPEED * timeStep);
+        if (input->GetKeyDown(KEY_A))
+            _cameraNode->Translate(Vector3::LEFT * MOVE_SPEED * timeStep);
+        if (input->GetKeyDown(KEY_D))
+            _cameraNode->Translate(Vector3::RIGHT * MOVE_SPEED * timeStep);
+    }
+
+    void HandlePostRenderUpdate(StringHash eventType, VariantMap& eventData)
+    {
+        if (_drawDebug)
+            GetSubsystem<Renderer>()->DrawDebugGeometry(true);
+    }
+};
+
+
+URHO3D_DEFINE_APPLICATION_MAIN(MyApp)
