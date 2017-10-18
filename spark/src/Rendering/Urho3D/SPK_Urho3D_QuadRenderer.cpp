@@ -58,9 +58,9 @@ RenderBuffer* IUrho3DQuadRenderer::attachRenderBuffer(const Group& group) const
             dest[0] = vertexIndex + 0;
             dest[1] = vertexIndex + 1;
             dest[2] = vertexIndex + 2;
-            dest[3] = vertexIndex + 0;
-            dest[4] = vertexIndex + 2;
-            dest[5] = vertexIndex + 3;
+            dest[3] = vertexIndex + 2;
+            dest[4] = vertexIndex + 3;
+            dest[5] = vertexIndex + 0;
 
             dest += NB_INDICES_PER_PARTICLE;
             vertexIndex += NB_VERTICES_PER_PARTICLE;
@@ -75,9 +75,9 @@ RenderBuffer* IUrho3DQuadRenderer::attachRenderBuffer(const Group& group) const
             dest[0] = vertexIndex + 0;
             dest[1] = vertexIndex + 1;
             dest[2] = vertexIndex + 2;
-            dest[3] = vertexIndex + 0;
-            dest[4] = vertexIndex + 2;
-            dest[5] = vertexIndex + 3;
+            dest[3] = vertexIndex + 2;
+            dest[4] = vertexIndex + 3;
+            dest[5] = vertexIndex + 0;
 
             dest += NB_INDICES_PER_PARTICLE;
             vertexIndex += NB_VERTICES_PER_PARTICLE;
@@ -142,40 +142,55 @@ void IUrho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,Rende
         if (!globalOrientation)
             computeSingleOrientation3D(particle);
 
-        Vector3D v1 = particle.position() + quadSide() + quadUp(); // top left vertex
-        Vector3D v2 = particle.position() - quadSide() + quadUp(); // top right vertex
-        Vector3D v3 = particle.position() - quadSide() - quadUp(); // bottom right vertex
-        Vector3D v4 = particle.position() + quadSide() - quadUp(); // bottom left vertex
+        // Vertices are drawn in clockwise order (front face).
+        // First triangle  : v0,v1,v2
+        // Second triangle : v2,v3,v0
+        // UV coord are same as DirectX
+
+        //    Vertices     |          UV
+        //                 |
+        //   v0     v1     |     0,0        1,0
+        //     x---x       |        x------x
+        //     |\  |       |        |      |
+        //     | \ |       |        |      |
+        //     |  \|       |        |      |
+        //     x---x       |        x------x
+        //   v3     v2     |     0,1        1,1
+
+        Vector3D v0 = particle.position() + quadSide() + quadUp(); // top left vertex
+        Vector3D v1 = particle.position() - quadSide() + quadUp(); // top right vertex
+        Vector3D v2 = particle.position() - quadSide() - quadUp(); // bottom right vertex
+        Vector3D v3 = particle.position() + quadSide() - quadUp(); // bottom left vertex
 
         const Color& color = particle.getColor();
 
-        dest[0] = v1.x;
-        dest[1] = v1.y;
-        dest[2] = v1.z;
+        dest[0] = v0.x;
+        dest[1] = v0.y;
+        dest[2] = v0.z;
         ((unsigned&)dest[3]) = color;
-        dest[4] = _u1;
-        dest[5] = _v1;
+        dest[4] = _u0;
+        dest[5] = _v0;
 
-        dest[6] = v2.x;
-        dest[7] = v2.y;
-        dest[8] = v2.z;
+        dest[6] = v1.x;
+        dest[7] = v1.y;
+        dest[8] = v1.z;
         ((unsigned&)dest[9]) = color;
-        dest[10] = _u0;
-        dest[11] = _v1;
+        dest[10] = _u1;
+        dest[11] = _v0;
 
-        dest[12] = v3.x;
-        dest[13] = v3.y;
-        dest[14] = v3.z;
+        dest[12] = v2.x;
+        dest[13] = v2.y;
+        dest[14] = v2.z;
         ((unsigned&)dest[15]) = color;
-        dest[16] = _u0;
-        dest[17] = _v0;
+        dest[16] = _u1;
+        dest[17] = _v1;
 
-        dest[18] = v4.x;
-        dest[19] = v4.y;
-        dest[20] = v4.z;
+        dest[18] = v3.x;
+        dest[19] = v3.y;
+        dest[20] = v3.z;
         ((unsigned&)dest[21]) = color;
-        dest[22] = _u1;
-        dest[23] = _v0;
+        dest[22] = _u0;
+        dest[23] = _v1;
 
         dest += 24;
     }
