@@ -112,9 +112,7 @@ void IUrho3DPointRenderer::render(const Group& group,const DataSet* dataSet,Rend
     vertexBuffer->Unlock();
     vertexBuffer->ClearDataLost();
 
-    buffer.getGeometry()->SetDrawRange(POINT_LIST,
-                                       0, numParticles * NB_INDICES_PER_PARTICLE,
-                                       0, numParticles * NB_VERTICES_PER_PARTICLE);
+    buffer.getGeometry()->SetDrawRange(POINT_LIST, 0, numParticles * NB_INDICES_PER_PARTICLE, 0, numParticles * NB_VERTICES_PER_PARTICLE);
 
 }
 

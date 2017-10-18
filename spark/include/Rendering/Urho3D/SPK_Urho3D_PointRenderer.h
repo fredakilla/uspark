@@ -19,8 +19,6 @@ public:
 
     static Ref<IUrho3DPointRenderer> create(Urho3D::Context* context, float pointSize = 16.0f);
 
-
-
     Urho3D::Material* getMaterial()
     {
         return _material;
@@ -29,9 +27,6 @@ public:
     {
         _material =  material;
     }
-
-
-
 
 
 
@@ -50,8 +45,6 @@ private:
     virtual void computeAABB(Vector3D& AABBMin,Vector3D& AABBMax,const Group& group,const DataSet* dataSet) const override;
 
 };
-
-
 
 
 inline Ref<IUrho3DPointRenderer> IUrho3DPointRenderer::create(Urho3D::Context* context, float pointSize)

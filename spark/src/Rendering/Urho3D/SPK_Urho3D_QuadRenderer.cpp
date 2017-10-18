@@ -37,6 +37,7 @@ RenderBuffer* IUrho3DQuadRenderer::attachRenderBuffer(const Group& group) const
     // Creates the render buffer
     IUrho3DBuffer* buffer = SPK_NEW(IUrho3DBuffer,_context,group.getCapacity(),NB_VERTICES_PER_PARTICLE,NB_INDICES_PER_PARTICLE);
 
+
     Urho3D::IndexBuffer* indexBuffer = buffer->getIndexBuffer();
 
     unsigned numParticles = group.getCapacity();
@@ -95,32 +96,11 @@ void IUrho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,Rende
 {
     SPK_ASSERT(renderBuffer != NULL,"IRRQuadRenderer::render(const Group&,const DataSet*,RenderBuffer*) - renderBuffer must not be NULL");
     IUrho3DBuffer& buffer = static_cast<IUrho3DBuffer&>(*renderBuffer);
-    //buffer.positionAtStart(); // Repositions all the buffers at the start
 
     // Computes the inverse model view
-    ///irr::core::matrix4 invModelView;
-    ///{
-    ///    irr::core::matrix4 modelView(driver->getTransform(irr::video::ETS_VIEW));
-    ///    modelView *= driver->getTransform(irr::video::ETS_WORLD);
-    ///    modelView.getInversePrimitive(invModelView); // wont work for odd modelview matrices (but should happen in very special cases)
-    ///}
-    /*Viewport* v = driver->GetViewport(0);
-            if(v == 0) return;
-            Camera*c = v->GetCamera();
-            Matrix4 invModelView = Matrix4() * driver->GetViewport(0)->GetCamera()->GetView();
-            invModelView = invModelView.Transpose().Inverse();*/
-
     if(_camera == 0) return;
     Matrix4 invModelView = Matrix4() * _camera->GetView();
-    //invModelView = invModelView * _modelMatrix;
     invModelView = invModelView.Transpose().Inverse();
-
-
-
-    // Saves the renderer texture
-    ///irr::video::ITexture* savedTexture = material.TextureLayer[0].Texture;
-    ///if (texturingMode == TEXTURE_MODE_NONE)
-    ///    material.TextureLayer[0].Texture = NULL;
 
     if ((texturingMode == TEXTURE_MODE_2D)&&(group.isEnabled(PARAM_TEXTURE_INDEX)))
     {
@@ -175,29 +155,29 @@ void IUrho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,Rende
         dest[1] = v1.y;
         dest[2] = v1.z;
         ((unsigned&)dest[3]) = color;
-        dest[4] = _u1; //U0; // 0.0f;
-        dest[5] = _v1; //V0; // 0.0f;
+        dest[4] = _u1;
+        dest[5] = _v1;
 
         dest[6] = v2.x;
         dest[7] = v2.y;
         dest[8] = v2.z;
         ((unsigned&)dest[9]) = color;
-        dest[10] = _u0; //1.0f;
-        dest[11] = _v1; //0.0f;
+        dest[10] = _u0;
+        dest[11] = _v1;
 
         dest[12] = v3.x;
         dest[13] = v3.y;
         dest[14] = v3.z;
         ((unsigned&)dest[15]) = color;
-        dest[16] = _u0; //1.0f;
-        dest[17] = _v0; //1.0f;
+        dest[16] = _u0;
+        dest[17] = _v0;
 
         dest[18] = v4.x;
         dest[19] = v4.y;
         dest[20] = v4.z;
         ((unsigned&)dest[21]) = color;
-        dest[22] = _u1; //0.0f;
-        dest[23] = _v0; //1.0f;
+        dest[22] = _u1;
+        dest[23] = _v0;
 
         dest += 24;
     }
@@ -205,14 +185,7 @@ void IUrho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,Rende
     vertexBuffer->Unlock();
     vertexBuffer->ClearDataLost();
 
-    buffer.getGeometry()->SetDrawRange(TRIANGLE_LIST,
-                                       0, numParticles * NB_INDICES_PER_PARTICLE,
-                                       0, numParticles * NB_VERTICES_PER_PARTICLE);
-
-    ///driver->setMaterial(material);
-    ///driver->drawMeshBuffer(&buffer.getMeshBuffer()); // this draw call is used in order to be able to use VBOs
-
-    ///material.TextureLayer[0].Texture = savedTexture; // Restores the texture
+    buffer.getGeometry()->SetDrawRange(TRIANGLE_LIST, 0, numParticles * NB_INDICES_PER_PARTICLE, 0, numParticles * NB_VERTICES_PER_PARTICLE);
 }
 
 void IUrho3DQuadRenderer::computeAABB(Vector3D& AABBMin,Vector3D& AABBMax,const Group& group,const DataSet* dataSet) const
@@ -242,7 +215,6 @@ void IUrho3DQuadRenderer::computeAABB(Vector3D& AABBMin,Vector3D& AABBMax,const 
 void IUrho3DQuadRenderer::renderBasic(const Particle& particle,IUrho3DBuffer& renderBuffer)
 {
     scaleQuadVectors(particle,scaleX,scaleY);
-    //FillBufferColorAndVertex(particle,renderBuffer);
     _u0 = _v0 = 0.0f;
     _u1 = _v1 = 1.0f;
 }
@@ -250,7 +222,6 @@ void IUrho3DQuadRenderer::renderBasic(const Particle& particle,IUrho3DBuffer& re
 void IUrho3DQuadRenderer::renderRot(const Particle& particle,IUrho3DBuffer& renderBuffer)
 {
     rotateAndScaleQuadVectors(particle,scaleX,scaleY);
-    //FillBufferColorAndVertex(particle,renderBuffer);
     _u0 = _v0 = 0.0f;
     _u1 = _v1 = 1.0f;
 }
@@ -258,8 +229,6 @@ void IUrho3DQuadRenderer::renderRot(const Particle& particle,IUrho3DBuffer& rend
 void IUrho3DQuadRenderer::renderAtlas(const Particle& particle,IUrho3DBuffer& renderBuffer)
 {
     scaleQuadVectors(particle,scaleX,scaleY);
-    //FillBufferColorAndVertex(particle,renderBuffer);
-    //FillBufferTextureAtlas(particle,renderBuffer);
     computeAtlasCoordinates(particle);
     _u0 = textureAtlasU0();
     _u1 = textureAtlasU1();
@@ -270,8 +239,6 @@ void IUrho3DQuadRenderer::renderAtlas(const Particle& particle,IUrho3DBuffer& re
 void IUrho3DQuadRenderer::renderAtlasRot(const Particle& particle,IUrho3DBuffer& renderBuffer)
 {
     rotateAndScaleQuadVectors(particle,scaleX,scaleY);
-    //FillBufferColorAndVertex(particle,renderBuffer);
-    //FillBufferTextureAtlas(particle,renderBuffer);
     computeAtlasCoordinates(particle);
     _u0 = textureAtlasU0();
     _u1 = textureAtlasU1();

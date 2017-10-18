@@ -22,11 +22,6 @@ public:
     static Ref<IUrho3DQuadRenderer> create(Urho3D::Context* context, float scaleX = 1.0f,float scaleY = 1.0f);
 
 
-    //IUrho3DBuffer* getRenderBuffer() { return _renderBuffer; }
-    //IUrho3DBuffer* _renderBuffer;
-
-
-
     Urho3D::Material* getMaterial()
     {
         return _material;
@@ -35,10 +30,6 @@ public:
     {
         _material =  material;
     }
-
-
-
-
 
 
 private:
@@ -57,53 +48,19 @@ private:
     virtual void render(const Group& group,const DataSet* dataSet,RenderBuffer* renderBuffer) const override;
     virtual void computeAABB(Vector3D& AABBMin,Vector3D& AABBMax,const Group& group,const DataSet* dataSet) const override;
 
-    //void FillBufferColorAndVertex(const Particle& particle,IUrho3DBuffer& renderBuffer) const;	// Fills Irrlicht buffer with color and position
-    //void FillBufferTextureAtlas(const Particle& particle,IUrho3DBuffer& renderBuffer) const;    // Fills Irrlicht buffer with atlas texture coordinates
-
     mutable void (IUrho3DQuadRenderer::*renderParticle)(const Particle&, IUrho3DBuffer& renderBuffer);	// pointer to the right render method
 
     void renderBasic(const Particle& particle,IUrho3DBuffer& renderBuffer);		// Rendering for particles with texture or no texture
-    void renderRot(const Particle& particle,IUrho3DBuffer& renderBuffer);			// Rendering for particles with texture or no texture and rotation
+    void renderRot(const Particle& particle,IUrho3DBuffer& renderBuffer);	    // Rendering for particles with texture or no texture and rotation
     void renderAtlas(const Particle& particle,IUrho3DBuffer& renderBuffer);		// Rendering for particles with texture atlas
     void renderAtlasRot(const Particle& particle,IUrho3DBuffer& renderBuffer);	// Rendering for particles with texture atlas and rotation
 };
-
-
 
 
 inline Ref<IUrho3DQuadRenderer> IUrho3DQuadRenderer::create(Urho3D::Context* context, float scaleX, float scaleY)
 {
     return SPK_NEW(IUrho3DQuadRenderer, context, scaleX, scaleY);
 }
-
-/*
-inline void IUrho3DQuadRenderer::FillBufferColorAndVertex(const Particle& particle,IUrho3DBuffer& renderBuffer) const
-{
-    // According to Irrlicht coordinates system, quads are drawn in clockwise order
-    // Note that the quad side points towards the left as it is a left handed system
-    renderBuffer.setNextVertex(particle.position() + quadSide() + quadUp()); // top left vertex
-    renderBuffer.setNextVertex(particle.position() - quadSide() + quadUp()); // top right vertex
-    renderBuffer.setNextVertex(particle.position() - quadSide() - quadUp()); // bottom right vertex
-    renderBuffer.setNextVertex(particle.position() + quadSide() - quadUp()); // bottom left vertex
-
-    const Color& color = particle.getColor();
-    renderBuffer.setNextColor(color);
-    renderBuffer.setNextColor(color);
-    renderBuffer.setNextColor(color);
-    renderBuffer.setNextColor(color);
-}
-
-inline void IUrho3DQuadRenderer::FillBufferTextureAtlas(const Particle& particle,IUrho3DBuffer& renderBuffer) const
-{
-    computeAtlasCoordinates(particle);
-
-    renderBuffer.setNextTexCoords(textureAtlasU0(),textureAtlasV0());
-    renderBuffer.setNextTexCoords(textureAtlasU1(),textureAtlasV0());
-    renderBuffer.setNextTexCoords(textureAtlasU1(),textureAtlasV1());
-    renderBuffer.setNextTexCoords(textureAtlasU0(),textureAtlasV1());
-}
-
-*/
 
 
 }}

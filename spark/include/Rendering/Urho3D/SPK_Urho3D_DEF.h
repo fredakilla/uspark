@@ -5,7 +5,6 @@
 #include <Urho3D/Math/Color.h>
 
 
-
 // for windows platform only
 #if defined(WIN32) || defined(_WIN32)
 #ifdef SPK_IRR_EXPORT
@@ -32,9 +31,9 @@ namespace URHO {
 	//////////////////////////
 
     /**
-	* @brief Converts a SPARK Vector3D to an Irrlicht vector3df
+    * @brief Converts a SPARK Vector3D to an Urho3D Vector3
 	* @param v : the Vector3D to convert
-	* @return the Irrlicht vector3df
+    * @return the Urho3D Vector3
 	*/
     inline Urho3D::Vector3 spk2urho(const Vector3D& v)
     {
@@ -42,8 +41,8 @@ namespace URHO {
     }
 
 	/**
-	* @brief Converts an Irrlicht vector3df to a SPARK Vector3D 
-	* @param v : the vector3df to convert
+    * @brief Converts an Urho3D Vector3 to a SPARK Vector3D
+    * @param v : the Vector3 to convert
 	* @return the SPARK Vector3D
 	*/
     inline Vector3D urho2spk(const Urho3D::Vector3& v)
@@ -52,16 +51,16 @@ namespace URHO {
     }
 
     /**
-	* @brief Gets an Irrlicht SColor from rgba values
+    * @brief Gets an Urho3D SColor from rgba values
 	* @param a : the alpha value
 	* @param r : the red value
 	* @param g : the green value
 	* @param b : the blue value
-	* @return the Irrlicht SColor
+    * @return the Urho3D SColor
 	*/
     inline Urho3D::Color spk2urho(unsigned char a, unsigned char  r, unsigned char  g, unsigned char  b)
     {
-        return Urho3D::Color(r,g,b,a); //.to.toSColor();
+        return Urho3D::Color(r,g,b,a);
     }
 
 }}

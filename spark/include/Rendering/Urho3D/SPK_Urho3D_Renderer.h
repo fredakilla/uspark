@@ -29,7 +29,6 @@ protected :
 
     IUrho3DRenderer(Context *context, bool NEEDS_DATASET = false);
     Urho3D::Context* _context;
-
     Urho3D::Camera* _camera;
 };
 
