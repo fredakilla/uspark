@@ -59,6 +59,7 @@ CONFIG(debug,debug|release) {
     #debug
     DEFINES +=  \
         SPK_NO_XML \
+        #SPK_TRACE_MEMORY \
 
 } else {
     # release

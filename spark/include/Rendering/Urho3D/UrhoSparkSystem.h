@@ -25,6 +25,11 @@ public:
 
     void SetSystem(SPK::Ref<SPK::System> system);
 
+    const SPK::Ref<SPK::System> GetSystem() const
+    {
+        return _system;
+    }
+
 private:
     void HandleUpdate(StringHash eventType,VariantMap& eventData);
 

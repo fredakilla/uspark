@@ -92,7 +92,20 @@ public:
     {
         ResourceCache* cache = GetSubsystem<ResourceCache>();
 
-        Material* mat = cache->GetResource<Material>("Materials/Particle.xml");
+        // Create a new material from scratch
+        Material* mat = new Material(context_);
+        mat->SetNumTechniques(1);
+        Technique* tec = new Technique(context_);
+        Pass* pass = tec->CreatePass("alpha");
+        pass->SetDepthWrite(false);
+        pass->SetBlendMode(BLEND_ADDALPHA);
+        pass->SetVertexShader("UnlitParticle");
+        pass->SetPixelShader("UnlitParticle");
+        pass->SetVertexShaderDefines("VERTEXCOLOR");
+        pass->SetPixelShaderDefines("DIFFMAP VERTEXCOLOR");
+        mat->SetTechnique(0, tec);
+        mat->SetTexture(TU_DIFFUSE, cache->GetResource<Texture2D>("res/arrow.png"));
+
 
         SPK::Ref<SPK::System> system_ = SPK::System::create(true);
         system_->setName("Test System");
@@ -105,11 +118,17 @@ public:
         renderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
         renderer->setScale(0.05f,0.05f);
         renderer->setMaterial(mat);
+        //renderer->setOrientation(SPK::OrientationPreset::CAMERA_PLANE_ALIGNED);
+        //renderer->setOrientation(SPK::OrientationPreset::CAMERA_POINT_ALIGNED);
+        renderer->setOrientation(SPK::OrientationPreset::DIRECTION_ALIGNED);
+        //renderer->setOrientation(SPK::OrientationPreset::AROUND_AXIS);
+        //renderer->setOrientation(SPK::OrientationPreset::TOWARDS_POINT);
+        //renderer->setOrientation(SPK::OrientationPreset::FIXED_ORIENTATION);
 
         // Emitter
         SPK::Ref<SPK::SphericEmitter> particleEmitter = SPK::SphericEmitter::create(SPK::Vector3D(0.0f,1.0f,0.0f),0.1f * M_PI, 0.1f * M_PI);
         particleEmitter->setZone(SPK::Point::create(SPK::Vector3D(0.0f,0.015f,0.0f)));
-        particleEmitter->setFlow(955);
+        particleEmitter->setFlow(800);
         particleEmitter->setForce(1.5f,1.5f);
 
         // Obstacle
@@ -123,7 +142,7 @@ public:
         particleGroup->setRenderer(renderer);
         particleGroup->addModifier(SPK::Gravity::create(SPK::Vector3D(0.0f,-1.0f,0.0f)));
         particleGroup->setLifeTime(18.0f,18.0f);
-        particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0xFFFFFF00,0xFF0000FF));
+        particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0xFFFFFF00,0x880000FF));
 
         _systemCopy = SPK::SPKObject::copy(system_);
     }
