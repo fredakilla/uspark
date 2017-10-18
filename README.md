@@ -9,3 +9,4 @@ A Urho3D renderer for SPARK Particle Engine (based on a spark2 fork).
 >- Use QtCreator to build it.
 >- Put Urho3D CoreData and Data into build folder to run samples.
 
+![Screenshot](https://raw.githubusercontent.com/fredakilla/uspark/master/build/res/uspark.png)
