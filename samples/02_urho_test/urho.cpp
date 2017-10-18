@@ -3,8 +3,6 @@
 #include <SPARK.h>
 #include <SPARK_URHO3D.h>
 
-const float PI = 3.14159265358979323846f;
-
 
 /// Main application.
 class MyApp : public Application
@@ -16,7 +14,6 @@ public:
     Node*                           _cameraNode;
     bool                            _drawDebug;
     SPK::Ref<SPK::System>           _systemCopy;
-    ParticleEmitter*                _emitter;
 
 
     MyApp(Context * context) : Application(context)
@@ -52,10 +49,6 @@ public:
         UrhoSparkSystem* spkSystem = spkSystemNode->CreateComponent<UrhoSparkSystem>();
         spkSystem->SetSystem(_systemCopy);
         spkSystemNode->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-
-        // Add urho3d particle emitter
-        //_emitter = spkSystemNode->CreateComponent<ParticleEmitter>();
-        //_emitter->SetEffect(cache->GetResource<ParticleEffect>("Particle/Smoke.xml"));
 
         // Create a plane with a "stone" material.
         Node* planeNode = _scene->CreateChild("Plane");
@@ -114,7 +107,7 @@ public:
         renderer->setMaterial(mat);
 
         // Emitter
-        SPK::Ref<SPK::SphericEmitter> particleEmitter = SPK::SphericEmitter::create(SPK::Vector3D(0.0f,1.0f,0.0f),0.1f * PI,0.1f * PI);
+        SPK::Ref<SPK::SphericEmitter> particleEmitter = SPK::SphericEmitter::create(SPK::Vector3D(0.0f,1.0f,0.0f),0.1f * M_PI, 0.1f * M_PI);
         particleEmitter->setZone(SPK::Point::create(SPK::Vector3D(0.0f,0.015f,0.0f)));
         particleEmitter->setFlow(955);
         particleEmitter->setForce(1.5f,1.5f);
@@ -130,7 +123,7 @@ public:
         particleGroup->setRenderer(renderer);
         particleGroup->addModifier(SPK::Gravity::create(SPK::Vector3D(0.0f,-1.0f,0.0f)));
         particleGroup->setLifeTime(18.0f,18.0f);
-        particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0xFFFF0000,0xFF0000FF));
+        particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0xFFFFFF00,0xFF0000FF));
 
         _systemCopy = SPK::SPKObject::copy(system_);
     }
@@ -148,15 +141,10 @@ public:
             s= "FPS = ";
             s += String(1 / timeStep) + "\n";
             s += "Particles count = " + String(_systemCopy->getNbParticles()) + "\n";
-
-            //int xx =  _emitter->GetBatches()[0].geometry_->GetIndexCount() / 6;
-            //s += "UrhodParticles count = " + String(xx);
-
             _textInfo->SetText(s);
 
             accumulator = 0.0f;
         }
-
     }
 
     void Stop()
