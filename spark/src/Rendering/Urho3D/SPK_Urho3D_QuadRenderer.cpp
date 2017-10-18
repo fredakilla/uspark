@@ -11,9 +11,7 @@ IUrho3DQuadRenderer::IUrho3DQuadRenderer(Urho3D::Context* context, float scaleX,
     QuadRenderBehavior(scaleX,scaleY),
     Oriented3DRenderBehavior()
 {
-    _camera = nullptr;
-    _material = nullptr;
-
+    // set vertex buffer elements
     _elements.Push(VertexElement(TYPE_VECTOR3, SEM_POSITION));
     _elements.Push(VertexElement(TYPE_UBYTE4_NORM, SEM_COLOR));
     _elements.Push(VertexElement(TYPE_VECTOR2, SEM_TEXCOORD));

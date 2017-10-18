@@ -21,25 +21,12 @@ public:
 
     static Ref<IUrho3DQuadRenderer> create(Urho3D::Context* context, float scaleX = 1.0f,float scaleY = 1.0f);
 
-
-    Urho3D::Material* getMaterial()
-    {
-        return _material;
-    }
-    void setMaterial(Urho3D::Material* material)
-    {
-        _material =  material;
-    }
-
-
 private:
 
     static const size_t NB_INDICES_PER_PARTICLE = 6;
     static const size_t NB_VERTICES_PER_PARTICLE = 4;
     float _u0, _u1, _v0, _v1;
     PODVector<VertexElement> _elements;
-    Urho3D::SharedPtr<Material> _material;
-
 
     IUrho3DQuadRenderer(Urho3D::Context* context = nullptr, float scaleX = 1.0f,float scaleY = 1.0f);
     IUrho3DQuadRenderer(const IUrho3DQuadRenderer& renderer);

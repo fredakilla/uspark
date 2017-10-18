@@ -9,6 +9,7 @@ IUrho3DRenderer::IUrho3DRenderer(Urho3D::Context* context, bool NEEDS_DATASET) :
 {
     _context = context;
     _camera = nullptr;
+    _material = nullptr;
 }
 
 void IUrho3DRenderer::setBlendMode(BlendMode blendMode)
@@ -28,6 +29,20 @@ void IUrho3DRenderer::setBlendMode(BlendMode blendMode)
         SPK_LOG_WARNING("IUrho3DRenderer::setBlendMode(BlendMode) - Unsupported blending mode. Nothing happens");
         break;
     }
+}
+
+void IUrho3DRenderer::updateView(Urho3D::Camera* camera)
+{
+    _camera = camera;
+}
+
+Urho3D::Material* IUrho3DRenderer::getMaterial()
+{
+    return _material;
+}
+void IUrho3DRenderer::setMaterial(Urho3D::Material* material)
+{
+    _material =  material;
 }
 
 

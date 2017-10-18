@@ -19,17 +19,17 @@ public :
 
     virtual void setBlendMode(BlendMode blendMode) override;
 
+    void updateView(Urho3D::Camera* camera);
 
-    void updateView(Urho3D::Camera* camera)
-    {
-        _camera = camera;
-    }
+    Urho3D::Material* getMaterial();
+    void setMaterial(Urho3D::Material* material);
 
 protected :
 
     IUrho3DRenderer(Context *context, bool NEEDS_DATASET = false);
-    Urho3D::Context* _context;
-    Urho3D::Camera* _camera;
+    Urho3D::Context*    _context;
+    Urho3D::Camera*     _camera;
+    Urho3D::Material*   _material;
 };
 
 

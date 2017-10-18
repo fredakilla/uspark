@@ -155,7 +155,7 @@ void UrhoSparkSystem::SetSystem(SPK::Ref<SPK::System> system)
         {
             batches_[i].geometryType_ = GEOM_STATIC;
 
-            SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> renderer = static_cast<SPK::Ref<SPK::URHO::IUrho3DQuadRenderer>>(_system->getGroup(i)->getRenderer());
+            SPK::URHO::IUrho3DRenderer* renderer = reinterpret_cast<SPK::URHO::IUrho3DRenderer*>(_system->getGroup(i)->getRenderer().get());
             batches_[i].material_ = renderer->getMaterial();
         }
     }
