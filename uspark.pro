@@ -2,6 +2,9 @@ TEMPLATE = subdirs
 
 CONFIG = ordered
 
+# configuration
+include(config.pri)
+
 SUBDIRS += \
     spark \
     samples/01_sdl_test \

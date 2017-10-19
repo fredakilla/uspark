@@ -2,7 +2,8 @@
 # 3rdparty libraries path
 #--------------------------------------------------------------------
 
-unix:!macx: URHO3D = /home/fred/Documents/Urho3D/BUILD
+include(../../config.pri)
+URHO3D = $${URHO3D_BUILD_PATH}
 
 #--------------------------------------------------------------------
 # target
@@ -94,7 +95,7 @@ win32: CONFIG(debug,debug|release) {
 
 LIBS += -L$${DESTDIR} -lspark
 
-unix:!macx: LIBS +=  -lXi -ldl -lpthread -lGL -lGLU -lX11
+unix:!macx: LIBS += -ldl -lGL -lGLU
 
 win32:LIBS += kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib \
                 ole32.lib oleaut32.lib uuid.lib imm32.lib winmm.lib wsock32.lib opengl32.lib glu32.lib version.lib
