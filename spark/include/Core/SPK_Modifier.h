@@ -107,7 +107,7 @@ namespace SPK
 		CALL_INIT(CALL_INIT),
 		NEEDS_OCTREE(NEEDS_OCTREE),
 		active(true),
-		local(false)
+        local(true)
 	{}
 
 	inline void Modifier::setActive(bool active)
