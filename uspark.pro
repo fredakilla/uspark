@@ -11,3 +11,5 @@ SUBDIRS += \
     samples/02_urho_test \
     samples/03_realscene \
     samples/04_multieffects \
+    samples/05_sprite_sheet \
+
