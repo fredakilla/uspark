@@ -162,7 +162,7 @@ void IUrho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,Rende
         Vector3D v2 = particle.position() - quadSide() - quadUp(); // bottom right vertex
         Vector3D v3 = particle.position() + quadSide() - quadUp(); // bottom left vertex
 
-        const Color& color = particle.getColor();
+        const unsigned& color =  particle.getColor().getABGR() ;
 
         dest[0] = v0.x;
         dest[1] = v0.y;

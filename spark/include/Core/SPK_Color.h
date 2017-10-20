@@ -183,6 +183,12 @@ namespace SPK
 		*/
 		uint32 getBGRA() const;
 
+        /**
+        * @brief Gets the color in abgr format
+        * @return a value representing the color in abgr format
+        */
+        uint32 getABGR() const;
+
 		///////////////
 		// Interface //
 		///////////////
@@ -361,6 +367,11 @@ namespace SPK
 	{
 		return (b << 24) | (g << 16) | (r << 8) | a;
 	}
+
+    inline uint32 Color::getABGR() const
+    {
+        return (a << 24) | (b << 16) | (g << 8) | r;
+    }
 
 	inline void Color::interpolate(const Color& c0,const Color& c1,float ratio)
 	{

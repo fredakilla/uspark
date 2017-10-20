@@ -4,7 +4,6 @@
 #include <Urho3D/Math/Vector3.h>
 #include <Urho3D/Math/Color.h>
 
-
 // for windows platform only
 #if defined(WIN32) || defined(_WIN32)
 #ifdef SPK_IRR_EXPORT
@@ -62,6 +61,14 @@ namespace URHO {
     {
         return Urho3D::Color(r,g,b,a);
     }
+
+
+
+    inline const Urho3D::Color spk2urho(SPK::Color c)
+    {
+        return Urho3D::Color(c.r, c.g, c.g, c.a);
+    }
+
 
 }}
 
