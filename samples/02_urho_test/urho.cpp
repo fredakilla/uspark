@@ -142,7 +142,8 @@ public:
         particleGroup->setRenderer(renderer);
         particleGroup->addModifier(SPK::Gravity::create(SPK::Vector3D(0.0f,-1.0f,0.0f)));
         particleGroup->setLifeTime(18.0f,18.0f);
-        particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0xFFFFFF00,0x880000FF));
+        //particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0xFFFF0000,0xFF0000FF));
+        particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0xFFFF00FF,0xFF0000FF));
 
         _systemCopy = SPK::SPKObject::copy(system_);
     }

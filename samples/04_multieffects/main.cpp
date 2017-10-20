@@ -123,7 +123,7 @@ public:
         renderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
         renderer->setScale(0.08f,0.08f);
         renderer->setMaterial(mat);
-        renderer->setOrientation(SPK::OrientationPreset::DIRECTION_ALIGNED);
+        renderer->setOrientation(SPK::OrientationPreset::CAMERA_PLANE_ALIGNED);
 
         // Emitter
         SPK::Ref<SPK::SphericEmitter> particleEmitter = SPK::SphericEmitter::create(SPK::Vector3D(0.0f,1.0f,0.0f),0.1f * M_PI, 0.1f * M_PI);
@@ -142,10 +142,13 @@ public:
         particleGroup->setRenderer(renderer);
         particleGroup->addModifier(SPK::Gravity::create(SPK::Vector3D(0.0f,-1.0f,0.0f)));
         particleGroup->setLifeTime(4.0f,4.0f);
-        particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0x88FFFF00,0x880000FF));
+        particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0x00FFFF00,0x880000FF));
 
         SPK::Ref<SPK::Sphere> sphere = SPK::Sphere::create(SPK::Vector3D(0,2,1), 2);
+        SPK::Ref<SPK::Sphere> sphere2 = SPK::Sphere::create(SPK::Vector3D(0,0,-3), 0.5);
+
         particleGroup->addModifier(SPK::Obstacle::create(sphere,0.8f,0.9f,SPK::ZONE_TEST_INTERSECT));
+        particleGroup->addModifier(SPK::Obstacle::create(sphere2,0.3f,0.5f,SPK::ZONE_TEST_INTERSECT));
 
 
 
@@ -174,7 +177,7 @@ public:
         Pass* pass = tec->CreatePass("alpha");
         pass->SetDepthWrite(false);
         pass->SetAlphaToCoverage(true);
-        pass->SetBlendMode(BLEND_ALPHA);
+        pass->SetBlendMode(BLEND_ADDALPHA);
         pass->SetVertexShader("UnlitParticle");
         pass->SetPixelShader("UnlitParticle");
         pass->SetVertexShaderDefines("VERTEXCOLOR");
@@ -228,7 +231,7 @@ public:
         particleGroup->addModifier(obstacle);
         particleGroup->addModifier(collider);
         particleGroup->addModifier(SPK::Friction::create(0.2f));
-
+        //particleGroup->setColorInterpolator(SPK::ColorDefaultInitializer::create(0x8822AAFF));
 
         particleGroup->addParticles(NB_PARTICLES,obstacle->getZone(),SPK::Vector3D());
 
@@ -238,7 +241,6 @@ public:
         UrhoSparkSystem* spkSystem = spkSystemNode->CreateComponent<UrhoSparkSystem>();
         spkSystem->SetSystem(particleSystem);
         spkSystemNode->SetPosition(Vector3(0.0f, 1.0f, 0.0f));
-
 
     }
 
@@ -257,7 +259,7 @@ public:
         Pass* pass = tec->CreatePass("alpha");
         pass->SetDepthWrite(false);
         pass->SetAlphaToCoverage(true);
-        pass->SetBlendMode(BLEND_ALPHA);
+        pass->SetBlendMode(BLEND_ADDALPHA);
         pass->SetVertexShader("UnlitParticle");
         pass->SetPixelShader("UnlitParticle");
         pass->SetVertexShaderDefines("VERTEXCOLOR");
@@ -291,8 +293,8 @@ public:
             200000,
             500000,
         };
-        float RADIUS = 0.03;
-        unsigned INDEX = 1;
+        float RADIUS = 0.05;
+        unsigned INDEX = 0;
 
 
         // Zone
@@ -308,7 +310,7 @@ public:
         SPK::Ref<SPK::Group> particleGroup = particleSystem->createGroup(NB_PARTICLES[NB_PARTICLES_SIZE - 1]);
         particleGroup->setRadius(RADIUS);
         particleGroup->setRenderer(particleRenderer);
-        particleGroup->setColorInterpolator(SPK::ColorDefaultInitializer::create(0xFFCC4C66));
+        particleGroup->setColorInterpolator(SPK::ColorDefaultInitializer::create(0xCC4C66CC));
         particleGroup->addModifier(gravityFlakes);
         particleGroup->addModifier(SPK::Friction::create(0.2f));
         particleGroup->addModifier(SPK::Obstacle::create(sphere,0.9f,0.9f));
