@@ -10,3 +10,4 @@ SUBDIRS += \
     samples/01_sdl_test \
     samples/02_urho_test \
     samples/03_realscene \
+    samples/04_multieffects \
