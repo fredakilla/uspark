@@ -23,3 +23,6 @@ Some samples that use OpenGL instead of Urho3D need extra libraries :
 -----
 
 ![Screenshot](https://raw.githubusercontent.com/fredakilla/uspark/master/build/res/uspark.png)
+![Screenshot](https://raw.githubusercontent.com/fredakilla/uspark/master/build/res/uspark3.png)
+![Screenshot](https://raw.githubusercontent.com/fredakilla/uspark/master/build/res/uspark4.png)
+![Screenshot](https://raw.githubusercontent.com/fredakilla/uspark/master/build/res/uspark5.png)
