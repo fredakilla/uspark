@@ -101,6 +101,8 @@ private:
     /// Spark particle system
     SPK::Ref<SPK::System>  _system;
 
+    bool firstRenderSet_;
+
 };
 
 

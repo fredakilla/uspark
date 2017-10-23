@@ -37,7 +37,7 @@ UrhoSparkSystem::UrhoSparkSystem(Context* context) :
     //geometry_->SetVertexBuffer(0, vertexBuffer_);
     //geometry_->SetIndexBuffer(indexBuffer_);
     //
-    //transforms_ = Matrix3x4::IDENTITY;
+    transforms_ = Matrix3x4::IDENTITY;
     //
     //batches_.Resize(1);
     //batches_[0].geometry_ = geometry_;
@@ -46,6 +46,7 @@ UrhoSparkSystem::UrhoSparkSystem(Context* context) :
     //batches_[0].numWorldTransforms_ = 1;
 
     updateInvisible_ = false;
+    firstRenderSet_ = false;
 }
 
 UrhoSparkSystem::~UrhoSparkSystem()
@@ -83,8 +84,11 @@ void UrhoSparkSystem::HandleScenePostUpdate(StringHash eventType, VariantMap& ev
     using namespace ScenePostUpdate;
     lastTimeStep_ = eventData[P_TIMESTEP].GetFloat();
 
-    // Update if frame has changed
-    if (updateInvisible_ || viewFrameNumber_ != lastUpdateFrameNumber_)
+    // Update if :
+    // - first render not yet effectued (needed to compute particles bounding box)
+    // - frame has changed
+    // - update invibles
+    if (!firstRenderSet_ || updateInvisible_ || viewFrameNumber_ != lastUpdateFrameNumber_)
     {
         lastUpdateFrameNumber_ = viewFrameNumber_;
         needUpdate_ = true;
@@ -120,7 +124,7 @@ void UrhoSparkSystem::UpdateParticles()
 void UrhoSparkSystem::UpdateBatches(const FrameInfo& frame)
 {
 
-
+/*
     // Update information for renderer about this drawable
     distance_ = frame.camera_->GetDistance(GetWorldBoundingBox().Center());
     batches_[0].distance_ = distance_;
@@ -151,11 +155,11 @@ void UrhoSparkSystem::UpdateBatches(const FrameInfo& frame)
 
     // update spark system camera position
     _system->setCameraPosition(SPK::Vector3D(frame.camera_->GetView().m03_, frame.camera_->GetView().m13_, frame.camera_->GetView().m23_));
+*/
 
 
 
-
-/*
+    // Update information for renderer about this drawable
     const BoundingBox& worldBoundingBox = GetWorldBoundingBox();
     const Matrix3x4& worldTransform = node_->GetWorldTransform();
     distance_ = frame.camera_->GetDistance(worldBoundingBox.Center());
@@ -163,7 +167,7 @@ void UrhoSparkSystem::UpdateBatches(const FrameInfo& frame)
     for (unsigned i = 0; i < batches_.Size(); ++i)
     {
         batches_[i].distance_ = distance_;
-        batches_[i].worldTransform_ = &worldTransform;
+        //batches_[i].worldTransform_ = &worldTransform;
 
         SPK::URHO::IUrho3DRenderer* renderer = reinterpret_cast<SPK::URHO::IUrho3DRenderer*>(_system->getGroup(i)->getRenderer().get());
         renderer->updateView(frame.camera_);
@@ -177,7 +181,7 @@ void UrhoSparkSystem::UpdateBatches(const FrameInfo& frame)
 
     // update spark system camera position
     _system->setCameraPosition(SPK::Vector3D(frame.camera_->GetView().m03_, frame.camera_->GetView().m13_, frame.camera_->GetView().m23_));
-*/
+
 
 
 }
@@ -211,30 +215,9 @@ void UrhoSparkSystem::OnWorldBoundingBoxUpdate()
         SPK::Vector3D AABBMax = _system->getAABBMax();
         worldBox = BoundingBox(Vector3(AABBMin.x, AABBMin.y, AABBMin.z),
                                Vector3(AABBMax.x, AABBMax.y, AABBMax.z));
-
-        worldBox = BoundingBox(M_MIN_UNSIGNED, M_MAX_UNSIGNED);
     }
 
-    worldBoundingBox_ = worldBox;
-
-    /*if ( node_ )
-    {
-        worldBoundingBox_ = boundingBox_.Transformed(node_->GetWorldTransform());
-
-        if(_system) {
-        BoundingBox worldBox;
-        SPK::Vector3D AABBMin = _system->getAABBMin();
-        SPK::Vector3D AABBMax = _system->getAABBMax();
-        worldBox = BoundingBox(Vector3(AABBMin.x, AABBMin.y, AABBMin.z),
-                               Vector3(AABBMax.x, AABBMax.y, AABBMax.z));
-
-        worldBoundingBox_.Merge(worldBox);
-        }
-    }
-    else
-    {
-         worldBoundingBox_= BoundingBox(-1000, 1000);
-    }*/
+    worldBoundingBox_ = worldBox;  
 }
 
 void UrhoSparkSystem::UpdateBufferSize()
@@ -287,7 +270,7 @@ void UrhoSparkSystem::UpdateVertexBuffer(const FrameInfo& frame)
 
     bufferDirty_ = false;
     forceUpdate_ = false;
-
+    firstRenderSet_ = true;
 }
 
 void UrhoSparkSystem::Commit()
