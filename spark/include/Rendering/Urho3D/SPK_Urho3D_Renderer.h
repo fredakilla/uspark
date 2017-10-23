@@ -29,7 +29,7 @@ protected :
     IUrho3DRenderer(Context *context, bool NEEDS_DATASET = false);
     Urho3D::Context*    _context;
     Urho3D::Camera*     _camera;
-    Urho3D::Material*   _material;
+    Urho3D::SharedPtr<Urho3D::Material>   _material;
 };
 
 

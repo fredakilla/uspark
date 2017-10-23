@@ -250,27 +250,30 @@ void UrhoSparkSystem::UpdateVertexBuffer(const FrameInfo& frame)
     }
 
 
-    // for each group, get render buffer to set batches geometries
-    /**or (size_t i = 0; i < _system->getNbGroups(); ++i)
-    {
-        SPK::URHO::IUrho3DBuffer* renderBuffer = (SPK::URHO::IUrho3DBuffer*)_system->getGroup(i)->getRenderBuffer();
-        //SPK::Ref<SPK::URHO::IUrho3DRenderer> rendere = _system->getGroup(i)->getRenderer();
-
-        if(!renderBuffer)
-            return;
-
-        batches_[i].geometry_ = renderBuffer->getGeometry();
-        //batches_[i].material_ = rendere->getMaterial();
-    }
-*/
-
-
+    // fill geometry buffers
     _system->renderParticles();
 
+    // do only on first render
+    if(!firstRenderSet_)
+    {
+        // for each group, set batches geometries
+        for (size_t i = 0; i < _system->getNbGroups(); ++i)
+        {
+            SPK::URHO::IUrho3DBuffer* renderBuffer = (SPK::URHO::IUrho3DBuffer*)_system->getGroup(i)->getRenderBuffer();
+            SPK::Ref<SPK::URHO::IUrho3DRenderer> rendere = _system->getGroup(i)->getRenderer();
+
+            assert(renderBuffer);
+
+            // link Drawable batches geometries to spark particle system renderBuffer geometries
+            batches_[i].geometry_ = renderBuffer->getGeometry();
+            //batches_[i].material_ = rendere->getMaterial();
+        }
+
+        firstRenderSet_ = true;
+    }
 
     bufferDirty_ = false;
     forceUpdate_ = false;
-    firstRenderSet_ = true;
 }
 
 void UrhoSparkSystem::Commit()
@@ -326,12 +329,6 @@ void UrhoSparkSystem::SetSystem(SPK::Ref<SPK::System> system)
         // force spark to use axis aligned bounding box as urho3d culling need it
         _system->enableAABBComputation(true);
 
-
-        // TODO : remove, but needed for now to init render buffer
-        _system->renderParticles();
-
-
-
         // get nb groups in system and resize batches
         size_t nbGroup = _system->getNbGroups();
         batches_.Resize(nbGroup);
@@ -343,12 +340,11 @@ void UrhoSparkSystem::SetSystem(SPK::Ref<SPK::System> system)
             batches_[i].worldTransform_ = &transforms_;
             batches_[i].numWorldTransforms_ = 1;
 
-
             SPK::URHO::IUrho3DRenderer* renderer = reinterpret_cast<SPK::URHO::IUrho3DRenderer*>(_system->getGroup(i)->getRenderer().get());
             batches_[i].material_ = renderer->getMaterial();
 
-            SPK::URHO::IUrho3DBuffer* renderBuffer = (SPK::URHO::IUrho3DBuffer*)_system->getGroup(i)->getRenderBuffer();
-            batches_[i].geometry_ = renderBuffer->getGeometry();
+            //SPK::URHO::IUrho3DBuffer* renderBuffer = (SPK::URHO::IUrho3DBuffer*)_system->getGroup(i)->getRenderBuffer();
+            //batches_[i].geometry_ = renderBuffer->getGeometry();
         }
 
 
