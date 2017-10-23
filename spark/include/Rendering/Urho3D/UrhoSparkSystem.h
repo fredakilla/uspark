@@ -6,37 +6,103 @@
 
 namespace Urho3D {
 
+#include "../Graphics/Drawable.h"
 
-class UrhoSparkSystem : public Drawable
+/// Drawable component that draw a spark particle system.
+class URHO3D_API UrhoSparkSystem : public Drawable
 {
     URHO3D_OBJECT(UrhoSparkSystem, Drawable);
 
 public:
-
+    /// Construct.
     UrhoSparkSystem(Context* context);
-
+    /// Destruct.
+    virtual ~UrhoSparkSystem() override;
+    /// Register object factory.
     static void RegisterObject(Context* context);
-    virtual void UpdateBatches(const FrameInfo& frame) override;
-    virtual void UpdateGeometry(const FrameInfo& frame) override;
-    virtual UpdateGeometryType GetUpdateGeometryType() override;
-    virtual void OnNodeSet(Node* node) override;
+    /// Process octree raycast. May be called from a worker thread.
+    virtual void ProcessRayQuery(const RayOctreeQuery& query, PODVector<RayQueryResult>& results) override;
+    /// Handle enabled/disabled state change.
     virtual void OnSetEnabled() override;
-    virtual void OnWorldBoundingBoxUpdate() override;
+    /// Update before octree reinsertion. Is called from a main thread.
+    virtual void Update(const FrameInfo &frame) override;
+    /// Calculate distance and prepare batches for rendering. May be called from worker thread(s), possibly re-entrantly.
+    virtual void UpdateBatches(const FrameInfo& frame) override;
+    /// Prepare geometry for rendering. Called from a worker thread if possible (no GPU update.)
+    virtual void UpdateGeometry(const FrameInfo& frame) override;
+    /// Return whether a geometry update is necessary, and if it can happen in a worker thread.
+    virtual UpdateGeometryType GetUpdateGeometryType() override;
 
+    /// Mark for bounding box and vertex buffer update. Call after modifying the particles.
+    void Commit();
+    /// Set whether to update when particles are not visible.
+    void SetUpdateInvisible(bool enable);
+    /// Return whether to update when particles are not visible.
+    bool GetUpdateInvisible() const { return updateInvisible_; }
+
+    /// Set SPARK particle system
     void SetSystem(SPK::Ref<SPK::System> system);
+    /// Get SPARK particle system
+    const SPK::Ref<SPK::System> GetSystem() const { return _system; }
 
-    const SPK::Ref<SPK::System> GetSystem() const
-    {
-        return _system;
-    }
+protected:
+    /// Handle node being assigned.
+    virtual void OnSceneSet(Scene* scene) override;
+    /// Recalculate the world-space bounding box.
+    virtual void OnWorldBoundingBoxUpdate() override;
+    /// Mark vertex buffer to need an update.
+    void MarkPositionsDirty();
+
+    /// Particles sorted flag.
+    bool sorted_;
+    /// Animation LOD bias.
+    float animationLodBias_;
+    /// Animation LOD timer.
+    float animationLodTimer_;
 
 private:
-    void HandleUpdate(StringHash eventType,VariantMap& eventData);
 
-    bool                    _bufferDirty;
-    SharedPtr<Geometry>     _geometry;
-    SPK::Ref<SPK::System>   _system;
+    /// Handle scene post-update event.
+    void HandleScenePostUpdate(StringHash eventType, VariantMap& eventData);
+    /// Resize vertex and index buffers.
+    void UpdateBufferSize();
+    /// Rewrite vertex buffer.
+    void UpdateVertexBuffer(const FrameInfo& frame);
+    /// Update particles (called by UpdateBatches())
+    void UpdateParticles();
+
+    /// Geometry.
+    // SharedPtr<Geometry> geometry_;
+    // /// Vertex buffer.
+    // SharedPtr<VertexBuffer> vertexBuffer_;
+    // /// Index buffer.
+    // SharedPtr<IndexBuffer> indexBuffer_;
+
+    /// Transform matrices for position and orientation.
+    Matrix3x4 transforms_;
+    /// Buffers need resize flag.
+    bool bufferSizeDirty_;
+    /// Vertex buffer needs rewrite flag.
+    bool bufferDirty_;
+
+    /// Last scene timestep.
+    float lastTimeStep_;
+    /// Rendering framenumber on which was last updated.
+    unsigned lastUpdateFrameNumber_;
+    /// Need update flag.
+    bool needUpdate_;
+    /// Previous offset to camera for determining whether sorting is necessary.
+    Vector3 previousOffset_;
+    /// Force update flag (ignore animation LOD momentarily.)
+    bool forceUpdate_;
+    /// Update when invisible flag.
+    bool updateInvisible_;
+
+    /// Spark particle system
+    SPK::Ref<SPK::System>  _system;
+
 };
+
 
 }
 

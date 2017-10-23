@@ -12,4 +12,5 @@ SUBDIRS += \
     samples/03_realscene \
     samples/04_multieffects \
     samples/05_sprite_sheet \
+    samples/XX_TEST \
 
