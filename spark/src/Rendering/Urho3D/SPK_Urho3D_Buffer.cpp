@@ -16,6 +16,9 @@ IUrho3DBuffer::IUrho3DBuffer(Urho3D::Context* context, size_t nbParticles, size_
     _ib = new IndexBuffer(_context);
     _geometry = new Geometry(_context);
 
+    _ib->SetShadowed(true);
+    _vb->SetShadowed(true);
+
     _geometry->SetVertexBuffer(0, _vb);
     _geometry->SetIndexBuffer(_ib);
 }

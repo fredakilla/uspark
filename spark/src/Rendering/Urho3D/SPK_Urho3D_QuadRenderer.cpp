@@ -126,12 +126,16 @@ void IUrho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,Rende
     Urho3D::VertexBuffer* vertexBuffer = buffer.getVertexBuffer();
     unsigned numParticles = group.getNbParticles();
 
+    buffer.getGeometry()->SetDrawRange(TRIANGLE_LIST, 0, numParticles * NB_INDICES_PER_PARTICLE);
+
+    if(numParticles == 0)
+       return;
+
     if (vertexBuffer->GetVertexCount() != numParticles * NB_VERTICES_PER_PARTICLE)
         vertexBuffer->SetSize(numParticles * NB_VERTICES_PER_PARTICLE, _elements, true);
 
-    float* dest = (float*)vertexBuffer->Lock(0, numParticles * NB_VERTICES_PER_PARTICLE, true);
-    if (!dest)
-        return;
+    float* dest = (float*)vertexBuffer->Lock(0, numParticles * NB_VERTICES_PER_PARTICLE);
+    assert(dest);
 
     for (ConstGroupIterator particleIt(group); !particleIt.end(); ++particleIt)
     {
@@ -197,8 +201,6 @@ void IUrho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,Rende
 
     vertexBuffer->Unlock();
     vertexBuffer->ClearDataLost();
-
-    buffer.getGeometry()->SetDrawRange(TRIANGLE_LIST, 0, numParticles * NB_INDICES_PER_PARTICLE, 0, numParticles * NB_VERTICES_PER_PARTICLE);
 }
 
 void IUrho3DQuadRenderer::computeAABB(Vector3D& AABBMin,Vector3D& AABBMax,const Group& group,const DataSet* dataSet) const
