@@ -161,7 +161,7 @@ void UrhoSparkSystem::UpdateBatches(const FrameInfo& frame)
 
     // Update information for renderer about this drawable
     const BoundingBox& worldBoundingBox = GetWorldBoundingBox();
-    const Matrix3x4& worldTransform = node_->GetWorldTransform();
+    //const Matrix3x4& worldTransform = node_->GetWorldTransform();
     distance_ = frame.camera_->GetDistance(worldBoundingBox.Center());
 
     for (unsigned i = 0; i < batches_.Size(); ++i)
@@ -260,7 +260,7 @@ void UrhoSparkSystem::UpdateVertexBuffer(const FrameInfo& frame)
         for (size_t i = 0; i < _system->getNbGroups(); ++i)
         {
             SPK::URHO::IUrho3DBuffer* renderBuffer = (SPK::URHO::IUrho3DBuffer*)_system->getGroup(i)->getRenderBuffer();
-            SPK::Ref<SPK::URHO::IUrho3DRenderer> rendere = _system->getGroup(i)->getRenderer();
+            //SPK::Ref<SPK::URHO::IUrho3DRenderer> rendere = _system->getGroup(i)->getRenderer();
 
             assert(renderBuffer);
 
