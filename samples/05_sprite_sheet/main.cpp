@@ -44,8 +44,8 @@ public:
         _scene->CreateComponent<DebugRenderer>();
 
         // create spark particles
-        //CreateSheetTest();
-       // CreateFire();
+        CreateSheetTest();
+        CreateFire();
         CreateExplosion();
 
 
