@@ -71,15 +71,8 @@ private:
     /// Update particles (called by UpdateBatches())
     void UpdateParticles();
 
-    /// Geometry.
-    // SharedPtr<Geometry> geometry_;
-    // /// Vertex buffer.
-    // SharedPtr<VertexBuffer> vertexBuffer_;
-    // /// Index buffer.
-    // SharedPtr<IndexBuffer> indexBuffer_;
-
     /// Transform matrices for position and orientation.
-    Matrix3x4 transforms_;
+    Matrix3x4 transform_;
     /// Buffers need resize flag.
     bool bufferSizeDirty_;
     /// Vertex buffer needs rewrite flag.
@@ -100,9 +93,8 @@ private:
 
     /// Spark particle system
     SPK::Ref<SPK::System>  _system;
-
+    /// Flag used internally to test if it is the first time we render the particles
     bool firstRenderSet_;
-
 };
 
 

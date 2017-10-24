@@ -18,35 +18,20 @@ namespace Urho3D
 
 extern const char* GEOMETRY_CATEGORY;
 
-
 UrhoSparkSystem::UrhoSparkSystem(Context* context) :
-    Drawable(context, DRAWABLE_GEOMETRY),    
+    Drawable(context, DRAWABLE_GEOMETRY),
     animationLodBias_(1.0f),
     animationLodTimer_(0.0f),
-    //geometry_(new Geometry(context_)),
-    //vertexBuffer_(new VertexBuffer(context_)),
-    //indexBuffer_(new IndexBuffer(context_)),
     bufferDirty_(true),
     lastUpdateFrameNumber_(M_MAX_UNSIGNED),
     needUpdate_(false),
     sorted_(false),
     previousOffset_(Vector3::ZERO),
     forceUpdate_(false),
-    updateInvisible_(false)
+    updateInvisible_(false),
+    firstRenderSet_(false),
+    transform_(Matrix3x4::IDENTITY)
 {
-    //geometry_->SetVertexBuffer(0, vertexBuffer_);
-    //geometry_->SetIndexBuffer(indexBuffer_);
-    //
-    transforms_ = Matrix3x4::IDENTITY;
-    //
-    //batches_.Resize(1);
-    //batches_[0].geometry_ = geometry_;
-    //batches_[0].geometryType_ = GEOM_STATIC;
-    //batches_[0].worldTransform_ = &transforms_;
-    //batches_[0].numWorldTransforms_ = 1;
-
-    updateInvisible_ = false;
-    firstRenderSet_ = false;
 }
 
 UrhoSparkSystem::~UrhoSparkSystem()
@@ -120,54 +105,15 @@ void UrhoSparkSystem::UpdateParticles()
     bufferDirty_ = true;
 }
 
-
 void UrhoSparkSystem::UpdateBatches(const FrameInfo& frame)
 {
-
-/*
-    // Update information for renderer about this drawable
-    distance_ = frame.camera_->GetDistance(GetWorldBoundingBox().Center());
-    batches_[0].distance_ = distance_;
-
-    // Calculate scaled distance for animation LOD
-    float scale = GetWorldBoundingBox().Size().DotProduct(DOT_SCALE);
-    // If there are no particles, the size becomes zero, and LOD'ed updates no longer happen. Disable LOD in that case
-    if (scale > M_EPSILON)
-        lodDistance_ = frame.camera_->GetLodDistance(distance_, scale, lodBias_);
-    else
-        lodDistance_ = 0.0f;
-
-    Vector3 worldPos = node_->GetWorldPosition();
-    Vector3 offset = (worldPos - frame.camera_->GetNode()->GetWorldPosition());
-    if (sorted_ && offset != previousOffset_)
-    {
-        bufferDirty_ = true;
-        previousOffset_ = offset;
-    }
-
-    // for each group, get renderer and update camera view
-    for (size_t i = 0; i < _system->getNbGroups(); ++i)
-    {
-        // Update camera view for quad renderer to align sprites faces to camera
-        SPK::URHO::IUrho3DRenderer* renderer = reinterpret_cast<SPK::URHO::IUrho3DRenderer*>(_system->getGroup(i)->getRenderer().get());
-        renderer->updateView(frame.camera_);
-    }
-
-    // update spark system camera position
-    _system->setCameraPosition(SPK::Vector3D(frame.camera_->GetView().m03_, frame.camera_->GetView().m13_, frame.camera_->GetView().m23_));
-*/
-
-
-
     // Update information for renderer about this drawable
     const BoundingBox& worldBoundingBox = GetWorldBoundingBox();
-    //const Matrix3x4& worldTransform = node_->GetWorldTransform();
     distance_ = frame.camera_->GetDistance(worldBoundingBox.Center());
 
     for (unsigned i = 0; i < batches_.Size(); ++i)
     {
         batches_[i].distance_ = distance_;
-        //batches_[i].worldTransform_ = &worldTransform;
 
         SPK::URHO::IUrho3DRenderer* renderer = reinterpret_cast<SPK::URHO::IUrho3DRenderer*>(_system->getGroup(i)->getRenderer().get());
         renderer->updateView(frame.camera_);
@@ -181,29 +127,24 @@ void UrhoSparkSystem::UpdateBatches(const FrameInfo& frame)
 
     // update spark system camera position
     _system->setCameraPosition(SPK::Vector3D(frame.camera_->GetView().m03_, frame.camera_->GetView().m13_, frame.camera_->GetView().m23_));
-
-
-
 }
 
 void UrhoSparkSystem::UpdateGeometry(const FrameInfo& frame)
 {
-    if (bufferSizeDirty_)// || batches_[0].geometry_->GetIndexBuffer()->IsDataLost() )// indexBuffer_->IsDataLost()*/)
+    if (bufferSizeDirty_)
         UpdateBufferSize();
 
-    if (bufferDirty_)// || batches_[0].geometry_->GetVertexBuffer(0)->IsDataLost() )//vertexBuffer_->IsDataLost()*/)
+    if (bufferDirty_)
         UpdateVertexBuffer(frame);
 }
 
 UpdateGeometryType UrhoSparkSystem::GetUpdateGeometryType()
 {
-    if (bufferDirty_ || bufferSizeDirty_)// /*|| vertexBuffer_->IsDataLost() || indexBuffer_->IsDataLost())
+    if (bufferDirty_ || bufferSizeDirty_)
         return UPDATE_MAIN_THREAD;
     else
         return UPDATE_NONE;
 }
-
-
 
 void UrhoSparkSystem::OnWorldBoundingBoxUpdate()
 {
@@ -234,7 +175,6 @@ void UrhoSparkSystem::UpdateVertexBuffer(const FrameInfo& frame)
 {
     // set vertex buffer
 
-
     // If using animation LOD, accumulate time and see if it is time to update
     if (animationLodBias_ > 0.0f && lodDistance_ > 0.0f)
     {
@@ -249,7 +189,6 @@ void UrhoSparkSystem::UpdateVertexBuffer(const FrameInfo& frame)
         }
     }
 
-
     // fill geometry buffers
     _system->renderParticles();
 
@@ -260,13 +199,10 @@ void UrhoSparkSystem::UpdateVertexBuffer(const FrameInfo& frame)
         for (size_t i = 0; i < _system->getNbGroups(); ++i)
         {
             SPK::URHO::IUrho3DBuffer* renderBuffer = (SPK::URHO::IUrho3DBuffer*)_system->getGroup(i)->getRenderBuffer();
-            //SPK::Ref<SPK::URHO::IUrho3DRenderer> rendere = _system->getGroup(i)->getRenderer();
-
             assert(renderBuffer);
 
             // link Drawable batches geometries to spark particle system renderBuffer geometries
             batches_[i].geometry_ = renderBuffer->getGeometry();
-            //batches_[i].material_ = rendere->getMaterial();
         }
 
         firstRenderSet_ = true;
@@ -318,7 +254,6 @@ void UrhoSparkSystem::SetUpdateInvisible(bool enable)
     MarkNetworkUpdate();
 }
 
-
 void UrhoSparkSystem::SetSystem(SPK::Ref<SPK::System> system)
 {
     //_system = SPK::SPKObject::copy(system);
@@ -337,24 +272,14 @@ void UrhoSparkSystem::SetSystem(SPK::Ref<SPK::System> system)
         for (size_t i = 0; i < nbGroup; ++i)
         {
             batches_[i].geometryType_ = GEOM_STATIC;
-            batches_[i].worldTransform_ = &transforms_;
+            batches_[i].worldTransform_ = &transform_;
             batches_[i].numWorldTransforms_ = 1;
 
             SPK::URHO::IUrho3DRenderer* renderer = reinterpret_cast<SPK::URHO::IUrho3DRenderer*>(_system->getGroup(i)->getRenderer().get());
             batches_[i].material_ = renderer->getMaterial();
-
-            //SPK::URHO::IUrho3DBuffer* renderBuffer = (SPK::URHO::IUrho3DBuffer*)_system->getGroup(i)->getRenderBuffer();
-            //batches_[i].geometry_ = renderBuffer->getGeometry();
         }
-
-
-        //Drawable::OnMarkedDirty(node_);
-        //bufferSizeDirty_ = true;
-        //MarkNetworkUpdate();
-
     }
 }
-
 
 }
 
