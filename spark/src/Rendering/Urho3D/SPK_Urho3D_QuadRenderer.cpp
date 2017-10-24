@@ -1,8 +1,6 @@
 #include <SPARK_Core.h>
 #include "Rendering/Urho3D/SPK_Urho3D_QuadRenderer.h"
 
-#include <Urho3D/Urho3DAll.h>
-
 namespace SPK {
 namespace URHO {
 
@@ -29,18 +27,15 @@ IUrho3DQuadRenderer::IUrho3DQuadRenderer(const IUrho3DQuadRenderer &renderer) :
     _elements = renderer._elements;
 }
 
-
 RenderBuffer* IUrho3DQuadRenderer::attachRenderBuffer(const Group& group) const
 {
     // Creates the render buffer
     IUrho3DBuffer* buffer = SPK_NEW(IUrho3DBuffer,_context,group.getCapacity(),NB_VERTICES_PER_PARTICLE,NB_INDICES_PER_PARTICLE);
 
+    unsigned numParticles = group.getCapacity();
+    bool largeIndices = (numParticles * NB_VERTICES_PER_PARTICLE) >= 65536;
 
     Urho3D::IndexBuffer* indexBuffer = buffer->getIndexBuffer();
-
-    unsigned numParticles = group.getCapacity();
-
-    bool largeIndices = (numParticles * NB_VERTICES_PER_PARTICLE) >= 65536;
 
     if (indexBuffer->GetIndexCount() != numParticles)
         indexBuffer->SetSize(numParticles * NB_INDICES_PER_PARTICLE, largeIndices);
@@ -95,11 +90,19 @@ void IUrho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,Rende
     SPK_ASSERT(renderBuffer != NULL,"IRRQuadRenderer::render(const Group&,const DataSet*,RenderBuffer*) - renderBuffer must not be NULL");
     IUrho3DBuffer& buffer = static_cast<IUrho3DBuffer&>(*renderBuffer);
 
+    unsigned numParticles = group.getNbParticles();
+
+    buffer.getGeometry()->SetDrawRange(TRIANGLE_LIST, 0, numParticles * NB_INDICES_PER_PARTICLE);
+
+    if(numParticles == 0)
+       return;
+
     // Computes the inverse model view
-    if(_camera == 0) return;
-    Matrix4 invModelView = Matrix4() * _camera->GetView();
+    assert(_camera);
+    Matrix4 invModelView = Matrix4::IDENTITY * _camera->GetView();
     invModelView = invModelView.Transpose().Inverse();
 
+    // select render method
     if ((texturingMode == TEXTURE_MODE_2D)&&(group.isEnabled(PARAM_TEXTURE_INDEX)))
     {
         if (group.isEnabled(PARAM_ANGLE))
@@ -124,12 +127,6 @@ void IUrho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,Rende
         computeGlobalOrientation3D(group);
 
     Urho3D::VertexBuffer* vertexBuffer = buffer.getVertexBuffer();
-    unsigned numParticles = group.getNbParticles();
-
-    buffer.getGeometry()->SetDrawRange(TRIANGLE_LIST, 0, numParticles * NB_INDICES_PER_PARTICLE);
-
-    if(numParticles == 0)
-       return;
 
     if (vertexBuffer->GetVertexCount() != numParticles * NB_VERTICES_PER_PARTICLE)
         vertexBuffer->SetSize(numParticles * NB_VERTICES_PER_PARTICLE, _elements, true);
@@ -141,10 +138,11 @@ void IUrho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,Rende
     {
         const Particle& particle = *particleIt;
 
-        (this->*renderParticle)(particle,buffer);
-
         if (!globalOrientation)
             computeSingleOrientation3D(particle);
+
+        // call render method to compute quad
+        (this->*renderParticle)(particle,buffer);
 
         // Vertices are drawn in clockwise order (front face).
         // First triangle  : v0,v1,v2
