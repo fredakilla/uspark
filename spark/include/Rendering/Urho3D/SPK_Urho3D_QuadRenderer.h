@@ -25,7 +25,7 @@ private:
 
     static const size_t NB_INDICES_PER_PARTICLE = 6;
     static const size_t NB_VERTICES_PER_PARTICLE = 4;
-    float _u0, _u1, _v0, _v1;
+    mutable float _u0, _u1, _v0, _v1;
     PODVector<VertexElement> _elements;
 
     IUrho3DQuadRenderer(Urho3D::Context* context = nullptr, float scaleX = 1.0f,float scaleY = 1.0f);
@@ -35,12 +35,12 @@ private:
     virtual void render(const Group& group,const DataSet* dataSet,RenderBuffer* renderBuffer) const override;
     virtual void computeAABB(Vector3D& AABBMin,Vector3D& AABBMax,const Group& group,const DataSet* dataSet) const override;
 
-    mutable void (IUrho3DQuadRenderer::*renderParticle)(const Particle&, IUrho3DBuffer& renderBuffer);	// pointer to the right render method
+    mutable void (IUrho3DQuadRenderer::*renderParticle)(const Particle&, IUrho3DBuffer& renderBuffer) const;	// pointer to the right render method
 
-    void renderBasic(const Particle& particle,IUrho3DBuffer& renderBuffer);		// Rendering for particles with texture or no texture
-    void renderRot(const Particle& particle,IUrho3DBuffer& renderBuffer);	    // Rendering for particles with texture or no texture and rotation
-    void renderAtlas(const Particle& particle,IUrho3DBuffer& renderBuffer);		// Rendering for particles with texture atlas
-    void renderAtlasRot(const Particle& particle,IUrho3DBuffer& renderBuffer);	// Rendering for particles with texture atlas and rotation
+    void renderBasic(const Particle& particle,IUrho3DBuffer& renderBuffer) const;		// Rendering for particles with texture or no texture
+    void renderRot(const Particle& particle,IUrho3DBuffer& renderBuffer) const;         // Rendering for particles with texture or no texture and rotation
+    void renderAtlas(const Particle& particle,IUrho3DBuffer& renderBuffer) const;		// Rendering for particles with texture atlas
+    void renderAtlasRot(const Particle& particle,IUrho3DBuffer& renderBuffer) const;	// Rendering for particles with texture atlas and rotation
 };
 
 

@@ -227,21 +227,21 @@ void IUrho3DQuadRenderer::computeAABB(Vector3D& AABBMin,Vector3D& AABBMax,const 
     }
 }
 
-void IUrho3DQuadRenderer::renderBasic(const Particle& particle,IUrho3DBuffer& renderBuffer)
+void IUrho3DQuadRenderer::renderBasic(const Particle& particle,IUrho3DBuffer& renderBuffer) const
 {
     scaleQuadVectors(particle,scaleX,scaleY);
     _u0 = _v0 = 0.0f;
     _u1 = _v1 = 1.0f;
 }
 
-void IUrho3DQuadRenderer::renderRot(const Particle& particle,IUrho3DBuffer& renderBuffer)
+void IUrho3DQuadRenderer::renderRot(const Particle& particle,IUrho3DBuffer& renderBuffer) const
 {
     rotateAndScaleQuadVectors(particle,scaleX,scaleY);
     _u0 = _v0 = 0.0f;
     _u1 = _v1 = 1.0f;
 }
 
-void IUrho3DQuadRenderer::renderAtlas(const Particle& particle,IUrho3DBuffer& renderBuffer)
+void IUrho3DQuadRenderer::renderAtlas(const Particle& particle,IUrho3DBuffer& renderBuffer) const
 {
     scaleQuadVectors(particle,scaleX,scaleY);
     computeAtlasCoordinates(particle);
@@ -251,7 +251,7 @@ void IUrho3DQuadRenderer::renderAtlas(const Particle& particle,IUrho3DBuffer& re
     _v1 = textureAtlasV1();
 }
 
-void IUrho3DQuadRenderer::renderAtlasRot(const Particle& particle,IUrho3DBuffer& renderBuffer)
+void IUrho3DQuadRenderer::renderAtlasRot(const Particle& particle,IUrho3DBuffer& renderBuffer) const
 {
     rotateAndScaleQuadVectors(particle,scaleX,scaleY);
     computeAtlasCoordinates(particle);
