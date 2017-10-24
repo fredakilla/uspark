@@ -494,6 +494,7 @@ public:
             // display infos
             s= "FPS = ";
             s += String(1 / timeStep) + "\n";
+            s += "Press Space bar to lauch explosion\n";
             _textInfo->SetText(s);
 
             accumulator = 0.0f;
