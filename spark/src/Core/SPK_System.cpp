@@ -235,8 +235,10 @@ namespace SPK
 
 	bool System::innerUpdate(float deltaTime)
 	{
+        // Transform
 		updateTransform();
 
+        // Particles
 		bool alive = false;
 		for (std::vector<Ref<Group> >::const_iterator it = groups.begin(); it != groups.end(); ++it)
 			alive |= (*it)->updateParticles(deltaTime);

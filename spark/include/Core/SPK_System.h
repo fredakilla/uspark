@@ -102,6 +102,11 @@ namespace SPK
 		*/
 		void removeGroup(const Ref<Group>& group);
 
+        /**
+        * @brief Removes all groups in this system
+        */
+        void removeAllGroups();
+
 		/**
 		* @brief Gets the group at index
 		* @param index : the index of the group to get
@@ -331,6 +336,11 @@ namespace SPK
 		SPK_ASSERT(index < getNbGroups(),"System::getGroup(size_t) - Index of group is out of bounds : " << index);
 		return groups[index];
 	}
+
+    inline void System::removeAllGroups()
+    {
+        groups.clear();
+    }
 
 	inline size_t System::getNbGroups() const
 	{
