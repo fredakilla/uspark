@@ -193,7 +193,11 @@ namespace SPK
 		* @param zone : the zone of this emitter
 		* @param full : true to generate particles in the whole Zone, false to generate particles only at the zone's borders.
 		*/
-		void setZone(const Ref<Zone>& zone,bool full = true);
+        void setZone(const Ref<Zone>& zone,bool full);
+
+        void setZone(const Ref<Zone>& zone);
+        void setUseFullZone(bool f);
+
 
 		/**
 		* @brief Gets the zone of this emitter
@@ -319,6 +323,17 @@ namespace SPK
 	{
 		return full;
 	}
+
+    inline void Emitter::setZone(const Ref<Zone>& zone, bool full)
+    {
+        setZone(zone);
+        setUseFullZone(full);
+    }
+
+    inline void Emitter::setUseFullZone(bool f)
+    {
+        full = f;
+    }
 
 	inline size_t Emitter::updateTankFromTime(float deltaTime)
 	{

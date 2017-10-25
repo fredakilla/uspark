@@ -89,11 +89,10 @@ namespace SPK
 		}
 	}
 
-	void Emitter::setZone(const Ref<Zone>& zone,bool full)
-	{
-		this->zone = (!zone ? SPK_DEFAULT_ZONE : zone);
-		this->full = full;
-	}
+    void Emitter::setZone(const Ref<Zone>& zone)
+    {
+        this->zone = (!zone ? SPK_DEFAULT_ZONE : zone);
+    }
 
 	void Emitter::propagateUpdateTransform()
 	{
