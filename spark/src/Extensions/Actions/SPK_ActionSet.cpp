@@ -34,6 +34,11 @@ namespace SPK
 
 	ActionSet::~ActionSet(){}
 
+    void ActionSet::clearActions()
+    {
+        actions.clear();
+    }
+
 	void ActionSet::addAction(const Ref<Action>& action)
 	{
 		if (action && action != this)
