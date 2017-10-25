@@ -97,6 +97,17 @@ namespace SPK
 		void setParamInterpolator(Param param,const Ref<FloatInterpolator>& interpolator);
 		const Ref<FloatInterpolator>& getParamInterpolator(Param param) const;
 
+        void setScaleInterpolator(const Ref<FloatInterpolator>& interpolator);
+        void setMassInterpolator(const Ref<FloatInterpolator>& interpolator);
+        void setAngleInterpolator(const Ref<FloatInterpolator>& interpolator);
+        void setTextureIndexInterpolator(const Ref<FloatInterpolator>& interpolator);
+        void setRotationSpeedInterpolator(const Ref<FloatInterpolator>& interpolator);
+        const Ref<FloatInterpolator>& getScaleInterpolator() const;
+        const Ref<FloatInterpolator>& getMassInterpolator() const;
+        const Ref<FloatInterpolator>& getAngleInterpolator() const;
+        const Ref<FloatInterpolator>& getTextureIndexInterpolator() const;
+        const Ref<FloatInterpolator>& getRotationSpeedInterpolator() const;
+
 		float getMinLifeTime() const;
 		float getMaxLifeTime() const;
 		bool isImmortal() const;
@@ -115,11 +126,13 @@ namespace SPK
 
 		void addEmitter(const Ref<Emitter>& emitter);
 		void removeEmitter(const Ref<Emitter>& emitter);
+        void removeAllEmitters();
 		const Ref<Emitter>& getEmitter(size_t index) const;
 		size_t getNbEmitters() const;
 
 		void addModifier(const Ref<Modifier>& modifier);
 		void removeModifier(const Ref<Modifier>& modifier);
+        void removeAllModifiers();
 		const Ref<Modifier>& getModifier(size_t index) const;
 		size_t getNbModifiers() const;
 
@@ -625,6 +638,61 @@ namespace SPK
 	{
 		return system != NULL && system->isInitialized();
 	}
+
+    inline void Group::removeAllEmitters()
+    {
+        emitters.clear();
+    }
+
+    inline void Group::setScaleInterpolator(const Ref<FloatInterpolator>& interpolator)
+    {
+        setParamInterpolator(PARAM_SCALE, interpolator);
+    }
+
+    inline void Group::setMassInterpolator(const Ref<FloatInterpolator>& interpolator)
+    {
+        setParamInterpolator(PARAM_MASS, interpolator);
+    }
+
+    inline void Group::setAngleInterpolator(const Ref<FloatInterpolator>& interpolator)
+    {
+        setParamInterpolator(PARAM_ANGLE, interpolator);
+    }
+
+    inline void Group::setTextureIndexInterpolator(const Ref<FloatInterpolator>& interpolator)
+    {
+        setParamInterpolator(PARAM_TEXTURE_INDEX, interpolator);
+    }
+
+    inline void Group::setRotationSpeedInterpolator(const Ref<FloatInterpolator>& interpolator)
+    {
+        setParamInterpolator(PARAM_ROTATION_SPEED, interpolator);
+    }
+
+    inline const Ref<FloatInterpolator>& Group::getScaleInterpolator() const
+    {
+        return getParamInterpolator(PARAM_SCALE);
+    }
+
+    inline const Ref<FloatInterpolator>& Group::getMassInterpolator() const
+    {
+        return getParamInterpolator(PARAM_MASS);
+    }
+
+    inline const Ref<FloatInterpolator>& Group::getAngleInterpolator() const
+    {
+        return getParamInterpolator(PARAM_ANGLE);
+    }
+
+    inline const Ref<FloatInterpolator>& Group::getTextureIndexInterpolator() const
+    {
+        return getParamInterpolator(PARAM_TEXTURE_INDEX);
+    }
+
+    inline const Ref<FloatInterpolator>& Group::getRotationSpeedInterpolator() const
+    {
+        return getParamInterpolator(PARAM_ROTATION_SPEED);
+    }
 
 	inline void Group::setImmortal(bool immortal)
 	{

@@ -48,7 +48,7 @@ namespace SPK
 		AABBMin(),
 		AABBMax(),
 		graphicalRadius(1.0f),
-		physicalRadius(0.0f),
+        physicalRadius(0.0f),
 		nbBufferedParticles(0),
 		birthAction(),
 		deathAction(),
@@ -433,6 +433,12 @@ namespace SPK
 			SPK_LOG_WARNING("The modifier was not found in the group and cannot be removed");
 		}
 	}
+
+    void Group::removeAllModifiers()
+    {
+        while(modifiers.size() > 0)
+            removeModifier(modifiers.begin()->obj);
+    }
 
 	void Group::setRenderer(const Ref<Renderer>& renderer)
 	{
