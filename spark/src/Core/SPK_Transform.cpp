@@ -20,6 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 #include <SPARK_Core.h>
+#include <cstring> // for memcpy
 
 namespace SPK
 {
@@ -72,15 +73,22 @@ namespace SPK
 		notifyForUpdate();
 	}
 
+    void Transform::set(const float* transform)
+    {
+        std::memcpy(local,transform,sizeof(float) * TRANSFORM_LENGTH);
+        localIdentity = false;
+        notifyForUpdate();
+    }
+
 	void Transform::setOrientationRH(Vector3D look,Vector3D up)
 	{
 		look.normalize();
 		up.normalize();
 
-		Vector3D side = crossProduct(look,up);
+        Vector3D side = crossProduct(up,look);
 		side.normalize();
 
-		up = crossProduct(side,look);
+        up = crossProduct(look,side);
 
 		local[0] = side.x;
 		local[1] = side.y;

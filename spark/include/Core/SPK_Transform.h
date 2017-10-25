@@ -22,8 +22,6 @@
 #ifndef H_SPK_TRANSFORM
 #define H_SPK_TRANSFORM
 
-#include <cstring> // for memcpy
-
 namespace SPK
 {
     class Transformable;
@@ -358,15 +356,7 @@ namespace SPK
 			Vector3D& dest,
 			const Vector3D& v,
 			const float* m);
-	};
-
-
-	inline void Transform::set(const float* transform)
-	{
-		std::memcpy(local,transform,sizeof(float) * TRANSFORM_LENGTH);
-		localIdentity = false;
-		notifyForUpdate();
-	}
+    };
 
 	inline const float* Transform::getLocal() const
 	{
