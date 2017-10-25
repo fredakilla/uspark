@@ -31,15 +31,6 @@ namespace SPK
 	SPK_DEFINE_ENUM(Factor,SPK_ENUM_FACTOR)
 	SPK_DEFINE_ENUM(InterpolationType,SPK_ENUM_INTERPOLATION_TYPE)
 
-#ifdef SPK_TRACE_MEMORY
-	SPKMemoryTracer& SPKMemoryTracer::get()
-	{
-		static SPKMemoryTracer* instance = NULL;
-		if (instance == NULL) instance = new SPKMemoryTracer;
-		return *instance;
-	}
-#endif
-
 	SPKContext SPKContext::instance = SPKContext();
 
 	// This allows SPARK initialization at application start up

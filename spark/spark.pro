@@ -59,7 +59,7 @@ CONFIG(debug,debug|release) {
     #debug
     DEFINES +=  \
         SPK_NO_XML \
-        #SPK_TRACE_MEMORY \
+        _DEBUG
 
 } else {
     # release
@@ -192,6 +192,7 @@ SOURCES += \
     src/Core/IO/SPK_IO_Saver.cpp \
     src/Core/SPK_DataSet.cpp \
     src/Core/SPK_DEF.cpp \
+    src/Core/SPK_MemoryTracer.cpp \
     src/Core/SPK_Emitter.cpp \
     src/Core/SPK_Group.cpp \
     src/Core/SPK_Logger.cpp \
@@ -239,7 +240,8 @@ SOURCES += \
     src/Rendering/Urho3D/SPK_Urho3D_PointRenderer.cpp \
     src/Rendering/Urho3D/SPK_Urho3D_QuadRenderer.cpp \
     src/Rendering/Urho3D/SPK_Urho3D_Renderer.cpp \
-    src/Rendering/Urho3D/UrhoSparkSystem.cpp
+    src/Rendering/Urho3D/UrhoSparkSystem.cpp \
+
 
 
 

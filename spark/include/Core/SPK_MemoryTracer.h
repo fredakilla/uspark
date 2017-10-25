@@ -41,148 +41,73 @@
 
 #include <string>
 #include <set>
-#include <ctime>
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <algorithm>
-#include <sstream>
 
 namespace SPK
 {
-	class SPK_PREFIX SPKMemoryTracer
-	{
-	struct BlockInfo;
+    // Note: don't forget to verify static objects that depends on the tracer.
+    // For the moment, only SPKContext and IO::Manager depends on it
+    class SPK_PREFIX SPKMemoryTracer
+    {
+    struct BlockInfo;
 
-	friend bool operator==(const BlockInfo&,const BlockInfo&);
-	friend bool operator<(const BlockInfo&,const BlockInfo&);
-	friend bool compareAllocTime(const BlockInfo&,const BlockInfo&);
+    friend bool operator==(const BlockInfo&,const BlockInfo&);
+    friend bool operator<(const BlockInfo&,const BlockInfo&);
+    friend bool compareAllocTime(const BlockInfo&,const BlockInfo&);
 
-	public :
+    public :
 
-		static SPKMemoryTracer& get();
+        static SPKMemoryTracer& get();
 
-		void* registerAllocation(void* position,size_t size,const std::string& type,const std::string& file,size_t line)
-		{
-			if (position == NULL)
-				return NULL;
+        void* registerAllocation(void* position, size_t size, const std::string& type, const std::string& file, size_t line);
+        void unregisterAllocation(void* position);
+        std::string formatSize(unsigned int s);
+        void dumpMemory();
 
-			BlockInfo info(position);
-			info.size = size;
-			info.type = type;
-			info.fileName = file;
-			info.lineNb = line;
-			info.time = static_cast<float>(clock()) / CLOCKS_PER_SEC;
-			info.index = nextIndex++;
+    private :
 
-			blocks.insert(info);
+        struct BlockInfo
+        {
+            void* position;
+            size_t size;
+            std::string type;
+            std::string fileName;
+            size_t lineNb;
+            float time;
+            unsigned long index;
 
-			totalMemorySize += size;
-			if (totalMemorySize > maxMemorySize)
-				maxMemorySize = totalMemorySize;
+            BlockInfo(void* position) : position(position) {}
+        };
 
-			return position;
-		}
+        SPKMemoryTracer() :
+            nextIndex(0),
+            totalMemorySize(0),
+            maxMemorySize(0)
+        {}
 
-		void unregisterAllocation(void* position)
-		{
-			std::set<BlockInfo>::iterator it = blocks.find(BlockInfo(position));
-			if (it != blocks.end())
-			{
-				totalMemorySize -= it->size;
-				blocks.erase(it);
-			}
-		}
+        SPKMemoryTracer(const SPKMemoryTracer&); // Not used
+        SPKMemoryTracer& operator=(const SPKMemoryTracer&); // Not used
 
-		void dumpMemory()
-		{
-			std::ofstream file("SPARK_Memory_Dump.txt",std::ios::out | std::ios::app);
+        unsigned long nextIndex;
+        unsigned long totalMemorySize;
+        unsigned long maxMemorySize;
 
-			if (file)
-			{
-				std::vector<BlockInfo> sortedBlocks(blocks.begin(),blocks.end());
-				std::sort(sortedBlocks.begin(),sortedBlocks.end(),compareAllocTime);
+        std::set<BlockInfo> blocks;
+    };
 
-				time_t currentTime = time(NULL);
-				tm* timeinfo = localtime(&currentTime);
-				file << "-----------------------------------------------------------------------------------------------\n";
-				file << "SPARK MEMORY DUMP - " << asctime(timeinfo) << "\n\n";
-				file.precision(3);
-				file << "Dynamic memory used: " << totalMemorySize << " bytes allocated (" << totalMemorySize / (1024.0f * 1024.0f) << " mb) in " << blocks.size() << " blocks\n";
-				file << "Maximum dynamic memory allocated: " << maxMemorySize << " bytes ("<< maxMemorySize / (1024.0f * 1024.0f) << " mb)\n";
-				file << "Total number of allocated blocks: " << nextIndex << "\n\n";
+    inline bool operator==(const SPKMemoryTracer::BlockInfo& block0,const SPKMemoryTracer::BlockInfo& block1)
+    {
+        return block0.position == block1.position;
+    }
 
-				std::vector<BlockInfo>::const_iterator it = sortedBlocks.begin();
-				std::vector<BlockInfo>::const_iterator end = sortedBlocks.end();
-				for (; it != end; ++it)
-				{
-					file << it->position << " - ";
+    inline bool operator<(const SPKMemoryTracer::BlockInfo& block0,const SPKMemoryTracer::BlockInfo& block1)
+    {
+        return block0.position < block1.position;
+    }
 
-					file.width(10);
-					file << std::right << it->size << " bytes";
-
-					file.width(32);
-					std::ostringstream typeStr;
-					typeStr << " of " << it->type;
-					file << std::right << typeStr.str();
-
-					file.width(18);
-					std::ostringstream timeStr;
-					timeStr << " at " << it->time << " sec";
-					file << std::right << timeStr.str();
-					file << "\t(" << it->fileName << " - line " << it->lineNb << ")\n";
-				}
-				file << "-----------------------------------------------------------------------------------------------\n\n";
-				file.close();
-			}
-		}
-
-	private :
-
-		struct BlockInfo
-		{
-			void* position;
-			size_t size;
-			std::string type;
-			std::string fileName;
-			size_t lineNb;
-			float time;
-			unsigned long index;
-
-			BlockInfo(void* position) : position(position) {}
-		};
-
-		SPKMemoryTracer() :
-			nextIndex(0),
-			totalMemorySize(0),
-			maxMemorySize(0)
-		{}
-
-		SPKMemoryTracer(const SPKMemoryTracer&); // Not used
-		SPKMemoryTracer& operator=(const SPKMemoryTracer&); // Not used
-
-		unsigned long nextIndex;
-
-		unsigned long totalMemorySize;
-		unsigned long maxMemorySize;
-
-		std::set<BlockInfo> blocks;
-	};
-
-	inline bool operator==(const SPKMemoryTracer::BlockInfo& block0,const SPKMemoryTracer::BlockInfo& block1)
-	{
-		return block0.position == block1.position;
-	}
-
-	inline bool operator<(const SPKMemoryTracer::BlockInfo& block0,const SPKMemoryTracer::BlockInfo& block1)
-	{
-		return block0.position < block1.position;
-	}
-
-	inline bool compareAllocTime(const SPKMemoryTracer::BlockInfo& block0,const SPKMemoryTracer::BlockInfo& block1)
-	{
-		return block0.index < block1.index;
-	}
+    inline bool compareAllocTime(const SPKMemoryTracer::BlockInfo& block0,const SPKMemoryTracer::BlockInfo& block1)
+    {
+        return block0.index < block1.index;
+    }
 }
 #endif
 #endif

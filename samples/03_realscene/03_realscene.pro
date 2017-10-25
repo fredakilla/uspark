@@ -58,6 +58,7 @@ CONFIG(debug,debug|release) {
 CONFIG(debug,debug|release) {
     #message( debug )
     DEFINES += \
+        _DEBUG
 
 } else {
     DEFINES += \
