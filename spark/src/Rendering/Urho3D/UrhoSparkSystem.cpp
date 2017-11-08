@@ -95,14 +95,17 @@ void UrhoSparkSystem::Update(const FrameInfo &frame)
 
 void UrhoSparkSystem::UpdateParticles()
 {
-    // Transform spark system with node tranformation
-    _system->getTransform().setNC(node_->GetWorldTransform().Data());
+    if(_system)
+    {
+        // Transform spark system with node tranformation
+        _system->getTransform().setNC(node_->GetWorldTransform().Data());
 
-    // Update particle system
-    _system->updateParticles(lastTimeStep_);
+        // Update particle system
+        _system->updateParticles(lastTimeStep_);
 
-    bufferSizeDirty_ = true;
-    bufferDirty_ = true;
+        bufferSizeDirty_ = true;
+        bufferDirty_ = true;
+    }
 }
 
 void UrhoSparkSystem::UpdateBatches(const FrameInfo& frame)
@@ -125,8 +128,13 @@ void UrhoSparkSystem::UpdateBatches(const FrameInfo& frame)
     if (newLodDistance != lodDistance_)
         lodDistance_ = newLodDistance;
 
-    // update spark system camera position
-    _system->setCameraPosition(SPK::Vector3D(frame.camera_->GetView().m03_, frame.camera_->GetView().m13_, frame.camera_->GetView().m23_));
+    if(_system)
+    {
+        // update spark system camera position
+        _system->setCameraPosition(SPK::Vector3D(frame.camera_->GetView().m03_,
+                                                 frame.camera_->GetView().m13_,
+                                                 frame.camera_->GetView().m23_));
+    }
 }
 
 void UrhoSparkSystem::UpdateGeometry(const FrameInfo& frame)
@@ -134,7 +142,7 @@ void UrhoSparkSystem::UpdateGeometry(const FrameInfo& frame)
     if (bufferSizeDirty_)
         UpdateBufferSize();
 
-    if (bufferDirty_)
+    if (_system && bufferDirty_)
         UpdateVertexBuffer(frame);
 }
 
@@ -256,8 +264,8 @@ void UrhoSparkSystem::SetUpdateInvisible(bool enable)
 
 void UrhoSparkSystem::SetSystem(SPK::Ref<SPK::System> system)
 {
-    //_system = SPK::SPKObject::copy(system);
-    _system = system;
+    _system = SPK::SPKObject::copy(system);
+    //_system = system;
 
     if(_system)
     {
