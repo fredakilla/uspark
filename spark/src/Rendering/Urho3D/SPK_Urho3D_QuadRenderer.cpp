@@ -263,6 +263,9 @@ void IUrho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
 {
     Renderer::innerImport(descriptor);
 
+    if(_context == nullptr)
+        _context = SPK::URHO::Urho3DContext::get().getUrhoContext();
+
     ResourceCache* cache = _context->GetSubsystem<ResourceCache>();
 
     Material * material = nullptr;
@@ -277,11 +280,22 @@ void IUrho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
     }
 
     if(material)
-    if (attrib = descriptor.getAttributeWithValue("texture"))
     {
-        std::string textureName = attrib->getValue<std::string>();
-        Texture * texture = cache->GetResource<Texture>(textureName.c_str());
-        material->SetTexture(TU_DIFFUSE, texture);
+        if (attrib = descriptor.getAttributeWithValue("texture"))
+        {
+            std::string textureName = attrib->getValue<std::string>();
+            Texture * texture = cache->GetResource<Texture>(textureName.c_str());
+            material->SetTexture(TU_DIFFUSE, texture);
+        }
+    }
+
+    if (attrib = descriptor.getAttributeWithValue("scale"))
+    {
+        std::vector<float> tmpScale = attrib->getValues<float>();
+        if (tmpScale.size() == 2)
+            setScale(tmpScale[0],tmpScale[1]);
+        else
+            SPK_LOG_ERROR("IUrho3DQuadRenderer::innerImport(const IO::Descriptor&) - Wrong number of scale : " << tmpScale.size());
     }
 }
 
@@ -290,6 +304,9 @@ void IUrho3DQuadRenderer::innerExport(IO::Descriptor& descriptor) const
     Renderer::innerExport(descriptor);
     descriptor.getAttribute("material")->setValue<std::string>(getMaterial()->GetName().CString());
     descriptor.getAttribute("texture")->setValue<std::string>(getMaterial()->GetTexture(TU_DIFFUSE)->GetName().CString());
+
+    float tmpScale[2] = {scaleX,scaleY};
+    descriptor.getAttribute("scale")->setValues(tmpScale,2);
 }
 
 

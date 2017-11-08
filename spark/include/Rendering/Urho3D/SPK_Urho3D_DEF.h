@@ -1,17 +1,19 @@
 #ifndef H_SPK_URHO3D_DEF
 #define H_SPK_URHO3D_DEF
 
+#include <Urho3D/Core/Context.h>
 #include <Urho3D/Math/Vector3.h>
 #include <Urho3D/Math/Color.h>
 
+
 // for windows platform only
 #if defined(WIN32) || defined(_WIN32)
-#ifdef SPK_IRR_EXPORT
-#define SPK_IRR_PREFIX __declspec(dllexport)
-#elif defined(SPK_IMPORT) || defined(SPK_IRR_IMPORT)
-#define SPK_IRR_PREFIX __declspec(dllimport) 
+#ifdef SPK_URHO_EXPORT
+#define SPK_URHO_PREFIX __declspec(dllexport)
+#elif defined(SPK_IMPORT) || defined(SPK_URHO_IMPORT)
+#define SPK_URHO_PREFIX __declspec(dllimport)
 #else
-#define SPK_IRR_PREFIX
+#define SPK_URHO_PREFIX
 #endif
 
 #ifdef _MSC_VER
@@ -23,51 +25,74 @@
 #endif
 
 namespace SPK {
+
+class Vector3D;
+class Color;
+
 namespace URHO {
 
-	//////////////////////////
+
+    /**
+    * @brief Helper class to register Urho3D context and SPK urho3d objects
+    * */
+    class SPK_URHO_PREFIX Urho3DContext
+    {
+    public :
+
+        static Urho3DContext& get();
+
+        void unregisterAll();
+        void registerObjects();
+
+        void registerUrhoContext(Urho3D::Context* context);
+        Urho3D::Context* getUrhoContext() { return urhoContext; }
+
+    private :
+
+        Urho3D::Context* urhoContext;
+
+        Urho3DContext();
+        Urho3DContext(const Urho3DContext&) {}
+        Urho3DContext& operator=(const Urho3DContext&);
+    };
+
+
+
+    //////////////////////////
     // Conversion functions //
-	//////////////////////////
+    //////////////////////////
 
     /**
     * @brief Converts a SPARK Vector3D to an Urho3D Vector3
-	* @param v : the Vector3D to convert
+    * @param v : the Vector3D to convert
     * @return the Urho3D Vector3
-	*/
-    inline Urho3D::Vector3 spk2urho(const Vector3D& v)
-    {
-        return Urho3D::Vector3(v.x, v.y, v.z);
-    }
-
-	/**
-    * @brief Converts an Urho3D Vector3 to a SPARK Vector3D
-    * @param v : the Vector3 to convert
-	* @return the SPARK Vector3D
-	*/
-    inline Vector3D urho2spk(const Urho3D::Vector3& v)
-    {
-        return Vector3D(v.x_, v.y_, v.z_);
-    }
+    */
+    inline Urho3D::Vector3 spk2urho(const Vector3D& v);
 
     /**
-    * @brief Gets an Urho3D SColor from rgba values
-	* @param a : the alpha value
-	* @param r : the red value
-	* @param g : the green value
-	* @param b : the blue value
+    * @brief Converts an Urho3D Vector3 to a SPARK Vector3D
+    * @param v : the Vector3 to convert
+    * @return the SPARK Vector3D
+    */
+    inline SPK::Vector3D urho2spk(const Urho3D::Vector3& v);
+
+    /**
+    * @brief Gets an Urho3D Color from rgba values
+    * @param a : the alpha value
+    * @param r : the red value
+    * @param g : the green value
+    * @param b : the blue value
     * @return the Urho3D SColor
-	*/
-    inline Urho3D::Color spk2urho(unsigned char a, unsigned char  r, unsigned char  g, unsigned char  b)
-    {
-        return Urho3D::Color(r,g,b,a);
-    }
+    */
+    inline Urho3D::Color spk2urho(unsigned char a, unsigned char  r, unsigned char  g, unsigned char  b);
 
 
-
-    inline const Urho3D::Color spk2urho(SPK::Color c)
-    {
-        return Urho3D::Color(c.r, c.g, c.g, c.a);
-    }
+    /**
+    * @brief Gets an Urho3D Color from SPK::Color values
+    * @param a : the SPK::Color value
+    * @return the Urho3D SColor
+    */
+    inline const Urho3D::Color spk2urho(SPK::Color c);
 
 
 }}

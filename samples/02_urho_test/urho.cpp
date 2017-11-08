@@ -17,10 +17,9 @@ public:
 
 
     MyApp(Context * context) : Application(context)
-    {
-        UrhoSparkSystem::RegisterObject(context);
-        context_->RegisterFactory<UrhoSparkSystem>();
-        context_->RegisterFactory<SparkParticleEffect>();
+    {        
+        SparkParticleEffect::RegisterObject(context_);
+        UrhoSparkSystem::RegisterObject(context_);
 
         _drawDebug = false;
     }

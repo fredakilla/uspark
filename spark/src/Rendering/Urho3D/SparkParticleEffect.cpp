@@ -16,6 +16,9 @@ SparkParticleEffect::~SparkParticleEffect()
 
 void SparkParticleEffect::RegisterObject(Context* context)
 {
+    // register urho3d context and register for spark urho3d objects
+    SPK::URHO::Urho3DContext::get().registerUrhoContext(context);
+
     context->RegisterFactory<SparkParticleEffect>();
 }
 
@@ -35,26 +38,9 @@ bool SparkParticleEffect::BeginLoad(Deserializer& source)
 
 bool SparkParticleEffect::EndLoad()
 {
-    if(loadedSystem_)
+    if(!loadedSystem_)
     {
-        // create manually renderer
-        // TODO: remove here and implement renderer serialization in spark
-
-        ResourceCache* cache = GetSubsystem<ResourceCache>();
-        Material* material = cache->GetResource<Material>("Materials/Particle.xml");
-
-        for (size_t i=0; i < loadedSystem_->getNbGroups(); ++i)
-        {
-            SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> quadRenderer = SPK::URHO::IUrho3DQuadRenderer::create(context_);
-            quadRenderer->setBlendMode(SPK::BLEND_MODE_ADD);
-            quadRenderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
-            //quadRenderer->setTexture(driver->getTexture("res\\flare.bmp"));
-            quadRenderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
-            quadRenderer->setScale(0.25f, 0.25f);
-            quadRenderer->setMaterial(material);
-
-            loadedSystem_->getGroup(i)->setRenderer(quadRenderer);
-        }
+       return false;
     }
 
     return true;
@@ -64,7 +50,7 @@ bool SparkParticleEffect::EndLoad()
 bool SparkParticleEffect::BeginLoadSPK(Deserializer& source)
 {
     String filename = source.GetName();
-    filename.Insert(0, "Data//");
+    filename.Insert(0, "Data/");
     loadedSystem_ = SPK::IO::IOManager::get().load(filename.CString());
 
     if(!loadedSystem_)

@@ -58,7 +58,7 @@ CONFIG(debug,debug|release) {
 CONFIG(debug,debug|release) {
     #debug
     DEFINES +=  \
-        #SPK_NO_XML \
+        SPK_NO_XML \
         _DEBUG
 
 } else {
@@ -242,7 +242,8 @@ SOURCES += \
     src/Rendering/Urho3D/SPK_Urho3D_QuadRenderer.cpp \
     src/Rendering/Urho3D/SPK_Urho3D_Renderer.cpp \
     src/Rendering/Urho3D/UrhoSparkSystem.cpp \
-    src/Rendering/Urho3D/SparkParticleEffect.cpp
+    src/Rendering/Urho3D/SparkParticleEffect.cpp \
+    src/Rendering/Urho3D/SPK_Urho3D_DEF.cpp
 
 
 
