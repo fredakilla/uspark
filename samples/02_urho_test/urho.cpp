@@ -20,6 +20,7 @@ public:
     {
         UrhoSparkSystem::RegisterObject(context);
         context_->RegisterFactory<UrhoSparkSystem>();
+        context_->RegisterFactory<SparkParticleEffect>();
 
         _drawDebug = false;
     }
@@ -50,12 +51,29 @@ public:
         spkSystem->SetSystem(_systemCopy);
         spkSystemNode->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 
+
+        // test load spark from file
+        {
+            Node* node = _scene->CreateChild();
+            node->SetPosition(Vector3(-1,0,0));
+
+            UrhoSparkSystem * sparkParticle = node->CreateComponent<UrhoSparkSystem>();
+            //sparkParticle->SetSystem(cache->GetResource<SparkParticleEffect>("SparkParticle/test.spk"));
+
+            SparkParticleEffect* sparkEffect = cache->GetResource<SparkParticleEffect>("SparkParticle/test.spk");
+            sparkParticle->SetSystem(sparkEffect->GetSystem());
+        }
+
+
+
+
         // Create a plane with a "stone" material.
         Node* planeNode = _scene->CreateChild("Plane");
         planeNode->SetScale(Vector3(10, 1.0f, 10));
         StaticModel* planeObject = planeNode->CreateComponent<StaticModel>();
         planeObject->SetModel(cache->GetResource<Model>("Models/Plane.mdl"));
         planeObject->SetMaterial(cache->GetResource<Material>("Materials/StoneTiled.xml"));
+
 
         // Create a text for stats.
         _textInfo = new Text(context_);

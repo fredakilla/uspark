@@ -259,4 +259,39 @@ void IUrho3DQuadRenderer::renderAtlasRot(const Particle& particle,IUrho3DBuffer&
     _v1 = textureAtlasV1();
 }
 
+void IUrho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
+{
+    Renderer::innerImport(descriptor);
+
+    ResourceCache* cache = _context->GetSubsystem<ResourceCache>();
+
+    Material * material = nullptr;
+
+    const IO::Attribute* attrib = NULL;
+
+    if (attrib = descriptor.getAttributeWithValue("material"))
+    {
+        std::string materialName = attrib->getValue<std::string>();
+        Material * material = cache->GetResource<Material>(materialName.c_str());
+        setMaterial(material);
+    }
+
+    if(material)
+    if (attrib = descriptor.getAttributeWithValue("texture"))
+    {
+        std::string textureName = attrib->getValue<std::string>();
+        Texture * texture = cache->GetResource<Texture>(textureName.c_str());
+        material->SetTexture(TU_DIFFUSE, texture);
+    }
+}
+
+void IUrho3DQuadRenderer::innerExport(IO::Descriptor& descriptor) const
+{
+    Renderer::innerExport(descriptor);
+    descriptor.getAttribute("material")->setValue<std::string>(getMaterial()->GetName().CString());
+    descriptor.getAttribute("texture")->setValue<std::string>(getMaterial()->GetTexture(TU_DIFFUSE)->GetName().CString());
+}
+
+
+
 }}

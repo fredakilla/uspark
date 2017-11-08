@@ -17,9 +17,20 @@ class SPK_URHO_PREFIX IUrho3DQuadRenderer :
 {
     SPK_IMPLEMENT_OBJECT(IUrho3DQuadRenderer)
 
+    SPK_START_DESCRIPTION
+    SPK_PARENT_ATTRIBUTES(Renderer)
+    SPK_ATTRIBUTE("material",ATTRIBUTE_TYPE_STRING)
+    SPK_ATTRIBUTE("texture",ATTRIBUTE_TYPE_STRING)
+    SPK_END_DESCRIPTION
+
 public:
 
     static Ref<IUrho3DQuadRenderer> create(Urho3D::Context* context, float scaleX = 1.0f,float scaleY = 1.0f);
+
+
+protected:
+    virtual void innerImport(const IO::Descriptor& descriptor);
+    virtual void innerExport(IO::Descriptor& descriptor) const;
 
 private:
 

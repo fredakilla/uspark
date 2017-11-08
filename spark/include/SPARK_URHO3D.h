@@ -15,6 +15,7 @@
 #include "Rendering/Urho3D/SPK_Urho3D_QuadRenderer.h"
 
 // System
+#include "Rendering/Urho3D/SparkParticleEffect.h"
 #include "Rendering/Urho3D/UrhoSparkSystem.h"
 
 #endif
