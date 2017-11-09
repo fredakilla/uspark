@@ -7,7 +7,7 @@ namespace Urho3D
 SparkParticleEffect::SparkParticleEffect(Context* context) :
     Resource(context)
 {
-    loadedSystem_ = 0;
+    loadedSystem_.reset();
 }
 
 SparkParticleEffect::~SparkParticleEffect()
@@ -46,17 +46,57 @@ bool SparkParticleEffect::EndLoad()
     return true;
 }
 
-
 bool SparkParticleEffect::BeginLoadSPK(Deserializer& source)
 {
-    String filename = source.GetName();
-    filename.Insert(0, "Data/");
-    loadedSystem_ = SPK::IO::IOManager::get().load(filename.CString());
-
-    if(!loadedSystem_)
+    // Check ID
+    String fileID = source.ReadFileID();
+    if (fileID != "SPK")
+    {
+        URHO3D_LOGERROR(source.GetName() + " is not a valid spk file");
         return false;
+    }   
 
-    return true;
+    // Get relative file path prefixed wuth resource dir or empty if not exists
+    String fixedPath = GetFixedPath();
+
+    // if file exists, load file from spk IO
+    if(fixedPath != String::EMPTY)
+    {
+        loadedSystem_ = SPK::IO::IOManager::get().load(fixedPath.CString());
+
+        if(loadedSystem_)
+            return true;
+    }
+
+    return false;
+}
+
+String SparkParticleEffect::GetFixedPath()
+{
+    ResourceCache* cache = GetSubsystem<ResourceCache>();
+
+    for(unsigned i=0; i<cache->GetResourceDirs().Size(); ++i)
+    {
+        String dir = cache->GetResourceDirs()[i];
+        String path = dir + GetName();
+
+        if(GetSubsystem<FileSystem>()->FileExists(path))
+        {
+            return path;
+        }
+    }
+
+    return String::EMPTY;
+}
+
+bool SparkParticleEffect::Save(const String& filename) const
+{
+    if(loadedSystem_)
+    {
+        return SPK::IO::IOManager::get().save(filename.CString(), loadedSystem_);
+    }
+
+    return false;
 }
 
 const SPK::Ref<SPK::System> SparkParticleEffect::GetSystem() const

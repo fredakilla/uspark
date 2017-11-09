@@ -61,6 +61,9 @@ public:
 
             SparkParticleEffect* sparkEffect = cache->GetResource<SparkParticleEffect>("SparkParticle/test.spk");
             sparkParticle->SetSystem(sparkEffect->GetSystem());
+
+            sparkEffect->Save("Data/SparkParticle/test_copy.spk");
+
         }
 
 
