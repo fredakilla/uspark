@@ -27,12 +27,22 @@ bool SparkParticleEffect::BeginLoad(Deserializer& source)
     String extension = GetExtension(source.GetName());
 
     bool success = false;
+
     if (extension == ".spk")
     {
-        success = BeginLoadSPK(source);
-        if (success)
-            return true;
+        // Check ID
+        String fileID = source.ReadFileID();
+        if (fileID != "SPK")
+        {
+            URHO3D_LOGERROR(source.GetName() + " is not a valid spk file");
+            return false;
+        }
     }
+
+    success = BeginLoadSPK(source);
+    if (success)
+        return true;
+
     return false;
 }
 
@@ -48,18 +58,10 @@ bool SparkParticleEffect::EndLoad()
 
 bool SparkParticleEffect::BeginLoadSPK(Deserializer& source)
 {
-    // Check ID
-    String fileID = source.ReadFileID();
-    if (fileID != "SPK")
-    {
-        URHO3D_LOGERROR(source.GetName() + " is not a valid spk file");
-        return false;
-    }   
-
     // Get relative file path prefixed wuth resource dir or empty if not exists
     String fixedPath = GetFixedPath();
 
-    // if file exists, load file from spk IO
+    // if file exists, load file from spark IO
     if(fixedPath != String::EMPTY)
     {
         loadedSystem_ = SPK::IO::IOManager::get().load(fixedPath.CString());
