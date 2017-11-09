@@ -19,7 +19,7 @@
 // 3. This notice may not be removed or altered from any source distribution.	//
 //////////////////////////////////////////////////////////////////////////////////
 
-#ifndef SPK_NO_XML
+#ifdef SPK_WITH_XML
 
 #include <ctime>
 

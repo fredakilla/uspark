@@ -147,7 +147,7 @@ namespace IO
 		registerLoader("spk",SPK_NEW(SPKLoader));
 		registerSaver("spk",SPK_NEW(SPKSaver));
 
-#ifndef SPK_NO_XML
+#ifdef SPK_WITH_XML
 		// XML converters
 		registerLoader("xml",SPK_NEW(XMLLoader));
 		registerSaver("xml",SPK_NEW(XMLSaver));
