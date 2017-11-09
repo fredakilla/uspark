@@ -58,6 +58,7 @@ CONFIG(debug,debug|release) {
 CONFIG(debug,debug|release) {
     #message( debug )
     DEFINES += \
+        SPK_WITH_XML
 
 } else {
     DEFINES += \

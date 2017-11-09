@@ -23,7 +23,7 @@
 
 #include <ctime>
 
-#include <pugixml.hpp>
+#include <../external/pugixml/src/pugixml.hpp>
 
 #include <SPARK_Core.h>
 #include "Extensions/IOConverters/SPK_IO_XMLLoader.h"

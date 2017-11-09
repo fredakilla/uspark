@@ -25,7 +25,7 @@
 
 //#define TIXML_USE_STL
 //#include <tinyxml.h>
-#include <pugixml.hpp>
+#include <../external/pugixml/src/pugixml.hpp>
 
 #include <SPARK_Core.h>
 #include "Extensions/IOConverters/SPK_IO_XMLSaver.h"
