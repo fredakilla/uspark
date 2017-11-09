@@ -29,12 +29,12 @@ namespace SPK
 {
 namespace IO
 {
-	Ref<System> Loader::load(std::istream& is) const
+    Ref<System> Loader::load(std::istream& is,const std::string& path) const
 	{
 		clock_t startTime = std::clock();
 
 		Graph graph;
-		if (innerLoad(is,graph))
+        if (innerLoad(is,graph,path))
 		{
 			const Ref<System>& system = graph.finalize();
 			unsigned int loadTime = static_cast<unsigned int>(((std::clock() - startTime) * 1000) / CLOCKS_PER_SEC);
@@ -53,7 +53,7 @@ namespace IO
 		std::ifstream is(path.c_str(),std::ios::in | std::ios::binary);
 		if (is)
 		{
-			Ref<System> system = load(is);
+            Ref<System> system = load(is,path);
 			is.close();
 			return system;
 		}

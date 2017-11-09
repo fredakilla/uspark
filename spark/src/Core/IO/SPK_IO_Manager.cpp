@@ -75,7 +75,7 @@ namespace IO
 			return SPK_NULL_REF;
 		}
 		
-		return loader->load(is);
+        return loader->load(is);
 	}
 
 	bool IOManager::save(const std::string& path,const Ref<System>& system) const

@@ -32,10 +32,11 @@ namespace SPK
 {
 namespace IO
 {
-	bool XMLLoader::innerLoad(std::istream& is,Graph& graph) const
+    bool XMLLoader::innerLoad(std::istream& is,Graph& graph,const std::string& path) const
 	{
 		pugi::xml_document doc;
-		pugi::xml_parse_result result = doc.load(is);
+        //pugi::xml_parse_result result = doc.doc.load(is);
+        pugi::xml_parse_result result = doc.load_file(path.c_str());
 
 		if (!result)
 		{

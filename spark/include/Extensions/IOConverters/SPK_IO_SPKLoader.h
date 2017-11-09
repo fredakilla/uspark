@@ -37,7 +37,7 @@ namespace IO
 		static const size_t DATA_LENGTH_OFFSET;
 		static const size_t HEADER_LENGTH;
 
-		virtual bool innerLoad(std::istream& is,Graph& graph) const;
+        virtual bool innerLoad(std::istream& is,Graph& graph,const std::string& path=0) const;
 
 		bool readObject(Node& node,const Graph& graph,const IOBuffer& data) const;
 		bool readAttribute(Attribute& attrib,const Graph& graph,const IOBuffer& data) const;
