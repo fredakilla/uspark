@@ -156,7 +156,7 @@ public:
         engineParameters_["ResourcePaths"] = "Data;CoreData;res";
 
         context_->RegisterFactory<FxMover>();
-        context_->RegisterFactory<UrhoSparkSystem>();
+        context_->RegisterFactory<SparkParticle>();
         context_->RegisterFactory<SpkEmitterController>();
         context_->RegisterFactory<SpkGroupController>();
     }
@@ -330,7 +330,7 @@ public:
         // create a spark particle node and component
         Node* spkSystemNode = _scene->CreateChild("SparkSystem");
         spkSystemNode->SetPosition(Vector3(3.0f, 2.0f, 30.0f));
-        UrhoSparkSystem* spkSystem = spkSystemNode->CreateComponent<UrhoSparkSystem>();
+        SparkParticle* spkSystem = spkSystemNode->CreateComponent<SparkParticle>();
         spkSystem->SetSystem(systemCopy);
 
         // create an emitter controller to control emitter 0 from group 0
@@ -368,7 +368,7 @@ public:
 
             // add a spark particle component
             SPK::Ref<SPK::System> systemCopy = SPK::SPKObject::copy(_sparkSystem);
-            UrhoSparkSystem* spkSystem = _mushroomNodes[i]->CreateComponent<UrhoSparkSystem>();
+            SparkParticle* spkSystem = _mushroomNodes[i]->CreateComponent<SparkParticle>();
             spkSystem->SetSystem(systemCopy);
 
 
@@ -500,8 +500,8 @@ public:
             // count particles in scene
             unsigned totalParticlesCount = 0;
             unsigned totalSparkSystem = 0;
-            PODVector<UrhoSparkSystem*> dest;
-            _scene->GetComponents<UrhoSparkSystem>(dest, true);
+            PODVector<SparkParticle*> dest;
+            _scene->GetComponents<SparkParticle>(dest, true);
             for(unsigned i=0; i<dest.Size(); ++i)
             {
                 if(dest[i]->IsInView())
@@ -578,7 +578,7 @@ public:
             //emitter->SetEffect(cache->GetResource<ParticleEffect>("Particle/Fire.xml"));
 
             // add spark particle to projectile
-            UrhoSparkSystem* spksystem3 = projectile->CreateComponent<UrhoSparkSystem>();
+            SparkParticle* spksystem3 = projectile->CreateComponent<SparkParticle>();
             spksystem3->SetSystem(SPK::SPKObject::copy(_sparkSystem));
 
             // add mover logic component

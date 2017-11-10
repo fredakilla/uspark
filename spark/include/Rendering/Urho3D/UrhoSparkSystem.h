@@ -9,15 +9,15 @@ namespace Urho3D {
 #include "../Graphics/Drawable.h"
 
 /// Drawable component that draw a spark particle system.
-class URHO3D_API UrhoSparkSystem : public Drawable
+class URHO3D_API SparkParticle : public Drawable
 {
-    URHO3D_OBJECT(UrhoSparkSystem, Drawable);
+    URHO3D_OBJECT(SparkParticle, Drawable);
 
 public:
     /// Construct.
-    UrhoSparkSystem(Context* context);
+    SparkParticle(Context* context);
     /// Destruct.
-    virtual ~UrhoSparkSystem() override;
+    virtual ~SparkParticle() override;
     /// Register object factory.
     static void RegisterObject(Context* context);
     /// Process octree raycast. May be called from a worker thread.

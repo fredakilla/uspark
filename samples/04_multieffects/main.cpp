@@ -23,7 +23,7 @@ public:
 
     MyApp(Context * context) : Application(context)
     {
-        context_->RegisterFactory<UrhoSparkSystem>();
+        context_->RegisterFactory<SparkParticle>();
 
         _drawDebug = false;
         _xalign = 0;
@@ -155,7 +155,7 @@ public:
 
 
         Node* spkSystemNode = _scene->CreateChild("SparkEffect");
-        UrhoSparkSystem* spkSystem = spkSystemNode->CreateComponent<UrhoSparkSystem>();
+        SparkParticle* spkSystem = spkSystemNode->CreateComponent<SparkParticle>();
         spkSystem->SetSystem(system_);
         spkSystemNode->SetPosition(Vector3(-3.0f, 0.0f, 0.0f));
 
@@ -238,7 +238,7 @@ public:
 
 
         Node* spkSystemNode = _scene->CreateChild("SparkEffect");
-        UrhoSparkSystem* spkSystem = spkSystemNode->CreateComponent<UrhoSparkSystem>();
+        SparkParticle* spkSystem = spkSystemNode->CreateComponent<SparkParticle>();
         spkSystem->SetSystem(particleSystem);
         spkSystemNode->SetPosition(Vector3(0.0f, 1.0f, 0.0f));
 
@@ -326,7 +326,7 @@ public:
 
 
         Node* spkSystemNode = _scene->CreateChild("SparkEffect");
-        UrhoSparkSystem* spkSystem = spkSystemNode->CreateComponent<UrhoSparkSystem>();
+        SparkParticle* spkSystem = spkSystemNode->CreateComponent<SparkParticle>();
         spkSystem->SetSystem(particleSystem);
 
     }

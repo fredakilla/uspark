@@ -20,8 +20,8 @@ public:
 
     MyApp(Context * context) : Application(context)
     {
-        UrhoSparkSystem::RegisterObject(context);
-        context_->RegisterFactory<UrhoSparkSystem>();
+        SparkParticle::RegisterObject(context);
+        context_->RegisterFactory<SparkParticle>();
 
         _drawDebug = false;
     }
@@ -155,7 +155,7 @@ public:
 
         // create spark particle component
         Node* spkSystemNode = _scene->CreateChild("SparkSystem");
-        UrhoSparkSystem* spkSystem = spkSystemNode->CreateComponent<UrhoSparkSystem>();
+        SparkParticle* spkSystem = spkSystemNode->CreateComponent<SparkParticle>();
         spkSystem->SetSystem(_systemCopy);
         spkSystemNode->SetPosition(Vector3(-2.0f, 0.0f, 0.0f));
     }
@@ -221,7 +221,7 @@ public:
 
         // create spark particle component
         Node* spkSystemNode = _scene->CreateChild("SparkSystem");
-        UrhoSparkSystem* spkSystem = spkSystemNode->CreateComponent<UrhoSparkSystem>();
+        SparkParticle* spkSystem = spkSystemNode->CreateComponent<SparkParticle>();
         spkSystem->SetSystem(_systemCopy);
         spkSystemNode->SetPosition(Vector3(0.0f, 1.0f, -1.0f));
     }
@@ -477,7 +477,7 @@ public:
 
         // create spark particle component
         Node* spkSystemNode = _scene->CreateChild("Explosion");
-        UrhoSparkSystem* spkSystem = spkSystemNode->CreateComponent<UrhoSparkSystem>();
+        SparkParticle* spkSystem = spkSystemNode->CreateComponent<SparkParticle>();
         spkSystem->SetSystem(effectExplosionCopy);
         spkSystemNode->SetPosition(pos);
     }

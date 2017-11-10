@@ -19,7 +19,7 @@ public:
     MyApp(Context * context) : Application(context)
     {        
         SparkParticleEffect::RegisterObject(context_);
-        UrhoSparkSystem::RegisterObject(context_);
+        SparkParticle::RegisterObject(context_);
 
         _drawDebug = false;
     }
@@ -46,7 +46,7 @@ public:
 
          // create spark particle component
         Node* spkSystemNode = _scene->CreateChild("SparkSystem");
-        UrhoSparkSystem* spkSystem = spkSystemNode->CreateComponent<UrhoSparkSystem>();
+        SparkParticle* spkSystem = spkSystemNode->CreateComponent<SparkParticle>();
         spkSystem->SetSystem(_systemCopy);
         spkSystemNode->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 
@@ -56,7 +56,7 @@ public:
             Node* node = _scene->CreateChild();
             node->SetPosition(Vector3(-1,0,0));
 
-            UrhoSparkSystem * sparkParticle = node->CreateComponent<UrhoSparkSystem>();
+            SparkParticle * sparkParticle = node->CreateComponent<SparkParticle>();
             //sparkParticle->SetSystem(cache->GetResource<SparkParticleEffect>("SparkParticle/test.spk"));
 
             SparkParticleEffect* sparkEffect = cache->GetResource<SparkParticleEffect>("SparkParticle/test.spk");

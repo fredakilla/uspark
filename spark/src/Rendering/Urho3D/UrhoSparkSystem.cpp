@@ -18,7 +18,7 @@ namespace Urho3D
 
 extern const char* GEOMETRY_CATEGORY;
 
-UrhoSparkSystem::UrhoSparkSystem(Context* context) :
+SparkParticle::SparkParticle(Context* context) :
     Drawable(context, DRAWABLE_GEOMETRY),
     animationLodBias_(1.0f),
     animationLodTimer_(0.0f),
@@ -34,20 +34,20 @@ UrhoSparkSystem::UrhoSparkSystem(Context* context) :
 {
 }
 
-UrhoSparkSystem::~UrhoSparkSystem()
+SparkParticle::~SparkParticle()
 {
 }
 
-void UrhoSparkSystem::RegisterObject(Context* context)
+void SparkParticle::RegisterObject(Context* context)
 {
-    context->RegisterFactory<UrhoSparkSystem>(GEOMETRY_CATEGORY);
+    context->RegisterFactory<SparkParticle>(GEOMETRY_CATEGORY);
 
     URHO3D_ACCESSOR_ATTRIBUTE("Is Enabled", IsEnabled, SetEnabled, bool, true, AM_DEFAULT);
     URHO3D_COPY_BASE_ATTRIBUTES(Drawable);   
     URHO3D_ACCESSOR_ATTRIBUTE("Update Invisible", GetUpdateInvisible, SetUpdateInvisible, bool, false, AM_DEFAULT);   
 }
 
-void UrhoSparkSystem::ProcessRayQuery(const RayOctreeQuery& query, PODVector<RayQueryResult>& results)
+void SparkParticle::ProcessRayQuery(const RayOctreeQuery& query, PODVector<RayQueryResult>& results)
 {
     // If no particles-level testing, use the Drawable test
     if (query.level_ < RAY_TRIANGLE)
@@ -64,7 +64,7 @@ void UrhoSparkSystem::ProcessRayQuery(const RayOctreeQuery& query, PODVector<Ray
     // TODO
 }
 
-void UrhoSparkSystem::HandleScenePostUpdate(StringHash eventType, VariantMap& eventData)
+void SparkParticle::HandleScenePostUpdate(StringHash eventType, VariantMap& eventData)
 {
     using namespace ScenePostUpdate;
     lastTimeStep_ = eventData[P_TIMESTEP].GetFloat();
@@ -81,7 +81,7 @@ void UrhoSparkSystem::HandleScenePostUpdate(StringHash eventType, VariantMap& ev
     }
 }
 
-void UrhoSparkSystem::Update(const FrameInfo &frame)
+void SparkParticle::Update(const FrameInfo &frame)
 {
     Drawable::Update(frame);
 
@@ -93,7 +93,7 @@ void UrhoSparkSystem::Update(const FrameInfo &frame)
     needUpdate_ = false;
 }
 
-void UrhoSparkSystem::UpdateParticles()
+void SparkParticle::UpdateParticles()
 {
     if(_system)
     {
@@ -108,7 +108,7 @@ void UrhoSparkSystem::UpdateParticles()
     }
 }
 
-void UrhoSparkSystem::UpdateBatches(const FrameInfo& frame)
+void SparkParticle::UpdateBatches(const FrameInfo& frame)
 {
     // Update information for renderer about this drawable
     const BoundingBox& worldBoundingBox = GetWorldBoundingBox();
@@ -137,7 +137,7 @@ void UrhoSparkSystem::UpdateBatches(const FrameInfo& frame)
     }
 }
 
-void UrhoSparkSystem::UpdateGeometry(const FrameInfo& frame)
+void SparkParticle::UpdateGeometry(const FrameInfo& frame)
 {
     if (bufferSizeDirty_)
         UpdateBufferSize();
@@ -146,7 +146,7 @@ void UrhoSparkSystem::UpdateGeometry(const FrameInfo& frame)
         UpdateVertexBuffer(frame);
 }
 
-UpdateGeometryType UrhoSparkSystem::GetUpdateGeometryType()
+UpdateGeometryType SparkParticle::GetUpdateGeometryType()
 {
     if (bufferDirty_ || bufferSizeDirty_)
         return UPDATE_MAIN_THREAD;
@@ -154,7 +154,7 @@ UpdateGeometryType UrhoSparkSystem::GetUpdateGeometryType()
         return UPDATE_NONE;
 }
 
-void UrhoSparkSystem::OnWorldBoundingBoxUpdate()
+void SparkParticle::OnWorldBoundingBoxUpdate()
 {
     BoundingBox worldBox;
 
@@ -169,7 +169,7 @@ void UrhoSparkSystem::OnWorldBoundingBoxUpdate()
     worldBoundingBox_ = worldBox;  
 }
 
-void UrhoSparkSystem::UpdateBufferSize()
+void SparkParticle::UpdateBufferSize()
 {
     // resize index buffer and vertex buffer
     // set index buffer
@@ -179,7 +179,7 @@ void UrhoSparkSystem::UpdateBufferSize()
     forceUpdate_ = true;
 }
 
-void UrhoSparkSystem::UpdateVertexBuffer(const FrameInfo& frame)
+void SparkParticle::UpdateVertexBuffer(const FrameInfo& frame)
 {
     // set vertex buffer
 
@@ -220,29 +220,29 @@ void UrhoSparkSystem::UpdateVertexBuffer(const FrameInfo& frame)
     forceUpdate_ = false;
 }
 
-void UrhoSparkSystem::Commit()
+void SparkParticle::Commit()
 {
     MarkPositionsDirty();
     MarkNetworkUpdate();
 }
 
-void UrhoSparkSystem::MarkPositionsDirty()
+void SparkParticle::MarkPositionsDirty()
 {
     Drawable::OnMarkedDirty(node_);
     bufferDirty_ = true;
 }
 
-void UrhoSparkSystem::OnSceneSet(Scene* scene)
+void SparkParticle::OnSceneSet(Scene* scene)
 {
     Drawable::OnSceneSet(scene);
 
     if (scene && IsEnabledEffective())
-        SubscribeToEvent(scene, E_SCENEPOSTUPDATE, URHO3D_HANDLER(UrhoSparkSystem, HandleScenePostUpdate));
+        SubscribeToEvent(scene, E_SCENEPOSTUPDATE, URHO3D_HANDLER(SparkParticle, HandleScenePostUpdate));
     else if (!scene)
          UnsubscribeFromEvent(E_SCENEPOSTUPDATE);
 }
 
-void UrhoSparkSystem::OnSetEnabled()
+void SparkParticle::OnSetEnabled()
 {
     Drawable::OnSetEnabled();
 
@@ -250,19 +250,19 @@ void UrhoSparkSystem::OnSetEnabled()
     if (scene)
     {
         if (IsEnabledEffective())
-            SubscribeToEvent(scene, E_SCENEPOSTUPDATE, URHO3D_HANDLER(UrhoSparkSystem, HandleScenePostUpdate));
+            SubscribeToEvent(scene, E_SCENEPOSTUPDATE, URHO3D_HANDLER(SparkParticle, HandleScenePostUpdate));
         else
             UnsubscribeFromEvent(scene, E_SCENEPOSTUPDATE);
     }
 }
 
-void UrhoSparkSystem::SetUpdateInvisible(bool enable)
+void SparkParticle::SetUpdateInvisible(bool enable)
 {
     updateInvisible_ = enable;
     MarkNetworkUpdate();
 }
 
-void UrhoSparkSystem::SetSystem(SPK::Ref<SPK::System> system)
+void SparkParticle::SetSystem(SPK::Ref<SPK::System> system)
 {
     _system = SPK::SPKObject::copy(system);
     //_system = system;
