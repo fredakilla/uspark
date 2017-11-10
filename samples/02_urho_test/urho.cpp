@@ -131,7 +131,7 @@ public:
         system_->setName("Test System");
 
         // Renderer
-        SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> renderer = SPK::URHO::IUrho3DQuadRenderer::create(context_);
+        SPK::Ref<SPK::URHO::Urho3DQuadRenderer> renderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         renderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
         //renderer->setTexture(textureParticle);
         renderer->setBlendMode(SPK::BLEND_MODE_ADD);

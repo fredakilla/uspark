@@ -20,7 +20,7 @@ namespace URHO {
     void Urho3DContext::registerObjects()
     {
         // Urho3D Quad Renderer
-        SPK::IO::IOManager::get().registerObject<SPK::URHO::IUrho3DQuadRenderer>();
+        SPK::IO::IOManager::get().registerObject<SPK::URHO::Urho3DQuadRenderer>();
     }
 
     void Urho3DContext::registerUrhoContext(Urho3D::Context* context)

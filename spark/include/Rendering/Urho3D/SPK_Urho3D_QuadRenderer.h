@@ -10,12 +10,12 @@
 namespace SPK {
 namespace URHO {
 
-class SPK_URHO_PREFIX IUrho3DQuadRenderer :
+class SPK_URHO_PREFIX Urho3DQuadRenderer :
         public IUrho3DRenderer,
         public QuadRenderBehavior,
         public Oriented3DRenderBehavior
 {
-    SPK_IMPLEMENT_OBJECT(IUrho3DQuadRenderer)
+    SPK_IMPLEMENT_OBJECT(Urho3DQuadRenderer)
 
     SPK_START_DESCRIPTION
     SPK_PARENT_ATTRIBUTES(Renderer)
@@ -26,7 +26,7 @@ class SPK_URHO_PREFIX IUrho3DQuadRenderer :
 
 public:
 
-    static Ref<IUrho3DQuadRenderer> create(Urho3D::Context* context, float scaleX = 1.0f,float scaleY = 1.0f);
+    static Ref<Urho3DQuadRenderer> create(Urho3D::Context* context, float scaleX = 1.0f,float scaleY = 1.0f);
 
 
 protected:
@@ -40,14 +40,14 @@ private:
     mutable float _u0, _u1, _v0, _v1;
     PODVector<VertexElement> _elements;
 
-    IUrho3DQuadRenderer(Urho3D::Context* context = nullptr, float scaleX = 1.0f,float scaleY = 1.0f);
-    IUrho3DQuadRenderer(const IUrho3DQuadRenderer& renderer);
+    Urho3DQuadRenderer(Urho3D::Context* context = nullptr, float scaleX = 1.0f,float scaleY = 1.0f);
+    Urho3DQuadRenderer(const Urho3DQuadRenderer& renderer);
 
     virtual RenderBuffer* attachRenderBuffer(const Group& group) const override;
     virtual void render(const Group& group,const DataSet* dataSet,RenderBuffer* renderBuffer) const override;
     virtual void computeAABB(Vector3D& AABBMin,Vector3D& AABBMax,const Group& group,const DataSet* dataSet) const override;
 
-    mutable void (IUrho3DQuadRenderer::*renderParticle)(const Particle&, IUrho3DBuffer& renderBuffer) const;	// pointer to the right render method
+    mutable void (Urho3DQuadRenderer::*renderParticle)(const Particle&, IUrho3DBuffer& renderBuffer) const;	// pointer to the right render method
 
     void renderBasic(const Particle& particle,IUrho3DBuffer& renderBuffer) const;		// Rendering for particles with texture or no texture
     void renderRot(const Particle& particle,IUrho3DBuffer& renderBuffer) const;         // Rendering for particles with texture or no texture and rotation
@@ -56,9 +56,9 @@ private:
 };
 
 
-inline Ref<IUrho3DQuadRenderer> IUrho3DQuadRenderer::create(Urho3D::Context* context, float scaleX, float scaleY)
+inline Ref<Urho3DQuadRenderer> Urho3DQuadRenderer::create(Urho3D::Context* context, float scaleX, float scaleY)
 {
-    return SPK_NEW(IUrho3DQuadRenderer, context, scaleX, scaleY);
+    return SPK_NEW(Urho3DQuadRenderer, context, scaleX, scaleY);
 }
 
 

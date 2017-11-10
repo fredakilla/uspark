@@ -205,7 +205,7 @@ public:
         _sparkSystem->setName("SparkSystem");
 
         // 1st Renderer
-        SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> quadRenderer = SPK::URHO::IUrho3DQuadRenderer::create(context_);
+        SPK::Ref<SPK::URHO::Urho3DQuadRenderer> quadRenderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         quadRenderer->setBlendMode(SPK::BLEND_MODE_ADD);
         quadRenderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
         //quadRenderer->setTexture(driver->getTexture("res\\flare.bmp"));
@@ -262,7 +262,7 @@ public:
 
 
         // 2nd Renderer
-        SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> quadRenderer2 = SPK::URHO::IUrho3DQuadRenderer::create(context_);
+        SPK::Ref<SPK::URHO::Urho3DQuadRenderer> quadRenderer2 = SPK::URHO::Urho3DQuadRenderer::create(context_);
         quadRenderer2->setBlendMode(SPK::BLEND_MODE_ADD);
         quadRenderer2->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
         //quadRenderer->setTexture(driver->getTexture("res\\flare.bmp"));

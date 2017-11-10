@@ -111,7 +111,7 @@ public:
         system_->setName("Test System");
 
         // Renderer
-        SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> renderer = SPK::URHO::IUrho3DQuadRenderer::create(context_);
+        SPK::Ref<SPK::URHO::Urho3DQuadRenderer> renderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         renderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
         //renderer->setTexture(textureParticle);
         renderer->setBlendMode(SPK::BLEND_MODE_ADD);
@@ -184,7 +184,7 @@ public:
         system_->setName("Test System");
 
         // Renderer
-        SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> renderer = SPK::URHO::IUrho3DQuadRenderer::create(context_);
+        SPK::Ref<SPK::URHO::Urho3DQuadRenderer> renderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         renderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
         //renderer->setTexture(textureParticle);
         renderer->setBlendMode(SPK::BLEND_MODE_ADD);
@@ -257,7 +257,7 @@ public:
         ///////////////
 
         // smoke renderer
-        SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> smokeRenderer = SPK::URHO::IUrho3DQuadRenderer::create(context_);
+        SPK::Ref<SPK::URHO::Urho3DQuadRenderer> smokeRenderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         smokeRenderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
         smokeRenderer->setMaterial(textureExplosion);
         smokeRenderer->setAtlasDimensions(2,2); // uses 4 different patterns in the texture
@@ -266,7 +266,7 @@ public:
         smokeRenderer->setShared(true);
 
         // flame renderer
-        SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> flameRenderer = SPK::URHO::IUrho3DQuadRenderer::create(context_);
+        SPK::Ref<SPK::URHO::Urho3DQuadRenderer> flameRenderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         flameRenderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
         flameRenderer->setMaterial(textureExplosion);
         flameRenderer->setAtlasDimensions(2,2);
@@ -275,7 +275,7 @@ public:
         flameRenderer->setShared(true);
 
         // flash renderer
-        SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> flashRenderer = SPK::URHO::IUrho3DQuadRenderer::create(context_);
+        SPK::Ref<SPK::URHO::Urho3DQuadRenderer> flashRenderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         flashRenderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
         flashRenderer->setMaterial(textureFlash);
         flashRenderer->setBlendMode(SPK::BLEND_MODE_ADD);
@@ -283,7 +283,7 @@ public:
         flashRenderer->setShared(true);
 
         // spark 1 renderer
-        SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> spark1Renderer = SPK::URHO::IUrho3DQuadRenderer::create(context_);
+        SPK::Ref<SPK::URHO::Urho3DQuadRenderer> spark1Renderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         spark1Renderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
         spark1Renderer->setMaterial(textureSpark1);
         spark1Renderer->setBlendMode(SPK::BLEND_MODE_ADD);
@@ -293,7 +293,7 @@ public:
         spark1Renderer->setShared(true);
 
         // spark 2 renderer
-        SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> spark2Renderer = SPK::URHO::IUrho3DQuadRenderer::create(context_);
+        SPK::Ref<SPK::URHO::Urho3DQuadRenderer> spark2Renderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         spark2Renderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
         spark2Renderer->setMaterial(textureSpark2);
         spark2Renderer->setBlendMode(SPK::BLEND_MODE_ADD);
@@ -301,7 +301,7 @@ public:
         spark2Renderer->setShared(true);
 
         // wave renderer
-        SPK::Ref<SPK::URHO::IUrho3DQuadRenderer> waveRenderer = SPK::URHO::IUrho3DQuadRenderer::create(context_);
+        SPK::Ref<SPK::URHO::Urho3DQuadRenderer> waveRenderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         waveRenderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
         waveRenderer->setMaterial(textureWave);
         waveRenderer->setBlendMode(SPK::BLEND_MODE_ALPHA);

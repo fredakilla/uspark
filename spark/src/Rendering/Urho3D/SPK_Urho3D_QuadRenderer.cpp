@@ -4,7 +4,7 @@
 namespace SPK {
 namespace URHO {
 
-IUrho3DQuadRenderer::IUrho3DQuadRenderer(Urho3D::Context* context, float scaleX, float scaleY) :
+Urho3DQuadRenderer::Urho3DQuadRenderer(Urho3D::Context* context, float scaleX, float scaleY) :
     IUrho3DRenderer(context),
     QuadRenderBehavior(scaleX,scaleY),
     Oriented3DRenderBehavior()
@@ -15,7 +15,7 @@ IUrho3DQuadRenderer::IUrho3DQuadRenderer(Urho3D::Context* context, float scaleX,
     _elements.Push(VertexElement(TYPE_VECTOR2, SEM_TEXCOORD));
 }
 
-IUrho3DQuadRenderer::IUrho3DQuadRenderer(const IUrho3DQuadRenderer &renderer) :
+Urho3DQuadRenderer::Urho3DQuadRenderer(const Urho3DQuadRenderer &renderer) :
     IUrho3DRenderer(renderer),
     QuadRenderBehavior(renderer),
     Oriented3DRenderBehavior(renderer)
@@ -27,7 +27,7 @@ IUrho3DQuadRenderer::IUrho3DQuadRenderer(const IUrho3DQuadRenderer &renderer) :
     _elements = renderer._elements;
 }
 
-RenderBuffer* IUrho3DQuadRenderer::attachRenderBuffer(const Group& group) const
+RenderBuffer* Urho3DQuadRenderer::attachRenderBuffer(const Group& group) const
 {
     // Creates the render buffer
     IUrho3DBuffer* buffer = SPK_NEW(IUrho3DBuffer,_context,group.getCapacity(),NB_VERTICES_PER_PARTICLE,NB_INDICES_PER_PARTICLE);
@@ -85,7 +85,7 @@ RenderBuffer* IUrho3DQuadRenderer::attachRenderBuffer(const Group& group) const
     return buffer;
 }
 
-void IUrho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,RenderBuffer* renderBuffer) const
+void Urho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,RenderBuffer* renderBuffer) const
 {
     SPK_ASSERT(renderBuffer != NULL,"IRRQuadRenderer::render(const Group&,const DataSet*,RenderBuffer*) - renderBuffer must not be NULL");
     IUrho3DBuffer& buffer = static_cast<IUrho3DBuffer&>(*renderBuffer);
@@ -106,16 +106,16 @@ void IUrho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,Rende
     if ((texturingMode == TEXTURE_MODE_2D)&&(group.isEnabled(PARAM_TEXTURE_INDEX)))
     {
         if (group.isEnabled(PARAM_ANGLE))
-            renderParticle = &IUrho3DQuadRenderer::renderAtlasRot;
+            renderParticle = &Urho3DQuadRenderer::renderAtlasRot;
         else
-            renderParticle = &IUrho3DQuadRenderer::renderAtlas;
+            renderParticle = &Urho3DQuadRenderer::renderAtlas;
     }
     else
     {
         if (group.isEnabled(PARAM_ANGLE))
-            renderParticle = &IUrho3DQuadRenderer::renderRot;
+            renderParticle = &Urho3DQuadRenderer::renderRot;
         else
-            renderParticle = &IUrho3DQuadRenderer::renderBasic;
+            renderParticle = &Urho3DQuadRenderer::renderBasic;
     }
 
     bool globalOrientation = precomputeOrientation3D(group,
@@ -201,7 +201,7 @@ void IUrho3DQuadRenderer::render(const Group& group,const DataSet* dataSet,Rende
     vertexBuffer->ClearDataLost();
 }
 
-void IUrho3DQuadRenderer::computeAABB(Vector3D& AABBMin,Vector3D& AABBMax,const Group& group,const DataSet* dataSet) const
+void Urho3DQuadRenderer::computeAABB(Vector3D& AABBMin,Vector3D& AABBMax,const Group& group,const DataSet* dataSet) const
 {
     float diagonal = group.getGraphicalRadius() * std::sqrt(scaleX * scaleX + scaleY * scaleY);
     Vector3D diagV(diagonal,diagonal,diagonal);
@@ -225,21 +225,21 @@ void IUrho3DQuadRenderer::computeAABB(Vector3D& AABBMin,Vector3D& AABBMax,const 
     }
 }
 
-void IUrho3DQuadRenderer::renderBasic(const Particle& particle,IUrho3DBuffer& renderBuffer) const
+void Urho3DQuadRenderer::renderBasic(const Particle& particle,IUrho3DBuffer& renderBuffer) const
 {
     scaleQuadVectors(particle,scaleX,scaleY);
     _u0 = _v0 = 0.0f;
     _u1 = _v1 = 1.0f;
 }
 
-void IUrho3DQuadRenderer::renderRot(const Particle& particle,IUrho3DBuffer& renderBuffer) const
+void Urho3DQuadRenderer::renderRot(const Particle& particle,IUrho3DBuffer& renderBuffer) const
 {
     rotateAndScaleQuadVectors(particle,scaleX,scaleY);
     _u0 = _v0 = 0.0f;
     _u1 = _v1 = 1.0f;
 }
 
-void IUrho3DQuadRenderer::renderAtlas(const Particle& particle,IUrho3DBuffer& renderBuffer) const
+void Urho3DQuadRenderer::renderAtlas(const Particle& particle,IUrho3DBuffer& renderBuffer) const
 {
     scaleQuadVectors(particle,scaleX,scaleY);
     computeAtlasCoordinates(particle);
@@ -249,7 +249,7 @@ void IUrho3DQuadRenderer::renderAtlas(const Particle& particle,IUrho3DBuffer& re
     _v1 = textureAtlasV1();
 }
 
-void IUrho3DQuadRenderer::renderAtlasRot(const Particle& particle,IUrho3DBuffer& renderBuffer) const
+void Urho3DQuadRenderer::renderAtlasRot(const Particle& particle,IUrho3DBuffer& renderBuffer) const
 {
     rotateAndScaleQuadVectors(particle,scaleX,scaleY);
     computeAtlasCoordinates(particle);
@@ -259,7 +259,7 @@ void IUrho3DQuadRenderer::renderAtlasRot(const Particle& particle,IUrho3DBuffer&
     _v1 = textureAtlasV1();
 }
 
-void IUrho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
+void Urho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
 {
     Renderer::innerImport(descriptor);
 
@@ -299,7 +299,7 @@ void IUrho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
     }
 }
 
-void IUrho3DQuadRenderer::innerExport(IO::Descriptor& descriptor) const
+void Urho3DQuadRenderer::innerExport(IO::Descriptor& descriptor) const
 {
     Renderer::innerExport(descriptor);
     descriptor.getAttribute("material")->setValue<std::string>(getMaterial()->GetName().CString());
