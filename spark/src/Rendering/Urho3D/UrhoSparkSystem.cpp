@@ -95,7 +95,7 @@ void SparkParticle::Update(const FrameInfo &frame)
 
 void SparkParticle::UpdateParticles()
 {
-    if(_system)
+    if(_system && _system->isInitialized())
     {
         // Transform spark system with node tranformation
         _system->getTransform().setNC(node_->GetWorldTransform().Data());
@@ -142,7 +142,7 @@ void SparkParticle::UpdateGeometry(const FrameInfo& frame)
     if (bufferSizeDirty_)
         UpdateBufferSize();
 
-    if (_system && bufferDirty_)
+    if (_system && _system->isInitialized() && bufferDirty_)
         UpdateVertexBuffer(frame);
 }
 
