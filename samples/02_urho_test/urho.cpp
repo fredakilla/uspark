@@ -52,7 +52,7 @@ public:
 
 
         // test load spark from file
-        /*{
+        {
             Node* node = _scene->CreateChild();
             node->SetPosition(Vector3(-1,0,0));
 
@@ -62,9 +62,9 @@ public:
             SparkParticleEffect* sparkEffect = cache->GetResource<SparkParticleEffect>("SparkParticle/test.spk");
             sparkParticle->SetSystem(sparkEffect->GetSystem());
 
-            sparkEffect->Save("Data/SparkParticle/test_copy.spk");
+            sparkEffect->Save("Data/SparkParticle/test_copy.xml");
 
-        }*/
+        }
 
 
 

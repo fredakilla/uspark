@@ -89,7 +89,7 @@ namespace IO
 			return false;
 		}
 		
-		return saver->save(path,system);
+        return saver->save(path,system,path);
 	}
 
 	bool IOManager::save(const std::string& ext,std::ostream& os,const Ref<System>& system) const

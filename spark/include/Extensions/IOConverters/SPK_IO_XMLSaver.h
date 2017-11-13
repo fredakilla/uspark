@@ -106,7 +106,7 @@ namespace IO
 		XMLLayout layout;
 		std::string author;
 
-		virtual bool innerSave(std::ostream& os,Graph& graph) const;
+        virtual bool innerSave(std::ostream& os, Graph& graph, const std::string &filepath=0) const;
 
 		bool writeNode(pugi::xml_node& parent,const Node& node,Graph& graph) const;
 		bool writeObject(pugi::xml_node& parent,const Ref<SPKObject>& object,Graph& graph,bool refInTag) const;

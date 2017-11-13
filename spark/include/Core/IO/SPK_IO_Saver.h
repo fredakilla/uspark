@@ -48,14 +48,14 @@ namespace IO
 		* @param os : the output stream to save the system to
 		* @return true if the system has been successfully saved, false if not
 		*/
-		bool save(std::ostream& os,const Ref<System>& system) const;
+        bool save(std::ostream& os, const Ref<System>& system, const std::string &filepath=0) const;
 
 		/**
 		* @brief Saves a system in a file
 		* @param path : the path of the file to save the system in
 		* @return true if the system has been successfully saved, false if not
 		*/
-		bool save(const std::string& path,const Ref<System>& system) const;
+        bool save(const std::string& path, const Ref<System>& system, const std::string &filepath=0) const;
 
 		////////////////////
 		// Nested classes //
@@ -122,7 +122,7 @@ namespace IO
 		* @param graph : the graph that contains the hierarchy of nodes to save
 		* @return true if the saving was successful, false if it failed
 		*/
-		virtual bool innerSave(std::ostream& os,Graph& graph) const = 0;
+        virtual bool innerSave(std::ostream& os,Graph& graph,const std::string& path=0) const = 0;
 
 		static void constructGraph(Graph& graph,const System* system);
 		static void constructNode(Graph& graph,const SPKObject* object,size_t level);

@@ -34,7 +34,7 @@ namespace SPK
 {
 namespace IO
 {
-	bool XMLSaver::innerSave(std::ostream& os,Graph& graph) const
+    bool XMLSaver::innerSave(std::ostream& os,Graph& graph,const std::string& filepath) const
 	{
 		pugi::xml_document doc;
 
@@ -57,7 +57,8 @@ namespace IO
 				if (!writeNode(root,*node,graph))
 					return false;
 
-		doc.save(os,layout.indent.c_str(),layout.lineBreak ? (pugi::format_default) : (pugi::format_default | pugi::format_raw));
+        //doc.save(os,layout.indent.c_str(),layout.lineBreak ? (pugi::format_default) : (pugi::format_default | pugi::format_raw));
+        doc.save_file(filepath.c_str(),layout.indent.c_str(),layout.lineBreak ? (pugi::format_default) : (pugi::format_default | pugi::format_raw));
 		return true;
 	}
 

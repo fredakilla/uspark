@@ -32,7 +32,7 @@ namespace IO
 	const size_t SPKSaver::DATA_LENGTH_OFFSET = 4;
 	const size_t SPKSaver::HEADER_LENGTH = 12;
 
-	bool SPKSaver::innerSave(std::ostream& os,Graph& graph) const
+    bool SPKSaver::innerSave(std::ostream& os, Graph& graph, const std::string &filepath) const
 	{
 		IOBuffer output(2048);	// Output buffer
 		IOBuffer buffer(256);	// buffer for objects writing

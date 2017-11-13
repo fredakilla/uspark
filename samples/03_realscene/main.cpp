@@ -247,7 +247,7 @@ public:
 
 
         // Create a new material from scratch
-        Material* mat2 = new Material(context_);
+        /*Material* mat2 = new Material(context_);
         mat2->SetNumTechniques(1);
         Technique* tec = new Technique(context_);
         Pass* pass = tec->CreatePass("alpha");
@@ -258,7 +258,7 @@ public:
         pass->SetVertexShaderDefines("VERTEXCOLOR");
         pass->SetPixelShaderDefines("DIFFMAP VERTEXCOLOR");
         mat2->SetTechnique(0, tec);
-        mat2->SetTexture(TU_DIFFUSE, cache->GetResource<Texture2D>("Textures/UrhoIcon.png"));
+        mat2->SetTexture(TU_DIFFUSE, cache->GetResource<Texture2D>("Textures/UrhoIcon.png"));*/
 
 
         // 2nd Renderer
@@ -268,7 +268,7 @@ public:
         //quadRenderer->setTexture(driver->getTexture("res\\flare.bmp"));
         quadRenderer2->setTexturingMode(SPK::TEXTURE_MODE_2D);
         quadRenderer2->setScale(0.5f, 0.5f);
-        quadRenderer2->setMaterial(mat2);
+        quadRenderer2->setMaterial(mat);
 
         // another color graph interpolator
         SPK::Ref<SPK::ColorGraphInterpolator> graphInterpolator2 = SPK::ColorGraphInterpolator::create();

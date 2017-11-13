@@ -34,7 +34,7 @@ namespace IO
 		return node0->priority < node1->priority || (node0->priority == node1->priority && node0->refID < node1->refID);
 	}
 
-	bool Saver::save(std::ostream& os,const Ref<System>& system) const
+    bool Saver::save(std::ostream& os,const Ref<System>& system,const std::string& filepath) const
 	{
 		if (!system)
 		{
@@ -46,7 +46,7 @@ namespace IO
 
 		Graph graph;
 		constructGraph(graph,system.get());
-		bool result = innerSave(os,graph);
+        bool result = innerSave(os,graph,filepath);
 
 		if (result)
 		{
@@ -60,7 +60,7 @@ namespace IO
 
 	}
 
-	bool Saver::save(const std::string& path,const Ref<System>& system) const
+    bool Saver::save(const std::string& path,const Ref<System>& system,const std::string& filepath) const
 	{
 		if (!system)
 		{
@@ -71,7 +71,7 @@ namespace IO
 		std::ofstream os(path.c_str(),std::ios::out | std::ios::binary | std::ios::trunc);
 		if (os)
 		{
-			bool success = save(os,system);
+            bool success = save(os,system,filepath);
 			os.close();
 			return success;
 		}
