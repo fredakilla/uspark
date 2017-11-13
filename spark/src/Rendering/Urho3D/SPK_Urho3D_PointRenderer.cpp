@@ -15,8 +15,6 @@ IUrho3DPointRenderer::IUrho3DPointRenderer(Urho3D::Context* context, float point
 
     _elements.Push(VertexElement(TYPE_VECTOR3, SEM_POSITION));
     _elements.Push(VertexElement(TYPE_UBYTE4_NORM, SEM_COLOR));
-
-    glPointSize(pointSize);
 }
 
 IUrho3DPointRenderer::IUrho3DPointRenderer(const IUrho3DPointRenderer &renderer) :
@@ -99,7 +97,7 @@ void IUrho3DPointRenderer::render(const Group& group,const DataSet* dataSet,Rend
     {
         const Particle& particle = *particleIt;
 
-        const Color& color = particle.getColor();
+        const unsigned& color =  particle.getColor().getABGR() ;
 
         dest[0] = particle.position().x;
         dest[1] = particle.position().y;

@@ -2,7 +2,8 @@
 # global var
 #--------------------------------------------------------------------
 
-unix:!macx: URHO3D = /home/fred/Documents/Urho3D/BUILD
+include(../config.pri)
+URHO3D = $${URHO3D_BUILD_PATH}
 
 #--------------------------------------------------------------------
 # target
@@ -60,6 +61,7 @@ CONFIG(debug,debug|release) {
     DEFINES +=  \
         _DEBUG \
         SPK_WITH_XML \
+        SPK_GL_NO_EXT
 
 } else {
     # release

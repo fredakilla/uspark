@@ -302,8 +302,9 @@ void Urho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
 void Urho3DQuadRenderer::innerExport(IO::Descriptor& descriptor) const
 {
     Renderer::innerExport(descriptor);
-    descriptor.getAttribute("material")->setValue<std::string>(getMaterial()->GetName().CString());
-    descriptor.getAttribute("texture")->setValue<std::string>(getMaterial()->GetTexture(TU_DIFFUSE)->GetName().CString());
+
+    descriptor.getAttribute("material")->setValue<std::string>(_material->GetName().CString());
+    descriptor.getAttribute("texture")->setValue<std::string>(_material->GetTexture(TU_DIFFUSE)->GetName().CString());
 
     float tmpScale[2] = {scaleX,scaleY};
     descriptor.getAttribute("scale")->setValues(tmpScale,2);

@@ -30,7 +30,9 @@ namespace SPK
 {
 namespace GL
 {
+#ifndef SPK_GL_NO_EXT
 	GLboolean* const GLQuadRenderer::SPK_GL_TEXTURE_3D_EXT = &__GLEW_EXT_texture3D;
+#endif
 
 	GLQuadRenderer::GLQuadRenderer(float scaleX,float scaleY) :
 		GLRenderer(false),

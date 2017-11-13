@@ -58,7 +58,7 @@ CONFIG(debug,debug|release) {
 CONFIG(debug,debug|release) {
     #message( debug )
     DEFINES += \
-        SPK_WITH_XML
+
 
 } else {
     DEFINES += \
@@ -77,7 +77,8 @@ INCLUDEPATH += ../../spark/include
 # check dependencies
 #--------------------------------------------------------------------
 
-PRE_TARGETDEPS += $${DESTDIR}/libspark.a
+unix:!macx: PRE_TARGETDEPS += $${DESTDIR}/libspark.a
+win32: PRE_TARGETDEPS += $${DESTDIR}/spark.lib
 
 #--------------------------------------------------------------------
 # linker
@@ -86,7 +87,7 @@ PRE_TARGETDEPS += $${DESTDIR}/libspark.a
 LIBS += -L$${URHO3D}/lib
 LIBS += -L$${DESTDIR}
 
-unix:!macx:: LIBS += -lUrho3D
+unix:!macx: LIBS += -lUrho3D
 
 win32: CONFIG(debug,debug|release) {
     LIBS += -lUrho3D_d
@@ -98,6 +99,7 @@ LIBS += -L$${DESTDIR} -lspark
 
 unix:!macx: LIBS += -ldl -lGL -lGLU
 
+win32:LIBS += d3d9.lib d3dcompiler.lib
 win32:LIBS += kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib \
                 ole32.lib oleaut32.lib uuid.lib imm32.lib winmm.lib wsock32.lib opengl32.lib glu32.lib version.lib
 

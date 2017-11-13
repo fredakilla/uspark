@@ -32,11 +32,13 @@ namespace GL
 {
 	float GLPointRenderer::pixelPerUnit = 1024.0f;
 
+#ifndef SPK_GL_NO_EXT
 	GLboolean* const GLPointRenderer::SPK_GL_POINT_SPRITE_EXT = &__GLEW_ARB_point_sprite;
 	GLboolean* const GLPointRenderer::SPK_GL_POINT_PARAMETERS_EXT = &__GLEW_EXT_point_parameters;
 
 	bool GLPointRenderer::isPointSpriteSupported()	{ return SPK_GL_CHECK_EXTENSION(SPK_GL_POINT_SPRITE_EXT); }
 	bool GLPointRenderer::isWorldSizeSupported()	{ return SPK_GL_CHECK_EXTENSION(SPK_GL_POINT_PARAMETERS_EXT); }
+#endif
 
 	bool GLPointRenderer::setType(PointType type)
 	{
