@@ -67,7 +67,10 @@ public:
             //sparkEffect->Save("Data/SparkParticle/test_copy.xml");
 
             SparkParticle * sparkParticle = node->CreateComponent<SparkParticle>();
-            sparkParticle->SetEffect(cache->GetResource<SparkParticleEffect>("SparkParticle/test.xml"));
+            sparkParticle->SetEffect(cache->GetResource<SparkParticleEffect>("SparkParticle/test_copy.xml"));
+
+            Node* node2 = node->Clone();
+            node2->SetPosition(Vector3(5,0,0));
 
         }
 

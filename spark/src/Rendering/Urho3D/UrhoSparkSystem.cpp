@@ -42,9 +42,10 @@ void SparkParticle::RegisterObject(Context* context)
 {
     context->RegisterFactory<SparkParticle>(GEOMETRY_CATEGORY);
 
+    URHO3D_MIXED_ACCESSOR_ATTRIBUTE("SparkEffect", GetEffectAttr, SetEffectAttr, ResourceRef, ResourceRef(SparkParticleEffect::GetTypeStatic()), AM_DEFAULT);
     URHO3D_ACCESSOR_ATTRIBUTE("Is Enabled", IsEnabled, SetEnabled, bool, true, AM_DEFAULT);
     URHO3D_COPY_BASE_ATTRIBUTES(Drawable);   
-    URHO3D_ACCESSOR_ATTRIBUTE("Update Invisible", GetUpdateInvisible, SetUpdateInvisible, bool, false, AM_DEFAULT);   
+    URHO3D_ACCESSOR_ATTRIBUTE("Update Invisible", GetUpdateInvisible, SetUpdateInvisible, bool, false, AM_DEFAULT);
 }
 
 void SparkParticle::ProcessRayQuery(const RayOctreeQuery& query, PODVector<RayQueryResult>& results)
@@ -296,8 +297,28 @@ void SparkParticle::SetEffect(SparkParticleEffect* sparkEffect)
     if(sparkEffect)
     {
         SetSystem(sparkEffect->GetSystem());
+        sparkEffect_ = sparkEffect;
     }
 }
+
+void SparkParticle::SetEffectAttr(const ResourceRef& value)
+{
+    ResourceCache* cache = GetSubsystem<ResourceCache>();
+    SetEffect(cache->GetResource<SparkParticleEffect>(value.name_));
+}
+
+ResourceRef SparkParticle::GetEffectAttr() const
+{
+    if(sparkEffect_)
+    {
+        return GetResourceRef(sparkEffect_, SparkParticleEffect::GetTypeStatic());
+    }
+    else
+    {
+        SPK_ASSERT(sparkEffect_, "[SparkParticle::GetEffectAttr] : sparkEffect_ not set.");
+    }
+}
+
 
 }
 

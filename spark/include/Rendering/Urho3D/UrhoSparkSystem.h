@@ -48,6 +48,12 @@ public:
     /// Set SPARK particle system from SparkEffect ressource
     void SetEffect(SparkParticleEffect *sparkEffect);
 
+
+    /// Set model attribute.
+    void SetEffectAttr(const ResourceRef& value);
+    /// Return model attribute.
+    ResourceRef GetEffectAttr() const;
+
 protected:
     /// Handle node being assigned.
     virtual void OnSceneSet(Scene* scene) override;
@@ -98,6 +104,9 @@ private:
     SPK::Ref<SPK::System>  _system;
     /// Flag used internally to test if it is the first time we render the particles
     bool firstRenderSet_;
+
+    /// spark effect
+    SharedPtr<SparkParticleEffect> sparkEffect_;
 };
 
 
