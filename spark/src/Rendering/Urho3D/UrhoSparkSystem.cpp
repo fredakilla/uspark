@@ -315,7 +315,8 @@ ResourceRef SparkParticle::GetEffectAttr() const
     }
     else
     {
-        SPK_ASSERT(sparkEffect_, "[SparkParticle::GetEffectAttr] : sparkEffect_ not set.");
+        SPK_LOG_DEBUG("[SparkParticle::GetEffectAttr] : sparkEffect_ not set.");
+        return 0;
     }
 }
 
