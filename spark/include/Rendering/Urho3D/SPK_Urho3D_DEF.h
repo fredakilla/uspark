@@ -33,7 +33,7 @@ namespace URHO {
 
 
     /**
-    * @brief Helper class to register Urho3D context and SPK urho3d objects
+    * @brief Helper class to register Urho3D context
     * */
     class SPK_URHO_PREFIX Urho3DContext
     {
@@ -41,11 +41,8 @@ namespace URHO {
 
         static Urho3DContext& get();
 
-        void unregisterAll();
-        void registerObjects();
-
         void registerUrhoContext(Urho3D::Context* context);
-        Urho3D::Context* getUrhoContext() { return urhoContext; }
+        Urho3D::Context* getUrhoContext();
 
     private :
 

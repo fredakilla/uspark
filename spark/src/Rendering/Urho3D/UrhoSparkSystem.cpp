@@ -284,6 +284,8 @@ void SparkParticle::SetSystem(SPK::Ref<SPK::System> system)
             batches_[i].numWorldTransforms_ = 1;
 
             SPK::URHO::IUrho3DRenderer* renderer = reinterpret_cast<SPK::URHO::IUrho3DRenderer*>(_system->getGroup(i)->getRenderer().get());
+            SPK_ASSERT(renderer, "Renderer is null");
+
             batches_[i].material_ = renderer->getMaterial();
         }
     }
@@ -291,7 +293,10 @@ void SparkParticle::SetSystem(SPK::Ref<SPK::System> system)
 
 void SparkParticle::SetEffect(SparkParticleEffect* sparkEffect)
 {
-    SetSystem(sparkEffect->GetSystem());
+    if(sparkEffect)
+    {
+        SetSystem(sparkEffect->GetSystem());
+    }
 }
 
 }

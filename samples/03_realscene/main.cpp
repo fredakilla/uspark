@@ -159,6 +159,9 @@ public:
         context_->RegisterFactory<SparkParticle>();
         context_->RegisterFactory<SpkEmitterController>();
         context_->RegisterFactory<SpkGroupController>();
+
+        // register urho3d context inside spark lib
+        SPK::URHO::Urho3DContext::get().registerUrhoContext(context_);
     }
 
     void SetupViewports()
@@ -291,6 +294,8 @@ public:
 
 
 
+        //SPK::URHO::Urho3DContext::get();
+        //SPK::URHO::Urho3DContext::get().registerUrhoContext(context_);
 
         // Spark IO test
         /// -------------------------------------------------------------------
@@ -300,12 +305,12 @@ public:
 
         SPK_DUMP_MEMORY
 
-        SPK::Ref<SPK::System> loadedSystem = SPK::IO::IOManager::get().load("test.spk");
+        SPK::Ref<SPK::System> loadedSystem = SPK::IO::IOManager::get().load("test.xml");
         if(loadedSystem)
         {
             printf("Renderer set\n");
-            loadedSystem->getGroup(0)->setRenderer(quadRenderer);
-            loadedSystem->getGroup(1)->setRenderer(quadRenderer2);
+            //loadedSystem->getGroup(0)->setRenderer(quadRenderer);
+            //loadedSystem->getGroup(1)->setRenderer(quadRenderer2);
         }
 
         // use loaded system

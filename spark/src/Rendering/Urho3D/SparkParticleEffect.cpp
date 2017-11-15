@@ -16,9 +16,6 @@ SparkParticleEffect::~SparkParticleEffect()
 
 void SparkParticleEffect::RegisterObject(Context* context)
 {
-    // register urho3d context and register for spark urho3d objects
-    SPK::URHO::Urho3DContext::get().registerUrhoContext(context);
-
     context->RegisterFactory<SparkParticleEffect>();
 }
 

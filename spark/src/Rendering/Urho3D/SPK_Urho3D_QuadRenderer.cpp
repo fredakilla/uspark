@@ -264,7 +264,8 @@ void Urho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
     Renderer::innerImport(descriptor);
 
     if(_context == nullptr)
-        _context = SPK::URHO::Urho3DContext::get().getUrhoContext();
+        _context = Urho3DContext::get().getUrhoContext();
+    SPK_ASSERT(_context, "Urho3D context is null, use registerUrhoContext");
 
     ResourceCache* cache = _context->GetSubsystem<ResourceCache>();
 

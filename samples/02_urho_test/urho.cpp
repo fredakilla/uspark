@@ -22,6 +22,8 @@ public:
         SparkParticle::RegisterObject(context_);
 
         _drawDebug = false;
+
+        SPK::URHO::Urho3DContext::get().registerUrhoContext(context_);
     }
 
     void Setup()
@@ -45,10 +47,10 @@ public:
         CreateParticles();
 
          // create spark particle component
-        Node* spkSystemNode = _scene->CreateChild("SparkSystem");
+        /*Node* spkSystemNode = _scene->CreateChild("SparkSystem");
         SparkParticle* spkSystem = spkSystemNode->CreateComponent<SparkParticle>();
         spkSystem->SetSystem(_systemCopy);
-        spkSystemNode->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+        spkSystemNode->SetPosition(Vector3(0.0f, 0.0f, 0.0f));*/
 
 
         // test load spark from file

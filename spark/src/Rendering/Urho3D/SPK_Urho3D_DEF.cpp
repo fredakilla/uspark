@@ -7,25 +7,25 @@ namespace SPK {
 namespace URHO {
 
     Urho3DContext::Urho3DContext()
-    {
-        registerObjects();
+    {       
     }
 
     Urho3DContext& Urho3DContext::get()
     {
         static Urho3DContext instance;
         return instance;
-    }
-
-    void Urho3DContext::registerObjects()
-    {
-        // Urho3D Quad Renderer
-        SPK::IO::IOManager::get().registerObject<SPK::URHO::Urho3DQuadRenderer>();
-    }
+    }    
 
     void Urho3DContext::registerUrhoContext(Urho3D::Context* context)
     {
-        urhoContext = context;
+        SPK_ASSERT(context, "[registerUrhoContext] : Urho3D context is null.");
+        urhoContext = context;       
+    }
+
+    Urho3D::Context* Urho3DContext::getUrhoContext()
+    {
+        SPK_ASSERT(urhoContext, "[getUrhoContext] : Urho3D Context is null, use registerUrhoContext");
+        return urhoContext;
     }
 
 
