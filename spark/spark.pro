@@ -66,6 +66,8 @@ CONFIG(debug,debug|release) {
 } else {
     # release
     DEFINES +=  \
+        SPK_WITH_XML \
+        SPK_GL_NO_EXT
 }
 
 #--------------------------------------------------------------------
