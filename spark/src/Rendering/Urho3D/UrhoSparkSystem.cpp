@@ -289,6 +289,11 @@ void SparkParticle::SetSystem(SPK::Ref<SPK::System> system)
     }
 }
 
+void SparkParticle::SetEffect(SparkParticleEffect* sparkEffect)
+{
+    SetSystem(sparkEffect->GetSystem());
+}
+
 }
 
 

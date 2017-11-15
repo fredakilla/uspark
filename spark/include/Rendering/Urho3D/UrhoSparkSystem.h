@@ -45,6 +45,9 @@ public:
     /// Get SPARK particle system
     const SPK::Ref<SPK::System> GetSystem() const { return _system; }
 
+    /// Set SPARK particle system from SparkEffect ressource
+    void SetEffect(SparkParticleEffect *sparkEffect);
+
 protected:
     /// Handle node being assigned.
     virtual void OnSceneSet(Scene* scene) override;

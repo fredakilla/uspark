@@ -56,13 +56,16 @@ public:
             Node* node = _scene->CreateChild();
             node->SetPosition(Vector3(-1,0,0));
 
-            SparkParticle * sparkParticle = node->CreateComponent<SparkParticle>();
+            /*SparkParticle * sparkParticle = node->CreateComponent<SparkParticle>();
             //sparkParticle->SetSystem(cache->GetResource<SparkParticleEffect>("SparkParticle/test.spk"));
 
-            SparkParticleEffect* sparkEffect = cache->GetResource<SparkParticleEffect>("SparkParticle/test.spk");
-            sparkParticle->SetSystem(sparkEffect->GetSystem());
+            SparkParticleEffect* sparkEffect = cache->GetResource<SparkParticleEffect>("SparkParticle/test.xml");
+            sparkParticle->SetSystem(sparkEffect->GetSystem());*/
 
-            sparkEffect->Save("Data/SparkParticle/test_copy.xml");
+            //sparkEffect->Save("Data/SparkParticle/test_copy.xml");
+
+            SparkParticle * sparkParticle = node->CreateComponent<SparkParticle>();
+            sparkParticle->SetEffect(cache->GetResource<SparkParticleEffect>("SparkParticle/test.xml"));
 
         }
 
