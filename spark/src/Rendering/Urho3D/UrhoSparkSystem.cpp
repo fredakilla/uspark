@@ -132,9 +132,20 @@ void SparkParticle::UpdateBatches(const FrameInfo& frame)
     if(_system)
     {
         // update spark system camera position
-        _system->setCameraPosition(SPK::Vector3D(frame.camera_->GetView().m03_,
-                                                 frame.camera_->GetView().m13_,
-                                                 frame.camera_->GetView().m23_));
+
+        Matrix3x4 cameraEffectiveTransform = frame.camera_->GetEffectiveWorldTransform();
+        _system->setCameraPosition( SPK::Vector3D(
+                                        cameraEffectiveTransform.Translation().x_,
+                                        cameraEffectiveTransform.Translation().y_,
+                                        cameraEffectiveTransform.Translation().z_) );
+        /*
+         * exemple of computation from camera
+         * Matrix3x4 cameraEffectiveTransform = camera_->GetEffectiveWorldTransform();
+         * CAMERAPOS = cameraEffectiveTransform.Translation();
+         * CAMERAROT = cameraEffectiveTransform.RotationMatrix();
+         * VIEWPROJ = camera_->GetProjection();
+         * VIEWPROJ = camera_->GetProjection() * camera_->GetView();
+        */
     }
 }
 
