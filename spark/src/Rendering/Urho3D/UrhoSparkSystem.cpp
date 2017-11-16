@@ -316,7 +316,7 @@ ResourceRef SparkParticle::GetEffectAttr() const
     else
     {
         SPK_LOG_DEBUG("[SparkParticle::GetEffectAttr] : sparkEffect_ not set.");
-        return 0;
+        return ResourceRef(String::EMPTY);
     }
 }
 
