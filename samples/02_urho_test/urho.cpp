@@ -47,10 +47,10 @@ public:
         CreateParticles();
 
          // create spark particle component
-        /*Node* spkSystemNode = _scene->CreateChild("SparkSystem");
-        SparkParticle* spkSystem = spkSystemNode->CreateComponent<SparkParticle>();
-        spkSystem->SetSystem(_systemCopy);
-        spkSystemNode->SetPosition(Vector3(0.0f, 0.0f, 0.0f));*/
+        //Node* spkSystemNode = _scene->CreateChild("SparkSystem");
+        //SparkParticle* spkSystem = spkSystemNode->CreateComponent<SparkParticle>();
+        //spkSystem->SetSystem(_systemCopy);
+        //spkSystemNode->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 
 
         // test load spark from file
@@ -66,11 +66,41 @@ public:
 
             //sparkEffect->Save("Data/SparkParticle/test_copy.xml");
 
-            SparkParticle * sparkParticle = node->CreateComponent<SparkParticle>();
+            /* SparkParticle * sparkParticle = node->CreateComponent<SparkParticle>();
             sparkParticle->SetEffect(cache->GetResource<SparkParticleEffect>("SparkParticle/test_copy.xml"));
 
             Node* node2 = node->Clone();
-            node2->SetPosition(Vector3(5,0,0));
+            node2->SetPosition(Vector3(5,0,0));*/
+
+            // serialize memory test
+
+            {
+                Node* node = _scene->CreateChild();
+                node->SetPosition(Vector3(-2,0,0));
+
+
+
+                // create manually spark effect resource
+                SparkParticleEffect* effect = new SparkParticleEffect(context_);
+                effect->SetSystem(_systemCopy);
+                effect->SetName("MySparkParticleEffectResource");
+                cache->AddManualResource(effect);   // ! important
+
+                SparkParticle * sparkParticle = node->CreateComponent<SparkParticle>();
+                //sparkParticle->SetSystem(_systemCopy); // from spark object (but clone will doesn't work)
+                sparkParticle->SetEffect(effect);   // from resource, clone works
+
+                // can now clone component using manual resource.
+                Node* node2 = _scene->CreateChild();
+                node2->SetPosition(Vector3(0,0,0));
+                node2->CloneComponent(sparkParticle);
+
+                // same for json or xml
+                JSONValue jsonElement;
+                node->SaveJSON(jsonElement);
+                Node* node3 = _scene->InstantiateJSON(jsonElement, Vector3(2,0,0), Quaternion(0, Vector3(0,0,0)));
+            }
+
 
         }
 

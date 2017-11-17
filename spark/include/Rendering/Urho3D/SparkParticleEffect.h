@@ -40,6 +40,9 @@ public:
     /// Clone the particle system.
     SharedPtr<SparkParticleEffect> Clone(const String& cloneName = String::EMPTY) const;
 
+    /// Manually set spark particle system
+    void SetSystem(SPK::Ref<SPK::System> spkSystem);
+
 private:
     /// Search file in resources directories and return file path prefixed with resource dir or return empty string if not exists
     String GetFixedPath();

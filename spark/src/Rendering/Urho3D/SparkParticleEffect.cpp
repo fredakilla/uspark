@@ -108,4 +108,11 @@ SharedPtr<SparkParticleEffect> SparkParticleEffect::Clone(const String& cloneNam
     return 0;
 }
 
+void SparkParticleEffect::SetSystem(SPK::Ref<SPK::System> spkSystem)
+{
+    loadedSystem_ = spkSystem; ////SPK::SPKObject::copy(spkSystem);
+}
+
+
+
 }
