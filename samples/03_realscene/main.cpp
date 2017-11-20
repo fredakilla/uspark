@@ -215,6 +215,9 @@ public:
         quadRenderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
         quadRenderer->setScale(3.0f, 3.0f);
         quadRenderer->setMaterial(mat);
+        quadRenderer->setUrhoTexture("Textures/Flare.dds");
+        quadRenderer->setUrhoDepthWrite(true);
+        quadRenderer->setUrhoBlendMode(BLEND_ADDALPHA);
 
         // 1st emitter
         SPK::Ref<SPK::Emitter> emitter1 = SPK::RandomEmitter::create(SPK::Point::create());

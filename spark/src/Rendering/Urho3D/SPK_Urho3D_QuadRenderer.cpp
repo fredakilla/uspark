@@ -25,6 +25,11 @@ Urho3DQuadRenderer::Urho3DQuadRenderer(const Urho3DQuadRenderer &renderer) :
     _camera = renderer._camera;
     _material = renderer._material;
     _elements = renderer._elements;
+
+    _depthWrite  = renderer._depthWrite;
+    _blendMode = renderer._blendMode;
+    _textureName = renderer._textureName;
+    _depthTestMode = renderer._depthTestMode;
 }
 
 RenderBuffer* Urho3DQuadRenderer::attachRenderBuffer(const Group& group) const
@@ -273,7 +278,7 @@ void Urho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
 
     const IO::Attribute* attrib = NULL;
 
-    if (attrib = descriptor.getAttributeWithValue("material"))
+    /*if (attrib = descriptor.getAttributeWithValue("material"))
     {
         std::string materialName = attrib->getValue<std::string>();
         Material * material = cache->GetResource<Material>(materialName.c_str());
@@ -288,7 +293,36 @@ void Urho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
             Texture * texture = cache->GetResource<Texture>(textureName.c_str());
             material->SetTexture(TU_DIFFUSE, texture);
         }
+    }*/
+
+
+    if (attrib = descriptor.getAttributeWithValue("depthWrite"))
+    {
+        bool depthWrite = attrib->getValue<bool>();
+        setUrhoDepthWrite(depthWrite);
     }
+
+    if (attrib = descriptor.getAttributeWithValue("blendMode"))
+    {
+        uint32 value = attrib->getValue<uint32>();
+        Urho3D::BlendMode blendMode = Urho3D::BlendMode(value);
+        setUrhoBlendMode(blendMode);
+    }
+
+    if (attrib = descriptor.getAttributeWithValue("texture"))
+    {
+        std::string texture = attrib->getValue<std::string>();
+        setUrhoTexture(texture.c_str());
+    }
+
+    if (attrib = descriptor.getAttributeWithValue("depthTestMode"))
+    {
+        uint32 value = attrib->getValue<uint32>();
+        Urho3D::CompareMode compareMode = Urho3D::CompareMode(value);
+        setUrhoDepthTestMode(compareMode);
+    }
+
+
 
     if (attrib = descriptor.getAttributeWithValue("scale"))
     {
@@ -304,11 +338,16 @@ void Urho3DQuadRenderer::innerExport(IO::Descriptor& descriptor) const
 {
     Renderer::innerExport(descriptor);
 
-    descriptor.getAttribute("material")->setValue<std::string>(_material->GetName().CString());
-    descriptor.getAttribute("texture")->setValue<std::string>(_material->GetTexture(TU_DIFFUSE)->GetName().CString());
+    //descriptor.getAttribute("material")->setValue<std::string>(_material->GetName().CString());
+    //descriptor.getAttribute("texture")->setValue<std::string>(_material->GetTexture(TU_DIFFUSE)->GetName().CString());
+
+    descriptor.getAttribute("depthWrite")->setValue(_depthWrite);
+    descriptor.getAttribute("blendMode")->setValue<uint32>(_blendMode);
+    descriptor.getAttribute("texture")->setValue<std::string>(_textureName.CString());
+    descriptor.getAttribute("depthTestMode")->setValue<uint32>(_depthTestMode);
 
     float tmpScale[2] = {scaleX,scaleY};
-    descriptor.getAttribute("scale")->setValues(tmpScale,2);
+    descriptor.getAttribute("scale")->setValues(tmpScale,2);    
 }
 
 

@@ -151,7 +151,7 @@ public:
         ResourceCache* cache = GetSubsystem<ResourceCache>();
 
         // Create a new material from scratch
-        Material* mat = new Material(context_);
+        /*Material* mat = new Material(context_);
         mat->SetNumTechniques(1);
         Technique* tec = new Technique(context_);
         Pass* pass = tec->CreatePass("alpha");
@@ -162,7 +162,7 @@ public:
         pass->SetVertexShaderDefines("VERTEXCOLOR");
         pass->SetPixelShaderDefines("DIFFMAP VERTEXCOLOR");
         mat->SetTechnique(0, tec);
-        mat->SetTexture(TU_DIFFUSE, cache->GetResource<Texture2D>("res/arrow.png"));
+        mat->SetTexture(TU_DIFFUSE, cache->GetResource<Texture2D>("res/arrow.png"));*/
 
 
         SPK::Ref<SPK::System> system_ = SPK::System::create(true);
@@ -171,17 +171,21 @@ public:
         // Renderer
         SPK::Ref<SPK::URHO::Urho3DQuadRenderer> renderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         renderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
-        //renderer->setTexture(textureParticle);
-        renderer->setBlendMode(SPK::BLEND_MODE_ADD);
-        renderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
+        //renderer->setTexture("res/arrow.png");
+        //renderer->setBlendMode(SPK::BLEND_MODE_ADD);
+        //renderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
         renderer->setScale(0.05f,0.05f);
-        renderer->setMaterial(mat);
+        //renderer->setMaterial(mat);
         //renderer->setOrientation(SPK::OrientationPreset::CAMERA_PLANE_ALIGNED);
         //renderer->setOrientation(SPK::OrientationPreset::CAMERA_POINT_ALIGNED);
         renderer->setOrientation(SPK::OrientationPreset::DIRECTION_ALIGNED);
         //renderer->setOrientation(SPK::OrientationPreset::AROUND_AXIS);
         //renderer->setOrientation(SPK::OrientationPreset::TOWARDS_POINT);
         //renderer->setOrientation(SPK::OrientationPreset::FIXED_ORIENTATION);
+
+        renderer->setUrhoTexture("res/arrow.png");
+        renderer->setUrhoDepthWrite(false);
+        renderer->setUrhoBlendMode(BLEND_ADD);
 
         // Emitter
         SPK::Ref<SPK::SphericEmitter> particleEmitter = SPK::SphericEmitter::create(SPK::Vector3D(0.0f,1.0f,0.0f),0.1f * M_PI, 0.1f * M_PI);

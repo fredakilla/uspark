@@ -24,12 +24,30 @@ public :
     Urho3D::Material* getMaterial();
     void setMaterial(Urho3D::Material* material);
 
+
+    Urho3D::String getUrhoTexture();
+    void setUrhoTexture(Urho3D::String textureName);
+
+    bool getUrhoDepthWrite();
+    void setUrhoDepthWrite(bool depthWrite);
+
+    Urho3D::BlendMode getUrhoBlendMode();
+    void setUrhoBlendMode(Urho3D::BlendMode blendMode);
+
+    Urho3D::CompareMode getUrhoDepthTestMode();
+    void setUrhoDepthTestMode(Urho3D::CompareMode compareMode);
+
 protected :
 
     IUrho3DRenderer(Context *context, bool NEEDS_DATASET = false);
     Urho3D::Context*    _context;
     Urho3D::Camera*     _camera;
     Urho3D::SharedPtr<Urho3D::Material>   _material;
+
+    bool                _depthWrite;
+    Urho3D::BlendMode   _blendMode;
+    Urho3D::String      _textureName;
+    CompareMode         _depthTestMode;
 };
 
 

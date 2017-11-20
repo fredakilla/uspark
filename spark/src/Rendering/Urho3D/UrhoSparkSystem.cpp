@@ -288,6 +288,8 @@ void SparkParticle::SetSystem(SPK::Ref<SPK::System> system)
         size_t nbGroup = _system->getNbGroups();
         batches_.Resize(nbGroup);
 
+        ResourceCache* cache = GetSubsystem<ResourceCache>();
+
         // for each group, set a batch
         for (size_t i = 0; i < nbGroup; ++i)
         {
@@ -298,7 +300,24 @@ void SparkParticle::SetSystem(SPK::Ref<SPK::System> system)
             SPK::URHO::IUrho3DRenderer* renderer = reinterpret_cast<SPK::URHO::IUrho3DRenderer*>(_system->getGroup(i)->getRenderer().get());
             SPK_ASSERT(renderer, "Renderer is null");
 
-            batches_[i].material_ = renderer->getMaterial();
+            //batches_[i].material_ = renderer->getMaterial();
+
+            // Create new material from scratch
+            Technique* tec = new Technique(context_);
+            Pass* pass = tec->CreatePass("alpha");
+            pass->SetDepthWrite(renderer->getUrhoDepthWrite());
+            pass->SetBlendMode(renderer->getUrhoBlendMode());
+            pass->SetDepthTestMode(renderer->getUrhoDepthTestMode());
+            pass->SetVertexShader("UnlitParticle");
+            pass->SetPixelShader("UnlitParticle");
+            pass->SetVertexShaderDefines("VERTEXCOLOR");
+            pass->SetPixelShaderDefines("DIFFMAP VERTEXCOLOR");
+            Material* mat = new Material(context_);
+            mat->SetNumTechniques(1);
+            mat->SetTechnique(0, tec);
+            mat->SetTexture(TU_DIFFUSE, cache->GetResource<Texture2D>(renderer->getUrhoTexture()));
+
+            batches_[i].material_ = mat;
         }
     }
 }

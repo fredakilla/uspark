@@ -120,6 +120,10 @@ public:
         renderer->setMaterial(mat);
         renderer->setOrientation(SPK::OrientationPreset::CAMERA_PLANE_ALIGNED);
         renderer->setAtlasDimensions(2,2);
+        renderer->setUrhoTexture("res/numbers.bmp");
+        renderer->setUrhoDepthWrite(false);
+        renderer->setUrhoBlendMode(BLEND_ADD);
+
 
         // Emitter 1
         SPK::Ref<SPK::StraightEmitter> particleEmitter = SPK::StraightEmitter::create(SPK::Vector3D(0.0f,2.0f,0.0f));
@@ -166,7 +170,7 @@ public:
         ResourceCache* cache = GetSubsystem<ResourceCache>();
 
         // Create a new material from scratch
-        Material* mat = new Material(context_);
+        /*Material* mat = new Material(context_);
         mat->SetNumTechniques(1);
         Technique* tec = new Technique(context_);
         Pass* pass = tec->CreatePass("alpha");
@@ -177,7 +181,7 @@ public:
         pass->SetVertexShaderDefines("VERTEXCOLOR");
         pass->SetPixelShaderDefines("DIFFMAP VERTEXCOLOR");
         mat->SetTechnique(0, tec);
-        mat->SetTexture(TU_DIFFUSE, cache->GetResource<Texture2D>("res/sprite-flame.jpg"));
+        mat->SetTexture(TU_DIFFUSE, cache->GetResource<Texture2D>("res/sprite-flame.jpg"));*/
 
 
         SPK::Ref<SPK::System> system_ = SPK::System::create(true);
@@ -190,8 +194,11 @@ public:
         renderer->setBlendMode(SPK::BLEND_MODE_ADD);
         renderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
         renderer->setScale(1.0f, 1.0f);
-        renderer->setMaterial(mat);
+        //renderer->setMaterial(mat);
         renderer->setOrientation(SPK::OrientationPreset::CAMERA_PLANE_ALIGNED);
+        renderer->setUrhoTexture("res/sprite-flame.jpg");
+        renderer->setUrhoDepthWrite(false);
+        renderer->setUrhoBlendMode(BLEND_ADD);
 
 
         SPK::Ref<SPK::Point> point = SPK::Point::create(SPK::Vector3D(0.0f,0.0f,0.0f));
@@ -231,7 +238,7 @@ public:
     {
         ResourceCache* cache = GetSubsystem<ResourceCache>();
 
-        // load base material
+       /* // load base material
         Material* baseMaterial = cache->GetResource<Material>("Materials/Particle.xml");
 
         // create material clones and set textures
@@ -249,7 +256,7 @@ public:
         textureSpark2->SetTexture(TU_DIFFUSE, cache->GetResource<Texture2D>("res/point.bmp"));
 
         SharedPtr<Material> textureWave = baseMaterial->Clone();
-        textureWave->SetTexture(TU_DIFFUSE, cache->GetResource<Texture2D>("res/wave.bmp"));
+        textureWave->SetTexture(TU_DIFFUSE, cache->GetResource<Texture2D>("res/wave.bmp"));*/
 
 
         ///////////////
@@ -259,51 +266,66 @@ public:
         // smoke renderer
         SPK::Ref<SPK::URHO::Urho3DQuadRenderer> smokeRenderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         smokeRenderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
-        smokeRenderer->setMaterial(textureExplosion);
+        //smokeRenderer->setMaterial(textureExplosion);
         smokeRenderer->setAtlasDimensions(2,2); // uses 4 different patterns in the texture
         smokeRenderer->setBlendMode(SPK::BLEND_MODE_ALPHA);
         smokeRenderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
         smokeRenderer->setShared(true);
+        smokeRenderer->setUrhoTexture("res/explosion.png");
+        smokeRenderer->setUrhoDepthWrite(false);
+        smokeRenderer->setUrhoBlendMode(BLEND_ALPHA);
 
         // flame renderer
         SPK::Ref<SPK::URHO::Urho3DQuadRenderer> flameRenderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         flameRenderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
-        flameRenderer->setMaterial(textureExplosion);
+        //flameRenderer->setMaterial(textureExplosion);
         flameRenderer->setAtlasDimensions(2,2);
         flameRenderer->setBlendMode(SPK::BLEND_MODE_ADD);
         flameRenderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
         flameRenderer->setShared(true);
+        flameRenderer->setUrhoTexture("res/explosion.bmp");
+        flameRenderer->setUrhoDepthWrite(false);
+        flameRenderer->setUrhoBlendMode(BLEND_ADDALPHA);
 
         // flash renderer
         SPK::Ref<SPK::URHO::Urho3DQuadRenderer> flashRenderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         flashRenderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
-        flashRenderer->setMaterial(textureFlash);
+        //flashRenderer->setMaterial(textureFlash);
         flashRenderer->setBlendMode(SPK::BLEND_MODE_ADD);
         flashRenderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
         flashRenderer->setShared(true);
+        flashRenderer->setUrhoTexture("res/flash.bmp");
+        flashRenderer->setUrhoDepthWrite(false);
+        flashRenderer->setUrhoBlendMode(BLEND_ADDALPHA);
 
         // spark 1 renderer
         SPK::Ref<SPK::URHO::Urho3DQuadRenderer> spark1Renderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         spark1Renderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
-        spark1Renderer->setMaterial(textureSpark1);
+        //spark1Renderer->setMaterial(textureSpark1);
         spark1Renderer->setBlendMode(SPK::BLEND_MODE_ADD);
         spark1Renderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
         spark1Renderer->setOrientation(SPK::DIRECTION_ALIGNED); // sparks are oriented function of their velocity
         spark1Renderer->setScale(1.05f,1.0f); // thin rectangles
         spark1Renderer->setShared(true);
+        spark1Renderer->setUrhoTexture("res/arrow.png");
+        spark1Renderer->setUrhoDepthWrite(false);
+        spark1Renderer->setUrhoBlendMode(BLEND_ADDALPHA);
 
         // spark 2 renderer
         SPK::Ref<SPK::URHO::Urho3DQuadRenderer> spark2Renderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         spark2Renderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
-        spark2Renderer->setMaterial(textureSpark2);
+        //spark2Renderer->setMaterial(textureSpark2);
         spark2Renderer->setBlendMode(SPK::BLEND_MODE_ADD);
         spark2Renderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
         spark2Renderer->setShared(true);
+        spark2Renderer->setUrhoTexture("res/point.bmp");
+        spark2Renderer->setUrhoDepthWrite(false);
+        spark2Renderer->setUrhoBlendMode(BLEND_ADDALPHA);
 
         // wave renderer
         SPK::Ref<SPK::URHO::Urho3DQuadRenderer> waveRenderer = SPK::URHO::Urho3DQuadRenderer::create(context_);
         waveRenderer->setTexturingMode(SPK::TEXTURE_MODE_2D);
-        waveRenderer->setMaterial(textureWave);
+        //waveRenderer->setMaterial(textureWave);
         waveRenderer->setBlendMode(SPK::BLEND_MODE_ALPHA);
         waveRenderer->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
         waveRenderer->enableRenderingOption(SPK::RENDERING_OPTION_ALPHA_TEST,true); // uses the alpha test
@@ -312,6 +334,9 @@ public:
         waveRenderer->lookVector.set(0.0f,1.0f,0.0f);
         waveRenderer->upVector.set(1.0f,0.0f,0.0f); // we dont really care about the up axis
         waveRenderer->setShared(true);
+        waveRenderer->setUrhoTexture("res/wave.bmp");
+        waveRenderer->setUrhoDepthWrite(false);
+        waveRenderer->setUrhoBlendMode(BLEND_ALPHA);
 
         //////////////
         // Emitters //
@@ -387,7 +412,7 @@ public:
         smokeGroup->addEmitter(smokeEmitter);
         smokeGroup->setColorInterpolator(colorInterpolator);
         smokeGroup->setParamInterpolator(SPK::PARAM_SCALE,SPK::FloatRandomInterpolator::create(0.3f,0.4f,0.5f,0.7f));
-        smokeGroup->setParamInterpolator(SPK::PARAM_TEXTURE_INDEX,SPK::FloatRandomInitializer::create(0.0f,4.0f));
+        smokeGroup->setParamInterpolator(SPK::PARAM_TEXTURE_INDEX,SPK::FloatRandomInitializer::create(0.0f,3.0f));
         smokeGroup->setParamInterpolator(SPK::PARAM_ANGLE,SPK::FloatRandomInterpolator::create(0.0f,M_PI * 0.5f,0.0f,M_PI * 0.5f));
         smokeGroup->addModifier(SPK::Gravity::create(SPK::Vector3D(0.0f,0.05f,0.0f)));
 

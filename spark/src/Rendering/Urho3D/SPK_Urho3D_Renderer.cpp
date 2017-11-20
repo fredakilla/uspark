@@ -10,25 +10,15 @@ IUrho3DRenderer::IUrho3DRenderer(Urho3D::Context* context, bool NEEDS_DATASET) :
     _context = context;
     _camera = nullptr;
     _material = nullptr;
+    _depthWrite  = false;
+    _blendMode = BLEND_ADDALPHA;
+    _textureName = "";
+    _depthTestMode = CMP_LESSEQUAL;
 }
 
 void IUrho3DRenderer::setBlendMode(BlendMode blendMode)
 {
-    switch(blendMode)
-    {
-    case BLEND_MODE_NONE :
-        break;
-
-    case BLEND_MODE_ADD :
-        break;
-
-    case BLEND_MODE_ALPHA :
-        break;
-
-    default :
-        SPK_LOG_WARNING("IUrho3DRenderer::setBlendMode(BlendMode) - Unsupported blending mode. Nothing happens");
-        break;
-    }
+    // not used, use setUrhoBlendMode instead.
 }
 
 void IUrho3DRenderer::updateView(Urho3D::Camera* camera)
@@ -43,6 +33,54 @@ Urho3D::Material* IUrho3DRenderer::getMaterial()
 void IUrho3DRenderer::setMaterial(Urho3D::Material* material)
 {
     _material =  material;
+}
+
+
+
+
+
+
+
+
+
+Urho3D::String IUrho3DRenderer::getUrhoTexture()
+{
+    return _textureName;
+}
+
+void IUrho3DRenderer::setUrhoTexture(Urho3D::String textureName)
+{
+    _textureName = textureName;
+}
+
+bool IUrho3DRenderer::getUrhoDepthWrite()
+{
+    return _depthWrite;
+}
+
+void IUrho3DRenderer::setUrhoDepthWrite(bool depthWrite)
+{
+    _depthWrite = depthWrite;
+}
+
+Urho3D::BlendMode IUrho3DRenderer::getUrhoBlendMode()
+{
+    return _blendMode;
+}
+
+void IUrho3DRenderer::setUrhoBlendMode(Urho3D::BlendMode blendMode)
+{
+    _blendMode = blendMode;
+}
+
+CompareMode IUrho3DRenderer::getUrhoDepthTestMode()
+{
+    return _depthTestMode;
+}
+
+void IUrho3DRenderer::setUrhoDepthTestMode(CompareMode compareMode)
+{
+    _depthTestMode = compareMode;
 }
 
 
