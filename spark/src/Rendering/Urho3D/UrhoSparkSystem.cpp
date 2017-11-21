@@ -299,6 +299,9 @@ void SparkParticle::SetSystem(SPK::Ref<SPK::System> system)
             SPK_ASSERT(renderer, "Renderer is null");
 
             batches_[i].material_ = renderer->getMaterial();
+
+            // set render order
+            batches_[i].material_->SetRenderOrder(128+i);
         }
     }
 }
