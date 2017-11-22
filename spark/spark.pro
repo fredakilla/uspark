@@ -187,8 +187,6 @@ HEADERS += \
     include/Rendering/Urho3D/UrhoSparkSystem.h \
     include/SPARK_URHO3D.h \
     include/Rendering/Urho3D/SparkParticleEffect.h \
-    external/pugixml/src/pugiconfig.hpp \
-    external/pugixml/src/pugixml.hpp
 
 SOURCES += \
     src/Core/IO/SPK_IO_Buffer.cpp \

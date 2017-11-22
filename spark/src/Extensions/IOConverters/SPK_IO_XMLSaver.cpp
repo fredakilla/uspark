@@ -23,9 +23,7 @@
 
 #include <ctime>
 
-//#define TIXML_USE_STL
-//#include <tinyxml.h>
-#include <../external/pugixml/src/pugixml.hpp>
+#include <PugiXml/pugixml.hpp>
 
 #include <SPARK_Core.h>
 #include "Extensions/IOConverters/SPK_IO_XMLSaver.h"
