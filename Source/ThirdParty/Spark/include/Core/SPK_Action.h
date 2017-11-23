@@ -22,7 +22,7 @@
 #ifndef H_SPK_ACTION
 #define H_SPK_ACTION
 
-#include "Core/IO/SPK_IO_Descriptor.h"
+#include "IO/SPK_IO_Descriptor.h"
 //#include "Core/SPK_Object.h"
 
 namespace SPK

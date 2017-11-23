@@ -1,10 +1,10 @@
 #ifndef H_SPK_URHO3D_RENDERER
 #define H_SPK_URHO3D_RENDERER
 
-#include "Rendering/Urho3D/SPK_Urho3D_DEF.h"
-#include "Rendering/Urho3D/SPK_Urho3D_Buffer.h"
+#include "SPK_Urho3D_DEF.h"
+#include "SPK_Urho3D_Buffer.h"
 
-#include "Core/SPK_Renderer.h"
+#include "../../Core/SPK_Renderer.h"
 
 #include <Urho3D/Graphics/Camera.h>
 #include <Urho3D/Graphics/Material.h>

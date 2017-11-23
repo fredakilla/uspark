@@ -1,9 +1,9 @@
 #ifndef H_SPK_URHO3D_QUADRENDERER
 #define H_SPK_URHO3D_QUADRENDERER
 
-#include "Rendering/Urho3D/SPK_Urho3D_Renderer.h"
-#include "Extensions/Renderers/SPK_QuadRenderBehavior.h"
-#include "Extensions/Renderers/SPK_Oriented3DRenderBehavior.h"
+#include "SPK_Urho3D_Renderer.h"
+#include "../../Extensions/Renderers/SPK_QuadRenderBehavior.h"
+#include "../../Extensions/Renderers/SPK_Oriented3DRenderBehavior.h"
 
 #include <Urho3D/Core/Context.h>
 

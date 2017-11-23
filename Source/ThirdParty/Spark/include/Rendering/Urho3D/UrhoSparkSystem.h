@@ -1,8 +1,8 @@
 #ifndef H_SPK_URHOSPARKSYSTEM
 #define H_SPK_URHOSPARKSYSTEM
 
-#include <SPARK_Core.h>
-#include <SPARK_URHO3D.h>
+#include "../../SPARK_Core.h"
+#include "../../SPARK_URHO3D.h"
 
 namespace Urho3D {
 

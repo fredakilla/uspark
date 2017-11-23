@@ -47,9 +47,9 @@
 #define SPK_PREFIX
 #endif
 
-#include "Core/SPK_MemoryTracer.h"
-#include "Core/SPK_Reference.h"
-#include "Core/SPK_Enum.h"
+#include "SPK_MemoryTracer.h"
+#include "SPK_Reference.h"
+#include "SPK_Enum.h"
 
 /**
 * @brief A macro returning a random value within [min,max[

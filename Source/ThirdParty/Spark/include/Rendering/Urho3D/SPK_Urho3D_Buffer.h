@@ -1,9 +1,9 @@
 #ifndef H_SPK_URHO3DBUFFER
 #define H_SPK_URHO3DBUFFER
 
-#include <SPARK_Core.h>
+#include "../../SPARK_Core.h"
 
-#include "Rendering/Urho3D/SPK_Urho3D_DEF.h"
+#include "SPK_Urho3D_DEF.h"
 
 #include <Urho3D/Graphics/Geometry.h>
 #include <Urho3D/Graphics/VertexBuffer.h>

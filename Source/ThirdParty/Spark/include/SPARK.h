@@ -23,7 +23,7 @@
 #define H_SPARK
 
 // Core
-#include <SPARK_Core.h>
+#include "SPARK_Core.h"
 
 // Interpolators
 #include "Extensions/Interpolators/SPK_DefaultInitializer.h"

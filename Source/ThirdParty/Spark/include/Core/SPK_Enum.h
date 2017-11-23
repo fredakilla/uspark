@@ -22,7 +22,7 @@
 #ifndef H_SPK_ENUM
 #define H_SPK_ENUM
 
-#include "Core/SPK_Logger.h"
+#include "SPK_Logger.h"
 
 // macros for enum declarations
 // This allows to get a string representation of an enum value

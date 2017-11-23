@@ -3,8 +3,8 @@
 #include <Urho3D/Graphics/GraphicsDefs.h>
 #include <Urho3D/Resource/Resource.h>
 
-#include <SPARK_Core.h>
-#include <SPARK_URHO3D.h>
+#include "../../SPARK_Core.h"
+#include "../../SPARK_URHO3D.h"
 
 namespace Urho3D
 {
