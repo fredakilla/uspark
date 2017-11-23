@@ -60,6 +60,7 @@ void SparkParticles::Start()
     // Register urho3D Spark objects
     SparkParticleEffect::RegisterObject(context_);
     SparkParticle::RegisterObject(context_);
+    SPK::URHO::Urho3DContext::get().registerUrhoContext(context_);
 
     // Execute base class startup
     Sample::Start();
@@ -170,7 +171,16 @@ void SparkParticles::BuildSparkEffectFromScratch()
     //particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0xFFFF0000,0xFF0000FF));
     particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0xFFFF00FF,0xFF0000FF));
 
-    _systemCopy = SPK::SPKObject::copy(system_);
+    //_systemCopy = SPK::SPKObject::copy(system_);
+
+    // Spark IO test
+    // -------------------------------------------------------------------
+    SPK::IO::IOManager::get().save("test.xml", system_);
+    SPK::IO::IOManager::get().save("test.spk", system_);
+    // -------------------------------------------------------------------
+    _systemCopy = SPK::IO::IOManager::get().load("test.xml");
+    //-------------------------------------------------------------------
+
 }
 
 void SparkParticles::CreateInstructions()
