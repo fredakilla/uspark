@@ -2,6 +2,10 @@
 #include "Rendering/Urho3D/SPK_Urho3D_QuadRenderer.h"
 
 #include <Urho3D/Resource/ResourceCache.h>
+#include <Urho3D/Graphics/IndexBuffer.h>
+#include <Urho3D/Graphics/VertexBuffer.h>
+#include <Urho3D/Graphics/Geometry.h>
+#include <Urho3D/Graphics/Texture2D.h>
 
 namespace SPK {
 namespace URHO {
@@ -15,6 +19,8 @@ Urho3DQuadRenderer::Urho3DQuadRenderer(Urho3D::Context* context, float scaleX, f
     _elements.Push(Urho3D::VertexElement(Urho3D::TYPE_VECTOR3, Urho3D::SEM_POSITION));
     _elements.Push(Urho3D::VertexElement(Urho3D::TYPE_UBYTE4_NORM, Urho3D::SEM_COLOR));
     _elements.Push(Urho3D::VertexElement(Urho3D::TYPE_VECTOR2, Urho3D::SEM_TEXCOORD));
+
+    setTexturingMode(TEXTURE_MODE_2D);
 }
 
 Urho3DQuadRenderer::Urho3DQuadRenderer(const Urho3DQuadRenderer &renderer) :
@@ -27,6 +33,7 @@ Urho3DQuadRenderer::Urho3DQuadRenderer(const Urho3DQuadRenderer &renderer) :
     _camera = renderer._camera;
     _material = renderer._material;
     _elements = renderer._elements;
+    setTexturingMode(getTexturingMode());
 }
 
 RenderBuffer* Urho3DQuadRenderer::attachRenderBuffer(const Group& group) const
@@ -272,24 +279,20 @@ void Urho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
     Urho3D::ResourceCache* cache = _context->GetSubsystem<Urho3D::ResourceCache>();
 
     Urho3D::Material * material = nullptr;
+    Urho3D::Texture * texture = nullptr;
 
     const IO::Attribute* attrib = NULL;
 
     if (attrib = descriptor.getAttributeWithValue("material"))
     {
         std::string materialName = attrib->getValue<std::string>();
-        Urho3D::Material * material = cache->GetResource<Urho3D::Material>(materialName.c_str());
-        setMaterial(material);
+        material = cache->GetResource<Urho3D::Material>(materialName.c_str());
     }
 
-    if(material)
+    if (attrib = descriptor.getAttributeWithValue("texture"))
     {
-        if (attrib = descriptor.getAttributeWithValue("texture"))
-        {
-            std::string textureName = attrib->getValue<std::string>();
-            Urho3D::Texture * texture = cache->GetResource<Urho3D::Texture>(textureName.c_str());
-            material->SetTexture(Urho3D::TU_DIFFUSE, texture);
-        }
+        std::string textureName = attrib->getValue<std::string>();
+        texture = cache->GetResource<Urho3D::Texture2D>(textureName.c_str());
     }
 
     if (attrib = descriptor.getAttributeWithValue("scale"))
@@ -299,6 +302,28 @@ void Urho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
             setScale(tmpScale[0],tmpScale[1]);
         else
             SPK_LOG_ERROR("IUrho3DQuadRenderer::innerImport(const IO::Descriptor&) - Wrong number of scale : " << tmpScale.size());
+    }
+
+    if (attrib = descriptor.getAttributeWithValue("atlasdim"))
+    {
+        std::vector<uint32> tmpAtlas = attrib->getValues<uint32>();
+        if (tmpAtlas.size() == 2)
+            setAtlasDimensions(tmpAtlas[0],tmpAtlas[1]);
+        else
+            SPK_LOG_ERROR("IUrho3DQuadRenderer::innerImport(const IO::Descriptor&) - Wrong number of atlasdim : " << tmpAtlas.size());
+    }
+
+
+    // apply texture and material
+    if(material && texture)
+    {
+        Urho3D::SharedPtr<Urho3D::Material> materialClone = material->Clone();
+        materialClone->SetTexture(Urho3D::TU_DIFFUSE, texture);
+        setMaterial(materialClone);
+    }
+    else
+    {
+        SPK_LOG_ERROR("IUrho3DQuadRenderer::innerImport - Unable to set material. Texture or Material does not exists.");
     }
 }
 
@@ -311,6 +336,9 @@ void Urho3DQuadRenderer::innerExport(IO::Descriptor& descriptor) const
 
     float tmpScale[2] = {scaleX,scaleY};
     descriptor.getAttribute("scale")->setValues(tmpScale,2);
+
+    uint32 tmpAtlas[2] = {(uint32)getAtlasDimensionX(), (uint32)getAtlasDimensionY()};
+    descriptor.getAttribute("atlasdim")->setValues(tmpAtlas,2);
 }
 
 
