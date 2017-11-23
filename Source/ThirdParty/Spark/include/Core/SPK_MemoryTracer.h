@@ -22,10 +22,6 @@
 #ifndef H_SPK_MEMORYTRACER
 #define H_SPK_MEMORYTRACER
 
-#ifdef _DEBUG
-#define SPK_TRACE_MEMORY
-#endif
-
 #ifndef SPK_TRACE_MEMORY
 #define SPK_NEW(name,...) new name(__VA_ARGS__)
 #define SPK_NEW_ARRAY(name,nb) new name[nb]
