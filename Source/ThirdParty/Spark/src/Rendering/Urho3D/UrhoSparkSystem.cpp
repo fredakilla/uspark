@@ -46,6 +46,9 @@ void SparkParticle::RegisterObject(Context* context)
     URHO3D_ACCESSOR_ATTRIBUTE("Is Enabled", IsEnabled, SetEnabled, bool, true, AM_DEFAULT);
     URHO3D_COPY_BASE_ATTRIBUTES(Drawable);   
     URHO3D_ACCESSOR_ATTRIBUTE("Update Invisible", GetUpdateInvisible, SetUpdateInvisible, bool, false, AM_DEFAULT);
+
+    // Register Urho3D context inside Spark.
+    SPK::URHO::Urho3DContext::get().registerUrhoContext(context);
 }
 
 void SparkParticle::ProcessRayQuery(const RayOctreeQuery& query, PODVector<RayQueryResult>& results)
