@@ -35,9 +35,9 @@ namespace SPK
 	Octree::Octree(const Ref<Group>& group) :
 		group(*group),
 		cells(64),
-		nbCells(0),
-		nbParticles(0),
+		nbCells(0),		
 		particleCells(NULL),
+        nbParticles(0),
 		minPos(NULL),
 		maxPos(NULL)
 	{}

@@ -233,8 +233,8 @@ namespace SPK
 		bool angularSpeedEnabled;
 		bool linearSpeedEnabled;
 
-		float eyeRadius;
 		bool killingParticleEnabled;
+        float eyeRadius;
 
 		Vortex(const Vector3D& position = Vector3D(),const Vector3D& direction = Vector3D(0.0f,1.0f,0.0f),float rotationSpeed = 1.0f,float attractionSpeed = 0.0f);
 		Vortex(const Vortex& vortex);

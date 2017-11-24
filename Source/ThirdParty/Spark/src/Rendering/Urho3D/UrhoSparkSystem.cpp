@@ -20,17 +20,19 @@ extern const char* GEOMETRY_CATEGORY;
 
 SparkParticle::SparkParticle(Context* context) :
     Drawable(context, DRAWABLE_GEOMETRY),
+    sorted_(false),
     animationLodBias_(1.0f),
     animationLodTimer_(0.0f),
+    transform_(Matrix3x4::IDENTITY),
+    bufferSizeDirty_(true),
     bufferDirty_(true),
+    lastTimeStep_(0.0f),
     lastUpdateFrameNumber_(M_MAX_UNSIGNED),
     needUpdate_(false),
-    sorted_(false),
     previousOffset_(Vector3::ZERO),
     forceUpdate_(false),
     updateInvisible_(false),
-    firstRenderSet_(false),
-    transform_(Matrix3x4::IDENTITY)
+    firstRenderSet_(false)
 {
 }
 

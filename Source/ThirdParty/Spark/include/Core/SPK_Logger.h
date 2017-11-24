@@ -274,10 +274,11 @@ namespace SPK
 		static const size_t NB_PRIORITY_LEVELS = 5; // Number of priority levels
 		static const std::string PRIORITY_NAMES[NB_PRIORITY_LEVELS]; // Names of priority levels
 
-		std::ostream* innerStream;
+        bool enabled;
 		LogPriority priorityLevel;
+        std::ostream* innerStream;
 		int prefixFlag;
-		bool enabled;
+
 
 		// private constructor and destructor (singleton pattern)
 		Logger();

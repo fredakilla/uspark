@@ -101,10 +101,10 @@ namespace SPK
 		virtual void innerImport(const IO::Descriptor& descriptor);
 		virtual void innerExport(IO::Descriptor& descriptor) const;
 
-	private :
-	
-		bool inverted;
+	private :	
+
 		Ref<Zone> normalZone;
+        bool inverted;
 
 		NormalEmitter(
 			const Ref<Zone>& zone = SPK_NULL_REF,

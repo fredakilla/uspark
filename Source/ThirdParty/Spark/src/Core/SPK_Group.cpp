@@ -38,21 +38,21 @@ namespace SPK
 	Group::Group(const Ref<System>& system,size_t capacity) :
 		Transformable(SHARE_POLICY_FALSE),
 		system(system.get()),
-		nbEnabledParameters(0),
-		minLifeTime(1.0f),
-		maxLifeTime(1.0f),
-		immortal(false),
-		still(false),
-		distanceComputationEnabled(false),
-		sortingEnabled(false),
-		AABBMin(),
-		AABBMax(),
-		graphicalRadius(1.0f),
-        physicalRadius(0.0f),
-		nbBufferedParticles(0),
+		nbEnabledParameters(0),		
 		birthAction(),
 		deathAction(),
-		octree(NULL)
+        minLifeTime(1.0f),
+        maxLifeTime(1.0f),
+        immortal(false),
+        still(false),
+        distanceComputationEnabled(false),
+        sortingEnabled(false),
+        AABBMin(),
+        AABBMax(),
+        physicalRadius(0.0f),
+        graphicalRadius(1.0f),
+        octree(NULL),
+        nbBufferedParticles(0)
 	{
 		reallocate(capacity);
 	}
@@ -60,7 +60,7 @@ namespace SPK
 	Group::Group(const Group& group) :
 		Transformable(group),
 		system(NULL),
-		nbEnabledParameters(0),
+		nbEnabledParameters(0),        
 		minLifeTime(group.minLifeTime),
 		maxLifeTime(group.maxLifeTime),
 		immortal(group.immortal),
@@ -69,10 +69,10 @@ namespace SPK
 		sortingEnabled(group.sortingEnabled),
 		AABBMin(group.AABBMin),
 		AABBMax(group.AABBMax),
-		graphicalRadius(group.graphicalRadius),
-		physicalRadius(group.physicalRadius),
-		nbBufferedParticles(0),
-		octree(NULL)
+		physicalRadius(group.physicalRadius),		
+        graphicalRadius(group.graphicalRadius),
+        octree(NULL),
+        nbBufferedParticles(0)
 	{
 		reallocate(group.getCapacity());
 

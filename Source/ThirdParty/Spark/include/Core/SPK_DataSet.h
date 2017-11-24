@@ -165,9 +165,9 @@ namespace SPK
 	}
 
 	inline DataSet::DataSet() :
+        dataArray(NULL),
 		nbData(0),
-		initialized(false),
-		dataArray(NULL)
+        initialized(false)
 	{}
 
 	inline DataSet::~DataSet()

@@ -35,9 +35,9 @@ namespace SPK
 	Transform::Transform() :
 		currentUpdate(0),
 		lastUpdate(0),
-		lastParentUpdate(0),
-		parent(NULL),
-		localIdentity(true)
+		lastParentUpdate(0),		
+        localIdentity(true),
+        parent(NULL)
 	{
 		std::memcpy(local,IDENTITY,sizeof(float) * TRANSFORM_LENGTH);
 		std::memcpy(world,IDENTITY,sizeof(float) * TRANSFORM_LENGTH);
@@ -46,9 +46,9 @@ namespace SPK
 	Transform::Transform(const Transform& transform) :
 		currentUpdate(0),
 		lastUpdate(0),
-		lastParentUpdate(0),
-		parent(NULL),
-		localIdentity(transform.localIdentity)
+		lastParentUpdate(0),		
+        localIdentity(transform.localIdentity),
+        parent(NULL)
 	{
 		std::memcpy(local,transform.local,sizeof(float) * TRANSFORM_LENGTH);
 		std::memcpy(world,transform.local,sizeof(float) * TRANSFORM_LENGTH); // Sets to local as it is created with no parent

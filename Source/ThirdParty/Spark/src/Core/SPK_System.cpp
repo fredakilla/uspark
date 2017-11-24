@@ -37,22 +37,22 @@ namespace SPK
 	System::System(bool initialize) :
 		Transformable(SHARE_POLICY_TRUE),
 		groups(),
-		deltaStep(0.0f),
-		AABBComputationEnabled(false),
-		AABBMin(),
-		AABBMax(),
+		deltaStep(0.0f),		
 		initialized(initialize),
-		active(true)
+        active(true),
+        AABBComputationEnabled(false),
+        AABBMin(),
+        AABBMax()
 	{}
 
 	System::System(const System& system) :
 		Transformable(system),
-		deltaStep(0.0f),
-		AABBComputationEnabled(system.AABBComputationEnabled),
-		AABBMin(system.AABBMin),
-		AABBMax(system.AABBMax),
+		deltaStep(0.0f),		
 		initialized(system.initialized),
-		active(system.active)
+        active(system.active),
+        AABBComputationEnabled(system.AABBComputationEnabled),
+        AABBMin(system.AABBMin),
+        AABBMax(system.AABBMax)
 	{
 		for (std::vector<Ref<Group> >::const_iterator it = system.groups.begin(); it != system.groups.end(); ++it)
 		{
