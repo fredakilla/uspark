@@ -55,7 +55,7 @@ namespace SPK
 
 	void Emitter::setTank(int minTank,int maxTank)
 	{
-		SPK_ASSERT(minTank >= 0 == maxTank >= 0,"Emitter::setTank(int,int) : min and max tank values must be of the same sign");
+        SPK_ASSERT((minTank >= 0) == (maxTank >= 0),"Emitter::setTank(int,int) : min and max tank values must be of the same sign");
 		if (minTank < 0 || maxTank < 0) minTank = maxTank = -1;
 		if (minTank > maxTank)
 		{

@@ -126,7 +126,7 @@ namespace SPK
 	{
 		float d0 = slab - dist0;
 		float d1 = slab - dist1;
-		if (d0 > 0.0f != d1 > 0.0f)
+        if ((d0 > 0.0f) != (d1 > 0.0f))
 		{
 			float ratio = d0 / (d0 - d1);
 			if (ratio < minRatio)
