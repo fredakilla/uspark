@@ -53,15 +53,13 @@ SPK::Ref<SPK::System> _systemCopy;
 SparkParticles::SparkParticles(Context* context) :
     Sample(context)
 {
+    // Register Urho3D Spark Objects.
+    SparkParticleEffect::RegisterObject(context_);
+    SparkParticle::RegisterObject(context_);
 }
 
 void SparkParticles::Start()
 {
-    // Register urho3D Spark objects
-    SparkParticleEffect::RegisterObject(context_);
-    SparkParticle::RegisterObject(context_);
-    SPK::URHO::Urho3DContext::get().registerUrhoContext(context_);
-
     // Execute base class startup
     Sample::Start();
 
@@ -89,44 +87,62 @@ void SparkParticles::CreateScene()
     ResourceCache* cache = GetSubsystem<ResourceCache>();
 
     scene_ = new Scene(context_);
-
-    // Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
-    // show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
-    // is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
-    // optimizing manner
     scene_->CreateComponent<Octree>();
 
-    // Create a new child scene node and a SparkParticle component into it.
-    // Assign the manually builded spark effect to the SparkParticle component.
-    Node* sparkNode = scene_->CreateChild("SparkSystem");
-    sparkNode->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-    SparkParticle* sparkComponent = sparkNode->CreateComponent<SparkParticle>();
-    sparkComponent->SetSystem(_systemCopy);
+    // There is 2 ways of using Spark Particles
 
-    // Create a child scene node (at world origin) and a StaticModel component into it. Set the StaticModel to show a simple
-    // plane mesh with a "stone" material. Note that naming the scene nodes is optional. Scale the scene node larger
-    // (100 x 100 world units)
+    // 1. Load a spark effect file.
+
+    // Create a new child scene node and a create a SparkParticle component into it.
+    // Set effect by loading a SparkParticleEffect resource.
+    // SparkParticleEffect load .xml or .spk files.
+    Node* node2 = scene_->CreateChild("Spark2");
+    node2->SetPosition(Vector3(2.0f, 0.0f, 0.0f));
+    SparkParticle * sparkComponent2 = node2->CreateComponent<SparkParticle>();
+    sparkComponent2->SetEffect(cache->GetResource<SparkParticleEffect>("Spark/Effects/FireAtlasAnim.xml"));
+
+
+    // 2. Build manually a spark effect.
+
+    // Once effect is builded, assign it to a SparkParticleEffect and add it to the cache.
+    SparkParticleEffect* effect = new SparkParticleEffect(context_);
+    effect->SetSystem(_systemCopy);
+    effect->SetName("MyNewSparkParticleEffectResource");
+    cache->AddManualResource(effect); // ! important for clones
+
+    // Now, we can use this effect in a SparkParticle component.
+    Node* node1 = scene_->CreateChild("Spark1");
+    node1->SetPosition(Vector3(-1.0f, 0.0f, 0.0f));
+    SparkParticle * sparkComponent1 = node1->CreateComponent<SparkParticle>();
+    sparkComponent1->SetEffect(effect);
+
+
+    // Create some new particles nodes.
+    {
+        Node* node = scene_->CreateChild("Spark2");
+        node->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+        SparkParticle * spk = node->CreateComponent<SparkParticle>();
+        spk->SetEffect(cache->GetResource<SparkParticleEffect>("Spark/Effects/Fire1.xml"));
+    }
+
+
+    // Create a plane.
     Node* planeNode = scene_->CreateChild("Plane");
     planeNode->SetScale(Vector3(10.0f, 1.0f, 10.0f));
     StaticModel* planeObject = planeNode->CreateComponent<StaticModel>();
     planeObject->SetModel(cache->GetResource<Model>("Models/Plane.mdl"));
     planeObject->SetMaterial(cache->GetResource<Material>("Materials/StoneTiled.xml"));
 
-    // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
-    // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
-    // The light will use default settings (white light, no shadows)
+    // Create a directional light.
     Node* lightNode = scene_->CreateChild("DirectionalLight");
-    lightNode->SetDirection(Vector3(0.6f, -1.0f, 0.8f)); // The direction vector does not need to be normalized
+    lightNode->SetDirection(Vector3(0.6f, -1.0f, 0.8f));
     Light* light = lightNode->CreateComponent<Light>();
     light->SetLightType(LIGHT_DIRECTIONAL);    
 
-    // Create a scene node for the camera, which we will move around
-    // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
+    // Create a camera.
     cameraNode_ = scene_->CreateChild("Camera");
     cameraNode_->CreateComponent<Camera>();
-
-    // Set an initial position for the camera scene node above the plane
-    cameraNode_->SetPosition(Vector3(0.0f, 1.0f, -2.0f));
+    cameraNode_->SetPosition(Vector3(0.0f, 1.0f, -8.0f));
 }
 
 void SparkParticles::BuildSparkEffectFromScratch()
@@ -171,14 +187,14 @@ void SparkParticles::BuildSparkEffectFromScratch()
     //particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0xFFFF0000,0xFF0000FF));
     particleGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0xFFFF00FF,0xFF0000FF));
 
-    //_systemCopy = SPK::SPKObject::copy(system_);
+    _systemCopy = SPK::SPKObject::copy(system_);
 
     // Spark IO test
     // -------------------------------------------------------------------
     SPK::IO::IOManager::get().save("test.xml", system_);
     SPK::IO::IOManager::get().save("test.spk", system_);
     // -------------------------------------------------------------------
-    _systemCopy = SPK::IO::IOManager::get().load("test.xml");
+    //_systemCopy = SPK::IO::IOManager::get().load("Data/Spark/Effects/Fire1.xml");
     //-------------------------------------------------------------------
 
 }
