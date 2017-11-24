@@ -944,43 +944,43 @@ namespace SPK
 
 		const IO::Attribute* attrib = NULL;
 
-		if (attrib = descriptor.getAttributeWithValue("capacity"))
+        if ((attrib = descriptor.getAttributeWithValue("capacity")))
 			reallocate(attrib->getValue<uint32>());
-		if (attrib = descriptor.getAttributeWithValue("color interpolator"))
+        if ((attrib = descriptor.getAttributeWithValue("color interpolator")))
 			setColorInterpolator(attrib->getValueRef<ColorInterpolator>());
-		if (attrib = descriptor.getAttributeWithValue("scale interpolator"))
+        if ((attrib = descriptor.getAttributeWithValue("scale interpolator")))
 			setParamInterpolator(PARAM_SCALE,attrib->getValueRef<FloatInterpolator>());
-		if (attrib = descriptor.getAttributeWithValue("mass interpolator"))
+        if ((attrib = descriptor.getAttributeWithValue("mass interpolator")))
 			setParamInterpolator(PARAM_MASS,attrib->getValueRef<FloatInterpolator>());
-		if (attrib = descriptor.getAttributeWithValue("angle interpolator"))
+        if ((attrib = descriptor.getAttributeWithValue("angle interpolator")))
 			setParamInterpolator(PARAM_ANGLE,attrib->getValueRef<FloatInterpolator>());
-		if (attrib = descriptor.getAttributeWithValue("texture index interpolator"))
+        if ((attrib = descriptor.getAttributeWithValue("texture index interpolator")))
 			setParamInterpolator(PARAM_TEXTURE_INDEX,attrib->getValueRef<FloatInterpolator>());
-		if (attrib = descriptor.getAttributeWithValue("rotation speed interpolator"))
+        if ((attrib = descriptor.getAttributeWithValue("rotation speed interpolator")))
 			setParamInterpolator(PARAM_ROTATION_SPEED,attrib->getValueRef<FloatInterpolator>());
 
-		if (attrib = descriptor.getAttributeWithValue("emitters"))
+        if ((attrib = descriptor.getAttributeWithValue("emitters")))
 		{
 			const std::vector<Ref<Emitter> >& tmpEmitters = attrib->getValuesRef<Emitter>();
 			for (size_t i = 0; i < tmpEmitters.size(); ++i)
 				addEmitter(tmpEmitters[i]);
 		}
 
-		if (attrib = descriptor.getAttributeWithValue("modifiers"))
+        if ((attrib = descriptor.getAttributeWithValue("modifiers")))
 		{
 			const std::vector<Ref<Modifier> >& tmpModifiers = attrib->getValuesRef<Modifier>();
 			for (size_t i = 0; i < tmpModifiers.size(); ++i)
 				addModifier(dynamicCast<Modifier>(tmpModifiers[i]));
 		}
 
-		if (attrib = descriptor.getAttributeWithValue("birth action"))
+        if ((attrib = descriptor.getAttributeWithValue("birth action")))
 			setBirthAction(attrib->getValueRef<Action>());
-		if (attrib = descriptor.getAttributeWithValue("death action"))
+        if ((attrib = descriptor.getAttributeWithValue("death action")))
 			setDeathAction(attrib->getValueRef<Action>());
-		if (attrib = descriptor.getAttributeWithValue("renderer"))
+        if ((attrib = descriptor.getAttributeWithValue("renderer")))
 			setRenderer(attrib->getValueRef<Renderer>());
 
-		if (attrib = descriptor.getAttributeWithValue("life time"))
+        if ((attrib = descriptor.getAttributeWithValue("life time")))
 		{
 			std::vector<float> tmpTimes = attrib->getValues<float>();
 			switch(tmpTimes.size())
@@ -991,16 +991,16 @@ namespace SPK
 			}
 		}
 
-		if (attrib = descriptor.getAttributeWithValue("immortal"))
+        if ((attrib = descriptor.getAttributeWithValue("immortal")))
 			setImmortal(attrib->getValue<bool>());
-		if (attrib = descriptor.getAttributeWithValue("still"))
+        if ((attrib = descriptor.getAttributeWithValue("still")))
 			setStill(attrib->getValue<bool>());
-		if (attrib = descriptor.getAttributeWithValue("distance computation enabled"))
+        if ((attrib = descriptor.getAttributeWithValue("distance computation enabled")))
 			enableDistanceComputation(attrib->getValue<bool>());
-		if (attrib = descriptor.getAttributeWithValue("sorting enabled"))
+        if ((attrib = descriptor.getAttributeWithValue("sorting enabled")))
 			enableSorting(attrib->getValue<bool>());
 
-		if (attrib = descriptor.getAttributeWithValue("radius"))
+        if ((attrib = descriptor.getAttributeWithValue("radius")))
 		{
 			std::vector<float> tmpRadiuses = attrib->getValues<float>();
 			switch(tmpRadiuses.size())

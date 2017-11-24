@@ -120,10 +120,10 @@ namespace SPK
 
 		const IO::Attribute* attrib = NULL;
 
-		if (attrib = descriptor.getAttributeWithValue("active"))
+        if ((attrib = descriptor.getAttributeWithValue("active")))
 			setActive(attrib->getValue<bool>());
 
-		if (attrib = descriptor.getAttributeWithValue("tank"))
+        if ((attrib = descriptor.getAttributeWithValue("tank")))
 		{
 			std::vector<int32> tmpTanks = attrib->getValues<int32>();
 			switch(tmpTanks.size())
@@ -134,10 +134,10 @@ namespace SPK
 			}
 		}
 
-		if (attrib = descriptor.getAttributeWithValue("flow"))
+        if ((attrib = descriptor.getAttributeWithValue("flow")))
 			setFlow(attrib->getValue<float>());
 
-		if (attrib = descriptor.getAttributeWithValue("force"))
+        if ((attrib = descriptor.getAttributeWithValue("force")))
 		{
 			std::vector<float> tmpForces = attrib->getValues<float>();
 			switch(tmpForces.size())
@@ -148,9 +148,9 @@ namespace SPK
 			}
 		}
 
-		if (attrib = descriptor.getAttributeWithValue("zone"))
+        if ((attrib = descriptor.getAttributeWithValue("zone")))
 			setZone(attrib->getValueRef<Zone>(),isFullZone());
-		if (attrib = descriptor.getAttributeWithValue("full"))
+        if ((attrib = descriptor.getAttributeWithValue("full")))
 			setZone(getZone(),attrib->getValue<bool>());
 	}
 

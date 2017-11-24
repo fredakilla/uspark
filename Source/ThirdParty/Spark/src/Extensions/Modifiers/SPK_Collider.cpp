@@ -146,7 +146,7 @@ namespace SPK
 		Modifier::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("elasticity"))
+        if ((attrib = descriptor.getAttributeWithValue("elasticity")))
 			setElasticity(attrib->getValue<float>());
 	}
 

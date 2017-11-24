@@ -283,19 +283,19 @@ void Urho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
 
     const IO::Attribute* attrib = NULL;
 
-    if (attrib = descriptor.getAttributeWithValue("material"))
+    if ((attrib = descriptor.getAttributeWithValue("material")))
     {
         std::string materialName = attrib->getValue<std::string>();
         material = cache->GetResource<Urho3D::Material>(materialName.c_str());
     }
 
-    if (attrib = descriptor.getAttributeWithValue("texture"))
+    if ((attrib = descriptor.getAttributeWithValue("texture")))
     {
         std::string textureName = attrib->getValue<std::string>();
         texture = cache->GetResource<Urho3D::Texture2D>(textureName.c_str());
     }
 
-    if (attrib = descriptor.getAttributeWithValue("scale"))
+    if ((attrib = descriptor.getAttributeWithValue("scale")))
     {
         std::vector<float> tmpScale = attrib->getValues<float>();
         if (tmpScale.size() == 2)
@@ -304,7 +304,7 @@ void Urho3DQuadRenderer::innerImport(const IO::Descriptor& descriptor)
             SPK_LOG_ERROR("IUrho3DQuadRenderer::innerImport(const IO::Descriptor&) - Wrong number of scale : " << tmpScale.size());
     }
 
-    if (attrib = descriptor.getAttributeWithValue("atlasdim"))
+    if ((attrib = descriptor.getAttributeWithValue("atlasdim")))
     {
         std::vector<uint32> tmpAtlas = attrib->getValues<uint32>();
         if (tmpAtlas.size() == 2)

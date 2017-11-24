@@ -141,9 +141,9 @@ namespace SPK
 
 		const IO::Attribute* attrib = NULL;
 
-		if (attrib = descriptor.getAttributeWithValue("active"))
+        if ((attrib = descriptor.getAttributeWithValue("active")))
 			setActive(attrib->getValue<bool>());
-		if (attrib = descriptor.getAttributeWithValue("local"))
+        if ((attrib = descriptor.getAttributeWithValue("local")))
 			setLocalToSystem(attrib->getValue<bool>());
 	}
 

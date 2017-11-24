@@ -172,15 +172,15 @@ namespace SPK
 		float height = this->height;
 		float radius = this->radius;
 
-		if (attrib = descriptor.getAttributeWithValue("height"))
+        if ((attrib = descriptor.getAttributeWithValue("height")))
 			height = attrib->getValue<float>();
 
-		if (attrib = descriptor.getAttributeWithValue("radius"))
+        if ((attrib = descriptor.getAttributeWithValue("radius")))
 			radius = attrib->getValue<float>();
 
 		setDimensions(height,radius);
 
-		if (attrib = descriptor.getAttributeWithValue("axis"))
+        if ((attrib = descriptor.getAttributeWithValue("axis")))
 			setAxis(attrib->getValue<Vector3D>());
 	}
 

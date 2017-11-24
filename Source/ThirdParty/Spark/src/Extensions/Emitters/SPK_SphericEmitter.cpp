@@ -144,9 +144,9 @@ namespace SPK
 		Emitter::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("direction"))
+        if ((attrib = descriptor.getAttributeWithValue("direction")))
 			setDirection(attrib->getValue<Vector3D>());
-		if (attrib = descriptor.getAttributeWithValue("angles"))
+        if ((attrib = descriptor.getAttributeWithValue("angles")))
 		{
 			std::vector<float> tmpAngles = attrib->getValues<float>();
 			if (tmpAngles.size() == 2)

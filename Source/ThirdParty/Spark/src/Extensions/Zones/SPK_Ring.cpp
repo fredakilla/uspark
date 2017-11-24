@@ -147,9 +147,9 @@ namespace SPK
 		Zone::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("normal"))
+        if ((attrib = descriptor.getAttributeWithValue("normal")))
 			setNormal(attrib->getValue<Vector3D>());
-		if (attrib = descriptor.getAttributeWithValue("radius"))
+        if ((attrib = descriptor.getAttributeWithValue("radius")))
 		{
 			std::vector<float> tmpRadius = attrib->getValues<float>();
 			switch (tmpRadius.size())

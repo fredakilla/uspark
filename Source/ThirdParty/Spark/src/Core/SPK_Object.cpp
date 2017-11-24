@@ -92,10 +92,10 @@ namespace SPK
 	{
 		const IO::Attribute* attrib = NULL;
 
-		if (attrib = descriptor.getAttributeWithValue("name"))
+        if ((attrib = descriptor.getAttributeWithValue("name")))
 			setName(attrib->getValue<std::string>());
 
-		if (attrib = descriptor.getAttributeWithValue("shared"))
+        if ((attrib = descriptor.getAttributeWithValue("shared")))
 			setShared(attrib->getValue<bool>());
 	}
 

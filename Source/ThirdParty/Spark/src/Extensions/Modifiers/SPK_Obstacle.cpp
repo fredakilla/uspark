@@ -77,9 +77,9 @@ namespace SPK
 		ZonedModifier::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("bouncing ratio"))
+        if ((attrib = descriptor.getAttributeWithValue("bouncing ratio")))
 			setBouncingRatio(attrib->getValue<float>());
-		if (attrib = descriptor.getAttributeWithValue("friction"))
+        if ((attrib = descriptor.getAttributeWithValue("friction")))
 			setFriction(attrib->getValue<float>());
 	}
 

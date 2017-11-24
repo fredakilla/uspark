@@ -98,7 +98,7 @@ namespace SPK
 		SPKObject::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("active"))
+        if ((attrib = descriptor.getAttributeWithValue("active")))
 			setActive(attrib->getValue<bool>());
 	}
 

@@ -70,7 +70,7 @@ namespace SPK
 		Emitter::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("direction"))
+        if ((attrib = descriptor.getAttributeWithValue("direction")))
 			setDirection(attrib->getValue<Vector3D>());
 	}
 

@@ -166,7 +166,7 @@ namespace SPK
 
 		const IO::Attribute* attrib = NULL;
 
-		if (attrib = descriptor.getAttributeWithValue("position"))
+        if ((attrib = descriptor.getAttributeWithValue("position")))
 			setPosition(attrib->getValue<Vector3D>());
 	}
 

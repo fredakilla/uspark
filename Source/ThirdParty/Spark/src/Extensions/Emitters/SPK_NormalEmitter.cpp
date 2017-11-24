@@ -84,9 +84,9 @@ namespace SPK
 		Emitter::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("normal zone"))
+        if ((attrib = descriptor.getAttributeWithValue("normal zone")))
 			setNormalZone(attrib->getValueRef<Zone>());
-		if (attrib = descriptor.getAttributeWithValue("inverted normals"))
+        if ((attrib = descriptor.getAttributeWithValue("inverted normals")))
 			setInverted(attrib->getValue<bool>());
 	}
 

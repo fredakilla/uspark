@@ -99,9 +99,9 @@ namespace SPK
 
 		const IO::Attribute* attrib = NULL;
 
-		if (attrib = descriptor.getAttributeWithValue("zone"))
+        if ((attrib = descriptor.getAttributeWithValue("zone")))
 			setZone(attrib->getValueRef<Zone>());
-		if (attrib = descriptor.getAttributeWithValue("zone test"))
+        if ((attrib = descriptor.getAttributeWithValue("zone test")))
 			setZoneTest(getEnumValue<ZoneTest>(attrib->getValue<std::string>()));
 	}
 

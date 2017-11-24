@@ -148,7 +148,7 @@ namespace SPK
 		Action::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("spawning numbers"))
+        if ((attrib = descriptor.getAttributeWithValue("spawning numbers")))
 		{
 			std::vector<uint32> nbs = attrib->getValues<uint32>();
 			switch (nbs.size())
@@ -158,9 +158,9 @@ namespace SPK
 			default : SPK_LOG_ERROR("SpawnParticlesAction::innerImport(const IO::Descriptor& - The number of numbers set must be 1 or 2");
 			}
 		}
-		if (attrib = descriptor.getAttributeWithValue("base emitter"))
+        if ((attrib = descriptor.getAttributeWithValue("base emitter")))
 			setEmitter(attrib->getValueRef<Emitter>());
-		if (attrib = descriptor.getAttributeWithValue("target group"))
+        if ((attrib = descriptor.getAttributeWithValue("target group")))
 			setTargetGroup(attrib->getValueRef<Group>());
 	}
 

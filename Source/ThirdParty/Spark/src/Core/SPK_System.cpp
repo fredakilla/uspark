@@ -256,7 +256,7 @@ namespace SPK
 		Transformable::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("groups"))
+        if ((attrib = descriptor.getAttributeWithValue("groups")))
 		{
 			const std::vector<Ref<Group> >& tmpGroups = attrib->getValuesRef<Group>();
 			for (size_t i = 0; i < tmpGroups.size(); ++i)

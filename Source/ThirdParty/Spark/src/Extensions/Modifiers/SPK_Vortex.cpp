@@ -115,21 +115,21 @@ namespace SPK
 		Modifier::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("position"))
+        if ((attrib = descriptor.getAttributeWithValue("position")))
 			setPosition(attrib->getValue<Vector3D>());
-		if (attrib = descriptor.getAttributeWithValue("direction"))
+        if ((attrib = descriptor.getAttributeWithValue("direction")))
 			setDirection(attrib->getValue<Vector3D>());
-		if (attrib = descriptor.getAttributeWithValue("rotation speed"))
+        if ((attrib = descriptor.getAttributeWithValue("rotation speed")))
 			setRotationSpeed(attrib->getValue<float>(),isRotationSpeedAngular());
-		if (attrib = descriptor.getAttributeWithValue("attraction speed"))
+        if ((attrib = descriptor.getAttributeWithValue("attraction speed")))
 			setAttractionSpeed(attrib->getValue<float>(),isAttractionSpeedLinear());
-		if (attrib = descriptor.getAttributeWithValue("angular speed enabled"))
+        if ((attrib = descriptor.getAttributeWithValue("angular speed enabled")))
 			setRotationSpeed(getRotationSpeed(),attrib->getValue<bool>());
-		if (attrib = descriptor.getAttributeWithValue("linear speed enabled"))
+        if ((attrib = descriptor.getAttributeWithValue("linear speed enabled")))
 			setRotationSpeed(getAttractionSpeed(),attrib->getValue<bool>());
-		if (attrib = descriptor.getAttributeWithValue("eye radius"))
+        if ((attrib = descriptor.getAttributeWithValue("eye radius")))
 			setEyeRadius(attrib->getValue<float>());
-		if (attrib = descriptor.getAttributeWithValue("killing particles enabled"))
+        if ((attrib = descriptor.getAttributeWithValue("killing particles enabled")))
 			enableParticleKilling(attrib->getValue<bool>());
 	}
 

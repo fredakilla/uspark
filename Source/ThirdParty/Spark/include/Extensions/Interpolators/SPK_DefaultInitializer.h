@@ -106,7 +106,7 @@ namespace SPK
 		Interpolator<T>::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("value"))
+        if ((attrib = descriptor.getAttributeWithValue("value")))
 			setDefaultValue(attrib->getValue<T>());
 	}
 

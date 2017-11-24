@@ -34,7 +34,7 @@ namespace SPK
 		SPKObject::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("transform"))
+        if ((attrib = descriptor.getAttributeWithValue("transform")))
 		{
 			std::vector<float> t = attrib->getValues<float>();
 			if (t.size() == 16)

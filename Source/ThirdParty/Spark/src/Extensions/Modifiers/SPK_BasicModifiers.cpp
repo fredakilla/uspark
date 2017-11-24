@@ -55,7 +55,7 @@ namespace SPK
 		Modifier::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("value"))
+        if ((attrib = descriptor.getAttributeWithValue("value")))
 			setValue(attrib->getValue<Vector3D>());
 	}
 
@@ -70,7 +70,7 @@ namespace SPK
 		Modifier::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("value"))
+        if ((attrib = descriptor.getAttributeWithValue("value")))
 			value = attrib->getValue<float>();
 	}
 

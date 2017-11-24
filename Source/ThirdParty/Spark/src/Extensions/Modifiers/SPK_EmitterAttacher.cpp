@@ -173,19 +173,19 @@ namespace SPK
 		Modifier::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("base emitter"))
+        if ((attrib = descriptor.getAttributeWithValue("base emitter")))
 			setEmitter(attrib->getValueRef<Emitter>());
 
-		if (attrib = descriptor.getAttributeWithValue("orientation enabled"))
+        if ((attrib = descriptor.getAttributeWithValue("orientation enabled")))
 		{
 			bool tmpRotationEnabled = false;
 			bool tmpOrientationEnabled = attrib->getValue<bool>();
-			if (attrib = descriptor.getAttributeWithValue("rotation enabled"))
+            if ((attrib = descriptor.getAttributeWithValue("rotation enabled")))
 				tmpRotationEnabled = attrib->getValue<bool>();
 			enableEmitterOrientation(tmpOrientationEnabled,tmpRotationEnabled);
 		}
 
-		if (attrib = descriptor.getAttributeWithValue("target group"))
+        if ((attrib = descriptor.getAttributeWithValue("target group")))
 			setTargetGroup(attrib->getValueRef<Group>());
 	}
 

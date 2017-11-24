@@ -206,28 +206,28 @@ namespace SPK
 		ZonedModifier::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("value"))
+        if ((attrib = descriptor.getAttributeWithValue("value")))
 			setValue(attrib->getValue<Vector3D>());
 
-		if (attrib = descriptor.getAttributeWithValue("relative value"))
+        if ((attrib = descriptor.getAttributeWithValue("relative value")))
 		{
 			bool tmpSquaredSpeed = false;
 			bool tmpRelative = attrib->getValue<bool>();
-			if (attrib = descriptor.getAttributeWithValue("squared speed"))
+            if ((attrib = descriptor.getAttributeWithValue("squared speed")))
 				tmpSquaredSpeed = attrib->getValue<bool>();
 			setRelative(tmpRelative,tmpSquaredSpeed);
 		}
 
-		if (attrib = descriptor.getAttributeWithValue("parameter"))
+        if ((attrib = descriptor.getAttributeWithValue("parameter")))
 		{
 			Factor tmpFactor = FACTOR_LINEAR;
 			Param tmpParam = getEnumValue<Param>(attrib->getValue<std::string>());
-			if (attrib = descriptor.getAttributeWithValue("factor type"))
+            if ((attrib = descriptor.getAttributeWithValue("factor type")))
 				tmpFactor = getEnumValue<Factor>(attrib->getValue<std::string>());
 			setParam(tmpParam,tmpFactor);
 		}
 
-		if (attrib = descriptor.getAttributeWithValue("coefficient"))
+        if ((attrib = descriptor.getAttributeWithValue("coefficient")))
 			setCoef(attrib->getValue<float>());
 	}
 

@@ -119,7 +119,7 @@ namespace SPK
 		Zone::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("radius"))
+        if ((attrib = descriptor.getAttributeWithValue("radius")))
 			setRadius(attrib->getValue<float>());
 	}
 

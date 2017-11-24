@@ -124,7 +124,7 @@ namespace SPK
 		Interpolator<T>::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("values"))
+        if ((attrib = descriptor.getAttributeWithValue("values")))
 		{
 			std::vector<T> tmpValues = attrib->getValues<T>();
 			if (tmpValues.size() == 2)

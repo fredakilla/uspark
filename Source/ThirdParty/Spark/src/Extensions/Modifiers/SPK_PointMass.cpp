@@ -70,11 +70,11 @@ namespace SPK
 		Modifier::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("position"))
+        if ((attrib = descriptor.getAttributeWithValue("position")))
 			setPosition(attrib->getValue<Vector3D>());
-		if (attrib = descriptor.getAttributeWithValue("mass"))
+        if ((attrib = descriptor.getAttributeWithValue("mass")))
 			setMass(attrib->getValue<float>());
-		if (attrib = descriptor.getAttributeWithValue("offset"))
+        if ((attrib = descriptor.getAttributeWithValue("offset")))
 			setOffset(attrib->getValue<float>());
 	}
 

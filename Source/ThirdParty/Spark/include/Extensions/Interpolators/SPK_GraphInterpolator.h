@@ -580,7 +580,7 @@ namespace SPK
 		size_t nbEntries = 0;
 		bool validGraph = true;
 
-		if (attrib = descriptor.getAttributeWithValue("graph keys"))
+        if ((attrib = descriptor.getAttributeWithValue("graph keys")))
 		{
 			std::vector<float> keys = attrib->getValues<float>();
 			nbEntries = keys.size();
@@ -621,15 +621,15 @@ namespace SPK
 			SPK_LOG_ERROR("GraphInterpolator<T>::innerImport(const IO::Descriptor&) - The imported graph is not valid (nb of entries are not consistent");
 		}
 
-		if (attrib = descriptor.getAttributeWithValue("interpolation type"))
+        if ((attrib = descriptor.getAttributeWithValue("interpolation type")))
 			setType(getEnumValue<InterpolationType>(attrib->getValue<std::string>()));
-		if (attrib = descriptor.getAttributeWithValue("interpolation param"))
+        if ((attrib = descriptor.getAttributeWithValue("interpolation param")))
 			setType(getType(),getEnumValue<Param>(attrib->getValue<std::string>()));
-		if (attrib = descriptor.getAttributeWithValue("looping enabled"))
+        if ((attrib = descriptor.getAttributeWithValue("looping enabled")))
 			enableLooping(attrib->getValue<bool>());
-		if (attrib = descriptor.getAttributeWithValue("scale variation"))
+        if ((attrib = descriptor.getAttributeWithValue("scale variation")))
 			setScaleXVariation(attrib->getValue<float>());
-		if (attrib = descriptor.getAttributeWithValue("offset variation"))
+        if ((attrib = descriptor.getAttributeWithValue("offset variation")))
 			setOffsetXVariation(attrib->getValue<float>());
 
 		SPK_DELETE_ARRAY(entries);

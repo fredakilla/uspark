@@ -136,7 +136,7 @@ namespace SPK
 		Modifier::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("values"))
+        if ((attrib = descriptor.getAttributeWithValue("values")))
 		{
 			std::vector<Vector3D> tmpValues = attrib->getValues<Vector3D>();
 			switch (tmpValues.size())
@@ -146,7 +146,7 @@ namespace SPK
 			default : SPK_LOG_ERROR("RandomForce::innerImport(const IO::Descriptor&) - Wrong number of values : " << tmpValues.size());
 			}
 		}
-		if (attrib = descriptor.getAttributeWithValue("period"))
+        if ((attrib = descriptor.getAttributeWithValue("period")))
 		{
 			std::vector<float> tmpPeriods = attrib->getValues<float>();
 			switch (tmpPeriods.size())

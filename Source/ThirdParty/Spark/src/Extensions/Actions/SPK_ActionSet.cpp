@@ -90,7 +90,7 @@ namespace SPK
 		Action::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("actions"))
+        if ((attrib = descriptor.getAttributeWithValue("actions")))
 		{
 			std::vector<Ref<Action> > tmpActions = attrib->getValuesRef<Action>();
 			for (size_t i = 0; i < tmpActions.size(); ++i)

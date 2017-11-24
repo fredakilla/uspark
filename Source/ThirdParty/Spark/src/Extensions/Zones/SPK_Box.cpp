@@ -215,15 +215,15 @@ namespace SPK
 		Zone::innerImport(descriptor);
 
 		const IO::Attribute* attrib = NULL;
-		if (attrib = descriptor.getAttributeWithValue("dimensions"))
+        if ((attrib = descriptor.getAttributeWithValue("dimensions")))
 			setDimensions(attrib->getValue<Vector3D>());
 		
 		Vector3D front = Vector3D(0.0f,0.0f,1.0f);
 		Vector3D up = Vector3D(0.0f,1.0f,0.0f);
 
-		if (attrib = descriptor.getAttributeWithValue("front"))
+        if ((attrib = descriptor.getAttributeWithValue("front")))
 			front = attrib->getValue<Vector3D>();
-		if (attrib = descriptor.getAttributeWithValue("up"))
+        if ((attrib = descriptor.getAttributeWithValue("up")))
 			up = attrib->getValue<Vector3D>();
 
 		setAxis(front,up);
