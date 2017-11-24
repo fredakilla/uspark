@@ -118,15 +118,15 @@ namespace SPK
         if ((attrib = descriptor.getAttributeWithValue("position")))
 			setPosition(attrib->getValue<Vector3D>());
         if ((attrib = descriptor.getAttributeWithValue("direction")))
-			setDirection(attrib->getValue<Vector3D>());
-        if ((attrib = descriptor.getAttributeWithValue("rotation speed")))
-			setRotationSpeed(attrib->getValue<float>(),isRotationSpeedAngular());
-        if ((attrib = descriptor.getAttributeWithValue("attraction speed")))
-			setAttractionSpeed(attrib->getValue<float>(),isAttractionSpeedLinear());
+			setDirection(attrib->getValue<Vector3D>());        
         if ((attrib = descriptor.getAttributeWithValue("angular speed enabled")))
-			setRotationSpeed(getRotationSpeed(),attrib->getValue<bool>());
+            angularSpeedEnabled = attrib->getValue<bool>();
         if ((attrib = descriptor.getAttributeWithValue("linear speed enabled")))
-			setRotationSpeed(getAttractionSpeed(),attrib->getValue<bool>());
+            linearSpeedEnabled = attrib->getValue<bool>();
+        if ((attrib = descriptor.getAttributeWithValue("rotation speed")))
+            setRotationSpeed(attrib->getValue<float>(),isRotationSpeedAngular());
+        if ((attrib = descriptor.getAttributeWithValue("attraction speed")))
+            setAttractionSpeed(attrib->getValue<float>(),isAttractionSpeedLinear());
         if ((attrib = descriptor.getAttributeWithValue("eye radius")))
 			setEyeRadius(attrib->getValue<float>());
         if ((attrib = descriptor.getAttributeWithValue("killing particles enabled")))
@@ -139,10 +139,10 @@ namespace SPK
 
 		descriptor.getAttribute("position")->setValue(getPosition());
 		descriptor.getAttribute("direction")->setValue(getDirection());
+        descriptor.getAttribute("angular speed enabled")->setValue(isRotationSpeedAngular());
+        descriptor.getAttribute("linear speed enabled")->setValue(isAttractionSpeedLinear());
 		descriptor.getAttribute("rotation speed")->setValue(getRotationSpeed());
-		descriptor.getAttribute("attraction speed")->setValue(getAttractionSpeed());
-		descriptor.getAttribute("angular speed enabled")->setValue(isRotationSpeedAngular());
-		descriptor.getAttribute("linear speed enabled")->setValue(isAttractionSpeedLinear());
+		descriptor.getAttribute("attraction speed")->setValue(getAttractionSpeed());		
 		descriptor.getAttribute("eye radius")->setValue(getEyeRadius());
 		descriptor.getAttribute("killing particles enabled")->setValueOptionalOnFalse(isParticleKillingEnabled());
 	}
