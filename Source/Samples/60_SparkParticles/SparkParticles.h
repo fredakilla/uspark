@@ -48,19 +48,28 @@ public:
     /// Setup after engine initialization and before running the main loop.
     virtual void Start() override;
 
+    /// Spawn an explosion effect at position.
+    void AddExplosion(Vector3 pos);
+
 private:
     /// Construct the scene content.
-    void CreateScene();
-    /// Build a new Spark effect from scratch
-    void BuildSparkEffectFromScratch();
+    void CreateScene();    
     /// Construct an instruction text to the UI.
-    void CreateInstructions();
-    /// Set up a viewport for displaying the scene.
-    void SetupViewport();
+    void CreateInstructions();    
     /// Read input and moves the camera.
     void MoveCamera(float timeStep);
     /// Subscribe to application-wide logic update events.
     void SubscribeToEvents();
     /// Handle the logic update event.
     void HandleUpdate(StringHash eventType, VariantMap& eventData);
+
+    /// Build an explosion effect.
+    void CreateExplosionEffect();
+    /// Build a fountain effect.
+    void CreateFountainEffect();
+
+
+    SPK::Ref<SPK::System> effectExplosion_;
+    SPK::Ref<SPK::System> effectFountain_;
+    Node* magicBallNode_;
 };
