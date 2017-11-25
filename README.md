@@ -13,7 +13,4 @@ To build it, unzip/drop the repository into your Urho3D/ folder and build it the
 
 Screenshots
 ------------------------------
-![Screenshot](https://raw.githubusercontent.com/fredakilla/uspark/master/build/res/uspark.png)
-![Screenshot](https://raw.githubusercontent.com/fredakilla/uspark/master/build/res/uspark3.png)
-![Screenshot](https://raw.githubusercontent.com/fredakilla/uspark/master/build/res/uspark4.png)
-![Screenshot](https://raw.githubusercontent.com/fredakilla/uspark/master/build/res/uspark5.png)
+![alt tag](https://github.com/fredakilla/uspark/blob/master/screenshot/uspark1.png)
