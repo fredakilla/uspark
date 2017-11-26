@@ -22,7 +22,7 @@
 #ifndef H_SPK_IO_XMLSAVER
 #define H_SPK_IO_XMLSAVER
 
-#ifdef SPK_WITH_XML
+#ifndef SPK_NO_XML
 
 #include <sstream>
 

@@ -23,8 +23,6 @@
 # Define target name
 set (TARGET_NAME Spark)
 
-add_definitions (-DSPK_WITH_XML)
-
 # Define source files
 set (SOURCE_FILES
  	src/Core/IO/SPK_IO_Buffer.cpp
