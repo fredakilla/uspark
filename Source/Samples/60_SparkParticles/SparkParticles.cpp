@@ -550,15 +550,6 @@ void SparkParticles::CreateFountainEffect()
 
     // get a final copy af this effect.
     effectFountain_ = SPK::SPKObject::copy(system_);
-
-    // -------------------------------------------------------------------
-    // Spark IO test
-    // -------------------------------------------------------------------
-    SPK::IO::IOManager::get().save("test.xml", system_);
-    SPK::IO::IOManager::get().save("test.spk", system_);
-    // -------------------------------------------------------------------
-    effectFountain_ = SPK::IO::IOManager::get().load("test.xml");
-    //-------------------------------------------------------------------
 }
 
 void SparkParticles::CreateInstructions()
