@@ -59,14 +59,14 @@ namespace IO
 
 	template<typename T>
 	bool XMLLoader::convert(const std::string& str,T& value)
-	{
+    {
         std::istringstream is(str);
 
-        bool success = (is >> std::boolalpha >> value);
-        int length = is.tellg();
+        bool success = static_cast<bool>(is >> std::boolalpha >> value);
+        int length = static_cast<int>(is.tellg());
         size_t strsize = str.size();
 
-        bool result = success && ( (length == -1) || ((size_t)length == strsize) );
+        bool result = ( success && ( (length == -1) || ((size_t)length == strsize)) );
 
         return result;
 	}

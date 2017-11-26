@@ -23,7 +23,7 @@
 # Define target name
 set (TARGET_NAME Spark)
 
-add_definitions (-DSPK_WITH_XML -DURHO3D_IS_BUILDING)
+add_definitions (-DSPK_WITH_XML)
 
 # Define source files
 set (SOURCE_FILES
@@ -80,7 +80,7 @@ set (SOURCE_FILES
     src/Rendering/Urho3D/SPK_Urho3D_DEF.cpp)
 
 # Define dependency libs
-set (INCLUDE_DIRS include ../..)
+set (INCLUDE_DIRS include ${PROJECT_BINARY_DIR}/include)
 
 # Setup target
 setup_library ()
