@@ -24,58 +24,7 @@
 set (TARGET_NAME Spark)
 
 # Define source files
-set (SOURCE_FILES
- 	src/Core/IO/SPK_IO_Buffer.cpp
-    src/Core/IO/SPK_IO_Descriptor.cpp
-    src/Core/IO/SPK_IO_Loader.cpp
-    src/Core/IO/SPK_IO_Manager.cpp
-    src/Core/IO/SPK_IO_Saver.cpp
-    src/Core/SPK_DataSet.cpp
-    src/Core/SPK_DEF.cpp
-    src/Core/SPK_MemoryTracer.cpp
-    src/Core/SPK_Emitter.cpp
-    src/Core/SPK_Group.cpp
-    src/Core/SPK_Logger.cpp
-    src/Core/SPK_Object.cpp
-    src/Core/SPK_Octree.cpp
-    src/Core/SPK_Renderer.cpp
-    src/Core/SPK_System.cpp
-    src/Core/SPK_Transform.cpp
-    src/Core/SPK_Transformable.cpp
-    src/Core/SPK_Zone.cpp
-    src/Core/SPK_ZonedModifier.cpp
-    src/Extensions/Actions/SPK_ActionSet.cpp
-    src/Extensions/Actions/SPK_SpawnParticlesAction.cpp
-    src/Extensions/Emitters/SPK_NormalEmitter.cpp
-    src/Extensions/Emitters/SPK_RandomEmitter.cpp
-    src/Extensions/Emitters/SPK_SphericEmitter.cpp
-    src/Extensions/Emitters/SPK_StraightEmitter.cpp
-    src/Extensions/IOConverters/SPK_IO_SPKLoader.cpp
-    src/Extensions/IOConverters/SPK_IO_SPKSaver.cpp
-    src/Extensions/IOConverters/SPK_IO_XMLLoader.cpp
-    src/Extensions/IOConverters/SPK_IO_XMLSaver.cpp
-    src/Extensions/Modifiers/SPK_BasicModifiers.cpp
-    src/Extensions/Modifiers/SPK_Collider.cpp
-    src/Extensions/Modifiers/SPK_EmitterAttacher.cpp
-    src/Extensions/Modifiers/SPK_LinearForce.cpp
-    src/Extensions/Modifiers/SPK_Obstacle.cpp
-    src/Extensions/Modifiers/SPK_PointMass.cpp
-    src/Extensions/Modifiers/SPK_RandomForce.cpp
-    src/Extensions/Modifiers/SPK_Rotator.cpp
-    src/Extensions/Modifiers/SPK_Vortex.cpp
-    src/Extensions/Renderers/SPK_Oriented3DRenderBehavior.cpp
-    src/Extensions/Renderers/SPK_QuadRenderBehavior.cpp
-    src/Extensions/Zones/SPK_Box.cpp
-    src/Extensions/Zones/SPK_Cylinder.cpp
-    src/Extensions/Zones/SPK_Plane.cpp
-    src/Extensions/Zones/SPK_Ring.cpp
-    src/Extensions/Zones/SPK_Sphere.cpp
-    src/Rendering/Urho3D/SPK_Urho3D_Buffer.cpp
-    src/Rendering/Urho3D/SPK_Urho3D_QuadRenderer.cpp
-    src/Rendering/Urho3D/SPK_Urho3D_Renderer.cpp
-    src/Rendering/Urho3D/UrhoSparkSystem.cpp
-    src/Rendering/Urho3D/SparkParticleEffect.cpp
-    src/Rendering/Urho3D/SPK_Urho3D_DEF.cpp)
+define_source_files (GLOB_CPP_PATTERNS src/*.cpp GLOB_H_PATTERNS include/*.h RECURSE)
 
 # Define dependency libs
 set (INCLUDE_DIRS include ${PROJECT_BINARY_DIR}/include)
