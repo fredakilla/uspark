@@ -1,5 +1,5 @@
 //#include <SPARK_Core.h>
-#include "Rendering/Urho3D/SPK_Urho3D_Buffer.h"
+#include "SPK_Urho3D_Buffer.h"
 
 namespace SPK {
 namespace URHO {

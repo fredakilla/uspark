@@ -1,9 +1,9 @@
-#include "Rendering/Urho3D/UrhoSparkSystem.h"
+#include "UrhoSparkSystem.h"
 
 
-#include <Urho3D/Resource/ResourceCache.h>
-#include <Urho3D/IO/FileSystem.h>
-#include <Urho3D/IO/Log.h>
+#include "../Resource/ResourceCache.h"
+#include "../IO/FileSystem.h"
+#include "../IO/Log.h"
 
 namespace Urho3D
 {

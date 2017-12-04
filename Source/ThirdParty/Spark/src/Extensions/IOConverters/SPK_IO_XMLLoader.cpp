@@ -23,7 +23,10 @@
 
 #include <ctime>
 
-#include <Urho3D/ThirdParty/PugiXml/pugixml.hpp>
+
+//#include <Urho3D/ThirdParty/PugiXml/pugixml.hpp>
+#include <pugixml.hpp>
+
 #include <SPARK_Core.h>
 #include "Extensions/IOConverters/SPK_IO_XMLLoader.h"
 

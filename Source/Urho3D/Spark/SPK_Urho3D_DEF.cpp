@@ -1,6 +1,6 @@
-#include "Rendering/Urho3D/SPK_Urho3D_DEF.h"
-#include "Rendering/Urho3D/SPK_Urho3D_QuadRenderer.h"
-#include "Core/IO/SPK_IO_Manager.h"
+#include "SPK_Urho3D_DEF.h"
+#include "SPK_Urho3D_QuadRenderer.h"
+#include <Spark/Core/IO/SPK_IO_Manager.h>
 
 
 namespace SPK {

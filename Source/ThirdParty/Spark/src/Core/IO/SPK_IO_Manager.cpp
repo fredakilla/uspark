@@ -21,7 +21,7 @@
 
 #include <cctype>
 #include <SPARK.h> // not SPARK Core because we need all SPARK to register objects and converters
-#include <SPARK_URHO3D.h>
+
 
 namespace SPK
 {
@@ -203,9 +203,6 @@ namespace IO
 
 		// Actions
 		registerObject<ActionSet>();
-		registerObject<SpawnParticlesAction>();
-
-        // Urho3D renderers
-        registerObject<SPK::URHO::Urho3DQuadRenderer>();
+        registerObject<SpawnParticlesAction>();
 	}
 }}

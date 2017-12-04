@@ -4,10 +4,10 @@
 #include "SPK_Urho3D_DEF.h"
 #include "SPK_Urho3D_Buffer.h"
 
-#include "../../Core/SPK_Renderer.h"
+#include <Spark/Core/SPK_Renderer.h>
 
-#include <Urho3D/Graphics/Camera.h>
-#include <Urho3D/Graphics/Material.h>
+#include "../Graphics/Camera.h"
+#include "../Graphics/Material.h"
 
 namespace SPK {
 namespace URHO {

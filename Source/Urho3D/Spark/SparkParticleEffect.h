@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Urho3D/Graphics/GraphicsDefs.h>
-#include <Urho3D/Resource/Resource.h>
+#include "../Graphics/GraphicsDefs.h"
+#include "../Resource/Resource.h"
 
-#include "../../SPARK_Core.h"
-#include "../../SPARK_URHO3D.h"
+#include <Spark/SPARK_Core.h>
+#include "SPARK_URHO3D.h"
 
 namespace Urho3D
 {

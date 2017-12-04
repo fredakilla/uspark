@@ -1,11 +1,11 @@
-#include <SPARK_Core.h>
-#include "Rendering/Urho3D/SPK_Urho3D_QuadRenderer.h"
+#include <Spark/SPARK_Core.h>
+#include "SPK_Urho3D_QuadRenderer.h"
 
-#include <Urho3D/Resource/ResourceCache.h>
-#include <Urho3D/Graphics/IndexBuffer.h>
-#include <Urho3D/Graphics/VertexBuffer.h>
-#include <Urho3D/Graphics/Geometry.h>
-#include <Urho3D/Graphics/Texture2D.h>
+#include "../Resource/ResourceCache.h"
+#include "../Graphics/IndexBuffer.h"
+#include "../Graphics/VertexBuffer.h"
+#include "../Graphics/Geometry.h"
+#include "../Graphics/Texture2D.h"
 
 namespace SPK {
 namespace URHO {

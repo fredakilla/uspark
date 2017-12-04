@@ -2,10 +2,10 @@
 #define H_SPK_URHO3D_QUADRENDERER
 
 #include "SPK_Urho3D_Renderer.h"
-#include "../../Extensions/Renderers/SPK_QuadRenderBehavior.h"
-#include "../../Extensions/Renderers/SPK_Oriented3DRenderBehavior.h"
+#include <Spark/Extensions/Renderers/SPK_QuadRenderBehavior.h>
+#include <Spark/Extensions/Renderers/SPK_Oriented3DRenderBehavior.h>
 
-#include <Urho3D/Core/Context.h>
+#include "../Core/Context.h"
 
 namespace SPK {
 namespace URHO {

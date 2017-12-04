@@ -1,13 +1,13 @@
 #ifndef H_SPK_URHO3DBUFFER
 #define H_SPK_URHO3DBUFFER
 
-#include "../../SPARK_Core.h"
+#include <Spark/SPARK_Core.h>
 
 #include "SPK_Urho3D_DEF.h"
 
-#include <Urho3D/Graphics/Geometry.h>
-#include <Urho3D/Graphics/VertexBuffer.h>
-#include <Urho3D/Graphics/IndexBuffer.h>
+#include "../Graphics/Geometry.h"
+#include "../Graphics/VertexBuffer.h"
+#include "../Graphics/IndexBuffer.h"
 
 namespace SPK {
 namespace URHO {

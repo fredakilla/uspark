@@ -1,9 +1,9 @@
 #ifndef H_SPK_URHO3D_DEF
 #define H_SPK_URHO3D_DEF
 
-#include <Urho3D/Core/Context.h>
-#include <Urho3D/Math/Vector3.h>
-#include <Urho3D/Math/Color.h>
+#include "../Core/Context.h"
+#include "../Math/Vector3.h"
+#include "../Math/Color.h"
 
 
 // for windows platform only

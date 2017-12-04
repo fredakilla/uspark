@@ -1,12 +1,12 @@
 #ifndef H_SPK_URHOSPARKSYSTEM
 #define H_SPK_URHOSPARKSYSTEM
 
-#include "../../SPARK_Core.h"
-#include "../../SPARK_URHO3D.h"
+#include <Spark/SPARK_Core.h>
+#include "SPARK_URHO3D.h"
 
 namespace Urho3D {
 
-#include <Urho3D/Graphics/Drawable.h>
+#include "../Graphics/Drawable.h"
 
 /// Drawable component that draw a spark particle system.
 class URHO3D_API SparkParticle : public Drawable
