@@ -20,6 +20,10 @@
 # THE SOFTWARE.
 #
 
+if (NOT URHO3D_SPARK)
+    return ()
+endif ()
+
 # Define target name
 set (TARGET_NAME 60_SparkParticles)
 
