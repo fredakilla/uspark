@@ -1,23 +1,25 @@
-//////////////////////////////////////////////////////////////////////////////////
-// SPARK particle engine														//
-// Copyright (C) 2008-2011 - Julien Fryer - julienfryer@gmail.com				//
-//																				//
-// This software is provided 'as-is', without any express or implied			//
-// warranty.  In no event will the authors be held liable for any damages		//
-// arising from the use of this software.										//
-//																				//
-// Permission is granted to anyone to use this software for any purpose,		//
-// including commercial applications, and to alter it and redistribute it		//
-// freely, subject to the following restrictions:								//
-//																				//
-// 1. The origin of this software must not be misrepresented; you must not		//
-//    claim that you wrote the original software. If you use this software		//
-//    in a product, an acknowledgment in the product documentation would be		//
-//    appreciated but is not required.											//
-// 2. Altered source versions must be plainly marked as such, and must not be	//
-//    misrepresented as being the original software.							//
-// 3. This notice may not be removed or altered from any source distribution.	//
-//////////////////////////////////////////////////////////////////////////////////
+//
+// SPARK particle engine
+//
+// Copyright (C) 2008-2011 - Julien Fryer - julienfryer@gmail.com
+// Copyright (C) 2017 - Frederic Martin - fredakilla@gmail.com
+//
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//    claim that you wrote the original software. If you use this software
+//    in a product, an acknowledgment in the product documentation would be
+//    appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//    misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+//
 
 #ifndef H_SPK_RANDOMINTERPOLATOR
 #define H_SPK_RANDOMINTERPOLATOR
@@ -43,8 +45,8 @@ namespace SPK
 
 	protected :
 
-		virtual void innerImport(const IO::Descriptor& descriptor);
-		virtual void innerExport(IO::Descriptor& descriptor) const;
+		virtual void innerImport(const IO::Descriptor& descriptor) override;
+		virtual void innerExport(IO::Descriptor& descriptor) const override;
 
 	private :
 
@@ -65,10 +67,10 @@ namespace SPK
 
 		RandomInterpolator<T>(const RandomInterpolator<T>& interpolator);
 
-		virtual void createData(DataSet& dataSet,const Group& group) const;
+        virtual void createData(DataSet& dataSet,const Group& group) const override;
 
-		virtual void interpolate(T* data,Group& group,DataSet* dataSet) const;
-		virtual void init(T& data,Particle& particle,DataSet* dataSet) const;
+        virtual void interpolate(T* data,Group& group,DataSet* dataSet) const override;
+        virtual void init(T& data,Particle& particle,DataSet* dataSet) const override;
 	};
 
 	typedef RandomInterpolator<Color> ColorRandomInterpolator;

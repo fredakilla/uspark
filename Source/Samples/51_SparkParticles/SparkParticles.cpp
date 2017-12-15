@@ -40,8 +40,8 @@
 #include <Urho3D/UI/Text.h>
 #include <Urho3D/UI/UI.h>
 
-#include <Urho3D/ThirdParty/Spark/SPARK.h>
-#include <Urho3D/ThirdParty/Spark/SPARK_URHO3D.h>
+#include <Urho3D/Spark/SPARK_URHO3D.h>
+#include <Spark/SPARK.h>
 
 #include "SparkParticles.h"
 

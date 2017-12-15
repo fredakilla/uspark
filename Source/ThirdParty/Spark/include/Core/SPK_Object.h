@@ -1,23 +1,25 @@
-//////////////////////////////////////////////////////////////////////////////////
-// SPARK particle engine														//
-// Copyright (C) 2008-2011 - Julien Fryer - julienfryer@gmail.com				//
-//																				//
-// This software is provided 'as-is', without any express or implied			//
-// warranty.  In no event will the authors be held liable for any damages		//
-// arising from the use of this software.										//
-//																				//
-// Permission is granted to anyone to use this software for any purpose,		//
-// including commercial applications, and to alter it and redistribute it		//
-// freely, subject to the following restrictions:								//
-//																				//
-// 1. The origin of this software must not be misrepresented; you must not		//
-//    claim that you wrote the original software. If you use this software		//
-//    in a product, an acknowledgment in the product documentation would be		//
-//    appreciated but is not required.											//
-// 2. Altered source versions must be plainly marked as such, and must not be	//
-//    misrepresented as being the original software.							//
-// 3. This notice may not be removed or altered from any source distribution.	//
-//////////////////////////////////////////////////////////////////////////////////
+//
+// SPARK particle engine
+//
+// Copyright (C) 2008-2011 - Julien Fryer - julienfryer@gmail.com
+// Copyright (C) 2017 - Frederic Martin - fredakilla@gmail.com
+//
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//    claim that you wrote the original software. If you use this software
+//    in a product, an acknowledgment in the product documentation would be
+//    appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//    misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+//
 
 #ifndef H_SPK_OBJECT
 #define H_SPK_OBJECT
@@ -28,7 +30,7 @@
 #define SPK_START_DESCRIPTION \
 \
 protected : \
-virtual void fillAttributeList(std::vector<IO::Attribute>& attributes) const \
+virtual void fillAttributeList(std::vector<IO::Attribute>& attributes) const override \
 {
 
 #define SPK_PARENT_ATTRIBUTES(ParentName)	ParentName::fillAttributeList(attributes);
@@ -45,12 +47,12 @@ friend class SPK::IO::IOManager; \
 template<typename T> friend class SPK::Ref; \
 static std::string asName()								{ return #ClassName; } \
 static SPK::Ref<SPK::SPKObject> createSerializable()	{ return SPK_NEW(ClassName); } \
-virtual SPK::Ref<SPK::SPKObject> clone() const			{ return SPK_NEW(ClassName,*this); } \
+virtual SPK::Ref<SPK::SPKObject> clone() const override	{ return SPK_NEW(ClassName,*this); } \
 public : \
-virtual std::string getClassName() const				{ return ClassName::asName(); }
+virtual std::string getClassName() const override		{ return ClassName::asName(); }
 
 // For templates
-#define SPK_DEFINE_DESCRIPTION_TEMPLATE	protected : void fillAttributeList(std::vector<SPK::IO::Attribute>& attributes) const;
+#define SPK_DEFINE_DESCRIPTION_TEMPLATE	protected : void fillAttributeList(std::vector<SPK::IO::Attribute>& attributes) const override;
 #define SPK_START_DESCRIPTION_TEMPLATE(ClassName) \
 template<typename T> inline void ClassName::fillAttributeList(std::vector<SPK::IO::Attribute>& attributes) const \
 {
@@ -61,9 +63,9 @@ friend class SPK::IO::IOManager; \
 template<typename U> friend class SPK::Ref; \
 static std::string asName(); \
 static SPK::Ref<SPK::SPKObject> createSerializable()		{ return SPK_NEW(ClassName); } \
-virtual SPK::Ref<SPK::SPKObject> clone() const				{ return SPK_NEW(ClassName,*this); } \
+virtual SPK::Ref<SPK::SPKObject> clone() const override		{ return SPK_NEW(ClassName,*this); } \
 public : \
-virtual std::string getClassName() const					{ return ClassName::asName(); }
+virtual std::string getClassName() const override			{ return ClassName::asName(); }
 
 #define SPK_IMPLEMENT_OBJECT_TEMPLATE(ClassName) \
 template<> inline std::string ClassName::asName() { return #ClassName; }
@@ -80,8 +82,15 @@ namespace SPK
 
 	namespace IO { class IOManager; }
 
+
+    class SPK_PREFIX SPKObjectMeta
+    {
+    public:
+        virtual void fillAttributeList(std::vector<IO::Attribute>& attributes) const = 0;
+    };
+
 	/** @brief The base class of all SPARK objects */
-	class SPK_PREFIX SPKObject
+    class SPK_PREFIX SPKObject : public SPKObjectMeta
 	{
 	template<typename T> friend class Ref;
 
@@ -153,7 +162,7 @@ namespace SPK
 		* @param name : the name of the object to find
 		* @return : the object with the given name or null
 		*/
-		virtual Ref<SPKObject> findByName(const std::string& name);
+        virtual Ref<SPKObject> findByName(const std::string& name);
 
 		///////////////////
 		// Serialization //
@@ -191,8 +200,8 @@ namespace SPK
 		SPKObject(SharePolicy SHARE_POLICY = SHARE_POLICY_CUSTOM);
 		SPKObject(const SPKObject& obj);
 
-		virtual void innerImport(const IO::Descriptor& descriptor);
-		virtual void innerExport(IO::Descriptor& descriptor) const;
+        virtual void innerImport(const IO::Descriptor& descriptor);
+        virtual void innerExport(IO::Descriptor& descriptor) const;
 
 		template<typename T>
 		Ref<T> copyChild(const Ref<T>& ref) const;
@@ -254,7 +263,7 @@ namespace SPK
 		}
 
 		ref->copyBuffer = new std::map<SPKObject*,SPKObject*>(); // Creates the copy buffer to allow correct copy of underlying SPARK objects
-		Ref<T> clone = dynamicCast<T>(dynamicCast<SPKObject>(ref)->clone());
+        Ref<T> clone = staticCast<T>(staticCast<SPKObject>(ref)->clone());
 		delete ref->copyBuffer; // Deletes the copy buffer used for the copy
 		ref->copyBuffer = NULL;
 		return clone;
@@ -280,11 +289,11 @@ namespace SPK
 			return dynamic_cast<T*>(it->second);
 
 		ref->copyBuffer = copyBuffer; // Sets the copyBuffer of the child to the copyBuffer of the parent
-		Ref<SPKObject> clone = dynamicCast<SPKObject>(ref)->clone();
+        Ref<SPKObject> clone = staticCast<SPKObject>(ref)->clone();
 		ref->copyBuffer = NULL; // Removes the reference to the copy buffer (the copy buffer is deleted by the top level copied object)
 
 		copyBuffer->insert(std::make_pair(ref.get(),clone.get()));
-		return dynamicCast<T>(clone);
+        return staticCast<T>(clone);
 	}
 }
 

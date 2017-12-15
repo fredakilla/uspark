@@ -1,23 +1,25 @@
-//////////////////////////////////////////////////////////////////////////////////
-// SPARK particle engine														//
-// Copyright (C) 2008-2011 - Julien Fryer - julienfryer@gmail.com				//
-//																				//
-// This software is provided 'as-is', without any express or implied			//
-// warranty.  In no event will the authors be held liable for any damages		//
-// arising from the use of this software.										//
-//																				//
-// Permission is granted to anyone to use this software for any purpose,		//
-// including commercial applications, and to alter it and redistribute it		//
-// freely, subject to the following restrictions:								//
-//																				//
-// 1. The origin of this software must not be misrepresented; you must not		//
-//    claim that you wrote the original software. If you use this software		//
-//    in a product, an acknowledgment in the product documentation would be		//
-//    appreciated but is not required.											//
-// 2. Altered source versions must be plainly marked as such, and must not be	//
-//    misrepresented as being the original software.							//
-// 3. This notice may not be removed or altered from any source distribution.	//
-//////////////////////////////////////////////////////////////////////////////////
+//
+// SPARK particle engine
+//
+// Copyright (C) 2008-2011 - Julien Fryer - julienfryer@gmail.com
+// Copyright (C) 2017 - Frederic Martin - fredakilla@gmail.com
+//
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//    claim that you wrote the original software. If you use this software
+//    in a product, an acknowledgment in the product documentation would be
+//    appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//    misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+//
 
 #ifndef H_SPK_IO_LOADER
 #define H_SPK_IO_LOADER
@@ -58,6 +60,14 @@ namespace IO
 		* @return the loaded system or NULL if loading failed
 		*/
 		Ref<System> load(const std::string& path) const;
+
+        /**
+        * @brief Loads a system from a data buffer
+        * @param data : the data buffer that contains data to parse
+        * @param datasize : the data buffer size
+        * @return the loaded system or NULL if loading failed
+        */
+        Ref<System> loadFromBuffer(const char * data, unsigned int datasize);
 
 		////////////////////
 		// nested classes //
@@ -120,6 +130,15 @@ namespace IO
 		* @return true if the loading was successful, false if it failed
 		*/
         virtual bool innerLoad(std::istream& is,Graph& graph,const std::string& path=0) const = 0;
+
+        /**
+        * @brief The inner load buffer method to be implemented in derived classes
+        * @param graph : the graph that allows to build the system
+        * @param data : the data buffer
+        * @param datasize : the data buffer size
+        * @return true if the loading was successful, false if it failed
+        */
+        virtual bool innerLoadFromBuffer(Graph& graph, const char * data, unsigned int datasize) = 0;
 	};
 }}
 

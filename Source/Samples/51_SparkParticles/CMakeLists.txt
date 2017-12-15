@@ -20,8 +20,12 @@
 # THE SOFTWARE.
 #
 
+if (NOT URHO3D_SPARK)
+    return ()
+endif ()
+
 # Define target name
-set (TARGET_NAME 60_SparkParticles)
+set (TARGET_NAME 51_SparkParticles)
 
 # Define source files
 define_source_files (EXTRA_H_FILES ${COMMON_SAMPLE_H_FILES})

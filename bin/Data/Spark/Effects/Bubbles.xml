@@ -44,7 +44,7 @@
 				</attrib>
 				<attrib id="renderer">
 					<Urho3DQuadRenderer name="Renderer">
-						<attrib id="material" value="Data/Spark/Materials/SparkParticleAlpha.xml" />
+						<attrib id="material" value="Spark/Materials/SparkParticleAlpha.xml" />
 						<attrib id="texture" value="Spark/Textures/bubble_1_256.png" />
 						<attrib id="scale" value="0.5;0.5" />
 						<attrib id="atlasdim" value="1;1" />

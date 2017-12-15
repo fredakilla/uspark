@@ -1,17 +1,43 @@
-#include <Urho3D/Precompiled.h>
-#include <Urho3D/Core/Context.h>
-#include <Urho3D/Graphics/VertexBuffer.h>
-#include <Urho3D/Graphics/IndexBuffer.h>
-#include <Urho3D/Graphics/Camera.h>
-#include <Urho3D/Graphics/Material.h>
-#include <Urho3D/Graphics/OctreeQuery.h>
-#include <Urho3D/Graphics/Geometry.h>
-#include <Urho3D/Scene/Scene.h>
-#include <Urho3D/Scene/SceneEvents.h>
-#include <Urho3D/Resource/ResourceCache.h>
-#include <Urho3D/IO/Log.h>
+//
+// Copyright (c) 2008-2017 the Urho3D project.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+//
 
-#include "Rendering/Urho3D/UrhoSparkSystem.h"
+#include "../Precompiled.h"
+#include "../Core/Context.h"
+#include "../Graphics/VertexBuffer.h"
+#include "../Graphics/IndexBuffer.h"
+#include "../Graphics/Camera.h"
+#include "../Graphics/Material.h"
+#include "../Graphics/OctreeQuery.h"
+#include "../Graphics/Geometry.h"
+#include "../Scene/Scene.h"
+#include "../Scene/SceneEvents.h"
+#include "../Resource/ResourceCache.h"
+#include "../IO/Log.h"
+
+#include "SparkParticle.h"
+#include "SparkParticleEffect.h"
+#include "SPK_Urho3D_Renderer.h"
+#include "SPK_Urho3D_DEF.h"
+
 
 namespace Urho3D
 {
@@ -48,9 +74,6 @@ void SparkParticle::RegisterObject(Context* context)
     URHO3D_ACCESSOR_ATTRIBUTE("Is Enabled", IsEnabled, SetEnabled, bool, true, AM_DEFAULT);
     URHO3D_COPY_BASE_ATTRIBUTES(Drawable);   
     URHO3D_ACCESSOR_ATTRIBUTE("Update Invisible", GetUpdateInvisible, SetUpdateInvisible, bool, false, AM_DEFAULT);
-
-    // Register Urho3D context inside Spark.
-    SPK::URHO::Urho3DContext::get().registerUrhoContext(context);
 }
 
 void SparkParticle::ProcessRayQuery(const RayOctreeQuery& query, PODVector<RayQueryResult>& results)

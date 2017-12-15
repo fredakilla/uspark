@@ -387,6 +387,7 @@ if (URHO3D_CLANG_TOOLS)
             URHO3D_LOGGING
             URHO3D_LUA
             URHO3D_NAVIGATION
+            URHO3D_SPARK
             URHO3D_NETWORK
             URHO3D_PHYSICS
             URHO3D_PROFILING
@@ -443,6 +444,7 @@ foreach (OPT
         URHO3D_THREADING
         URHO3D_URHO2D
         URHO3D_WEBP
+        URHO3D_SPARK
         URHO3D_WIN32_CONSOLE)
     if (${OPT})
         add_definitions (-D${OPT})
@@ -495,13 +497,9 @@ if (APPLE)
         # iOS-specific setup
         add_definitions (-DIOS)
         if (URHO3D_64BIT)
-            if (DEFINED ENV{XCODE_64BIT_ONLY})                  # This environment variable is set automatically when ccache is just being cleared in Travis CI VM
-                set (CMAKE_OSX_ARCHITECTURES "arm64 x86_64")    # This is a hack to temporarily only build 64-bit archs to reduce overall build time for one build
-            else ()
-                set (CMAKE_OSX_ARCHITECTURES $(ARCHS_STANDARD))
-            endif ()
+            set (CMAKE_OSX_ARCHITECTURES $(ARCHS_STANDARD))
         else ()
-            # This is a legacy option and should not be used as we are phasing out 32-bit only mode
+            message (WARNING "URHO3D_64BIT=0 for iOS is a deprecated option and should not be used as we are phasing out 32-bit only mode")
             set (CMAKE_OSX_ARCHITECTURES $(ARCHS_STANDARD_32_BIT))
         endif ()
     elseif (TVOS)
@@ -513,13 +511,13 @@ if (APPLE)
             # macOS-specific setup
             if (URHO3D_64BIT)
                 if (URHO3D_UNIVERSAL)
-                    # This is a legacy option and should not be used as we are phasing out macOS universal binary mode
+                    message (WARNING "URHO3D_UNIVERSAL=1 for macOS is a deprecated option and should not be used as we are phasing out macOS universal binary mode")
                     set (CMAKE_OSX_ARCHITECTURES $(ARCHS_STANDARD_32_64_BIT))
                 else ()
                     set (CMAKE_OSX_ARCHITECTURES $(ARCHS_STANDARD))
                 endif ()
             else ()
-                # This is a legacy option and should not be used as we are phasing out 32-bit only mode
+                message (WARNING "URHO3D_64BIT=0 for macOS is a deprecated option and should not be used as we are phasing out 32-bit only mode")
                 set (CMAKE_OSX_ARCHITECTURES $(ARCHS_STANDARD_32_BIT))
             endif ()
         endif ()

@@ -1,29 +1,34 @@
-//////////////////////////////////////////////////////////////////////////////////
-// SPARK particle engine														//
-// Copyright (C) 2008-2011 - Julien Fryer - julienfryer@gmail.com				//
-//																				//
-// This software is provided 'as-is', without any express or implied			//
-// warranty.  In no event will the authors be held liable for any damages		//
-// arising from the use of this software.										//
-//																				//
-// Permission is granted to anyone to use this software for any purpose,		//
-// including commercial applications, and to alter it and redistribute it		//
-// freely, subject to the following restrictions:								//
-//																				//
-// 1. The origin of this software must not be misrepresented; you must not		//
-//    claim that you wrote the original software. If you use this software		//
-//    in a product, an acknowledgment in the product documentation would be		//
-//    appreciated but is not required.											//
-// 2. Altered source versions must be plainly marked as such, and must not be	//
-//    misrepresented as being the original software.							//
-// 3. This notice may not be removed or altered from any source distribution.	//
-//////////////////////////////////////////////////////////////////////////////////
+//
+// SPARK particle engine
+//
+// Copyright (C) 2008-2011 - Julien Fryer - julienfryer@gmail.com
+// Copyright (C) 2017 - Frederic Martin - fredakilla@gmail.com
+//
+// This software is provided 'as-is', without any express or implied
+// warranty.  In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//    claim that you wrote the original software. If you use this software
+//    in a product, an acknowledgment in the product documentation would be
+//    appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//    misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+//
 
 #ifndef SPK_NO_XML
 
 #include <ctime>
 
-#include <Urho3D/ThirdParty/PugiXml/pugixml.hpp>
+
+//#include <Urho3D/ThirdParty/PugiXml/pugixml.hpp>
+#include <pugixml.hpp>
+
 #include <SPARK_Core.h>
 #include "Extensions/IOConverters/SPK_IO_XMLLoader.h"
 
@@ -76,6 +81,51 @@ namespace IO
 
 		return true;
 	}
+
+    bool XMLLoader::innerLoadFromBuffer(Graph& graph, const char * data, unsigned int datasize)
+    {
+        pugi::xml_document doc;
+        pugi::xml_parse_result result = doc.load_buffer(data, datasize);
+
+        if (!result)
+        {
+            SPK_LOG_ERROR("XMLLoader::innerLoad(std::istream&,Graph&) - Error while parsing XML : " << result.description() << " at character " << result.offset);
+            return false;
+        }
+
+        const pugi::xml_node& root = doc.document_element();
+        if (!root || std::string("SPARK") != root.name())
+        {
+            SPK_LOG_ERROR("XMLLoader::innerLoad(std::istream&,Graph&) - The root element is not conform (must be <SPARK>)");
+            return false;
+        }
+
+        // Iterates in XML to find the objects and fill the graph
+        std::vector<pugi::xml_node> objElements; // This will allow to find back objects description once created
+        std::map<int,size_t> ref2Index; // This map allows to find back objects index in the vector from their reference id
+
+        findObjects(root,objElements,ref2Index,true);
+        for (size_t i = 0; i < objElements.size(); ++i)
+            graph.addNode(i,std::string(objElements[i].name()));
+
+        if (!graph.validateNodes())
+            return false;
+
+        // Fills up descriptors
+        for (size_t i = 0; i < objElements.size(); ++i)
+        {
+            const pugi::xml_node& element = objElements[i];
+
+            Node* node = graph.getNode(i);
+            if (node != NULL)
+            {
+                Descriptor& desc = node->getDescriptor();
+                parseAttributes(element,desc,graph,objElements,ref2Index);
+            }
+        }
+
+        return true;
+    }
 
 	const std::string XMLLoader::getValue(const pugi::xml_node& element) const
 	{

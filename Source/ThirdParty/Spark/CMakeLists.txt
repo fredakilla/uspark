@@ -27,7 +27,7 @@ set (TARGET_NAME Spark)
 define_source_files (GLOB_CPP_PATTERNS src/*.cpp GLOB_H_PATTERNS include/*.h RECURSE)
 
 # Define dependency libs
-set (INCLUDE_DIRS include ${PROJECT_BINARY_DIR}/include)
+set (INCLUDE_DIRS include ${PROJECT_BINARY_DIR}/include ${PROJECT_BINARY_DIR}/include/Urho3D/ThirdParty/PugiXml)
 
 # Setup target
 setup_library ()
